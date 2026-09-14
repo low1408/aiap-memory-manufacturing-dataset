@@ -1,0 +1,2126 @@
+{
+  "passed": true,
+  "checks_passed": 356,
+  "checks_total": 356,
+  "seed": 20260914,
+  "manifest_sha256": "0b13e40f0748f7c743aa42c90f4acfb055a79824361da3192bb7d132c1e7d1fe",
+  "validation_scope": "Synthetic internal consistency; not calibrated fab realism",
+  "checks": [
+    {
+      "check": "Manifest inventories exactly 18 generated CSV tables",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "lots.csv: SHA-256 matches manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "lots.csv: dimensions match manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "lots.csv: no infinite numeric values",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "wafers.csv: SHA-256 matches manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "wafers.csv: dimensions match manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "wafers.csv: no infinite numeric values",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "recipes.csv: SHA-256 matches manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "recipes.csv: dimensions match manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "recipes.csv: no infinite numeric values",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "wafer_process.csv: SHA-256 matches manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "wafer_process.csv: dimensions match manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "wafer_process.csv: no infinite numeric values",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "die_metrology.csv: SHA-256 matches manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "die_metrology.csv: dimensions match manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "die_metrology.csv: no infinite numeric values",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tsv_inspection.csv: SHA-256 matches manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tsv_inspection.csv: dimensions match manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tsv_inspection.csv: no infinite numeric values",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "base_die.csv: SHA-256 matches manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "base_die.csv: dimensions match manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "base_die.csv: no infinite numeric values",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "stack_membership.csv: SHA-256 matches manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "stack_membership.csv: dimensions match manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "stack_membership.csv: no infinite numeric values",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "stack_assembly.csv: SHA-256 matches manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "stack_assembly.csv: dimensions match manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "stack_assembly.csv: no infinite numeric values",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "electrical_test.csv: SHA-256 matches manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "electrical_test.csv: dimensions match manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "electrical_test.csv: no infinite numeric values",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "reliability_test.csv: SHA-256 matches manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "reliability_test.csv: dimensions match manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "reliability_test.csv: no infinite numeric values",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "ml_stack_features.csv: SHA-256 matches manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "ml_stack_features.csv: dimensions match manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "ml_stack_features.csv: no infinite numeric values",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "ml_stack_labels.csv: SHA-256 matches manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "ml_stack_labels.csv: dimensions match manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "ml_stack_labels.csv: no infinite numeric values",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "stack_training.csv: SHA-256 matches manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "stack_training.csv: dimensions match manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "stack_training.csv: no infinite numeric values",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "simulation_truth/simulation_truth_stack.csv: SHA-256 matches manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "simulation_truth/simulation_truth_stack.csv: dimensions match manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "simulation_truth/simulation_truth_stack.csv: no infinite numeric values",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "die_disposition.csv: SHA-256 matches manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "die_disposition.csv: dimensions match manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "die_disposition.csv: no infinite numeric values",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "simulation_truth/simulation_truth_die.csv: SHA-256 matches manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "simulation_truth/simulation_truth_die.csv: dimensions match manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "simulation_truth/simulation_truth_die.csv: no infinite numeric values",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "sensor_trace.csv: SHA-256 matches manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "sensor_trace.csv: dimensions match manifest",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "sensor_trace.csv: no infinite numeric values",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "lots: primary key ['lot_id']",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "wafers: primary key ['wafer_id']",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "recipes: primary key ['recipe_id']",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "wafer_process: primary key ['run_id']",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "die_metrology: primary key ['die_id']",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tsv_inspection: primary key ['die_id']",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "base_die: primary key ['base_die_id']",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "stack_membership: primary key ['stack_id', 'layer_index']",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "stack_assembly: primary key ['stack_id']",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "electrical_test: primary key ['stack_id']",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "reliability_test: primary key ['stack_id']",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "ml_stack_features: primary key ['stack_id']",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "ml_stack_labels: primary key ['stack_id']",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "stack_training: primary key ['stack_id']",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "simulation_truth_stack: primary key ['stack_id']",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "die_disposition: primary key ['die_id']",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "simulation_truth_die: primary key ['die_id']",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "sensor_trace: primary key ['run_id', 'sample_index', 'sensor_name']",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Wafer to lot: no missing foreign keys",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Wafer to lot: foreign keys resolve",
+      "passed": true,
+      "detail": "unresolved keys=0"
+    },
+    {
+      "check": "Wafer to lot: complete parent coverage",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Process to wafer: no missing foreign keys",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Process to wafer: foreign keys resolve",
+      "passed": true,
+      "detail": "unresolved keys=0"
+    },
+    {
+      "check": "Process to wafer: complete parent coverage",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Process to recipe: no missing foreign keys",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Process to recipe: foreign keys resolve",
+      "passed": true,
+      "detail": "unresolved keys=0"
+    },
+    {
+      "check": "Die to wafer: no missing foreign keys",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Die to wafer: foreign keys resolve",
+      "passed": true,
+      "detail": "unresolved keys=0"
+    },
+    {
+      "check": "Die to wafer: complete parent coverage",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "TSV to die: no missing foreign keys",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "TSV to die: foreign keys resolve",
+      "passed": true,
+      "detail": "unresolved keys=0"
+    },
+    {
+      "check": "TSV to die: complete parent coverage",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Base to receiving lot: no missing foreign keys",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Base to receiving lot: foreign keys resolve",
+      "passed": true,
+      "detail": "unresolved keys=0"
+    },
+    {
+      "check": "Base to receiving lot: complete parent coverage",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Membership to stack: no missing foreign keys",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Membership to stack: foreign keys resolve",
+      "passed": true,
+      "detail": "unresolved keys=0"
+    },
+    {
+      "check": "Membership to stack: complete parent coverage",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Core membership to die: no missing foreign keys",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Core membership to die: foreign keys resolve",
+      "passed": true,
+      "detail": "unresolved keys=0"
+    },
+    {
+      "check": "Base membership to base die: no missing foreign keys",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Base membership to base die: foreign keys resolve",
+      "passed": true,
+      "detail": "unresolved keys=0"
+    },
+    {
+      "check": "Stack to lot: no missing foreign keys",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Stack to lot: foreign keys resolve",
+      "passed": true,
+      "detail": "unresolved keys=0"
+    },
+    {
+      "check": "Stack to lot: complete parent coverage",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Stack to base: no missing foreign keys",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Stack to base: foreign keys resolve",
+      "passed": true,
+      "detail": "unresolved keys=0"
+    },
+    {
+      "check": "Disposition to die: no missing foreign keys",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Disposition to die: foreign keys resolve",
+      "passed": true,
+      "detail": "unresolved keys=0"
+    },
+    {
+      "check": "Disposition to die: complete parent coverage",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Disposition to stack: foreign keys resolve",
+      "passed": true,
+      "detail": "unresolved keys=0"
+    },
+    {
+      "check": "Disposition to stack: complete parent coverage",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Truth to die: no missing foreign keys",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Truth to die: foreign keys resolve",
+      "passed": true,
+      "detail": "unresolved keys=0"
+    },
+    {
+      "check": "Truth to die: complete parent coverage",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Trace to run: no missing foreign keys",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Trace to run: foreign keys resolve",
+      "passed": true,
+      "detail": "unresolved keys=0"
+    },
+    {
+      "check": "Trace to wafer: no missing foreign keys",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Trace to wafer: foreign keys resolve",
+      "passed": true,
+      "detail": "unresolved keys=0"
+    },
+    {
+      "check": "electrical_test to stack: no missing foreign keys",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "electrical_test to stack: foreign keys resolve",
+      "passed": true,
+      "detail": "unresolved keys=0"
+    },
+    {
+      "check": "electrical_test to stack: complete parent coverage",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "reliability_test to stack: no missing foreign keys",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "reliability_test to stack: foreign keys resolve",
+      "passed": true,
+      "detail": "unresolved keys=0"
+    },
+    {
+      "check": "reliability_test to stack: complete parent coverage",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "ml_stack_features to stack: no missing foreign keys",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "ml_stack_features to stack: foreign keys resolve",
+      "passed": true,
+      "detail": "unresolved keys=0"
+    },
+    {
+      "check": "ml_stack_features to stack: complete parent coverage",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "ml_stack_labels to stack: no missing foreign keys",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "ml_stack_labels to stack: foreign keys resolve",
+      "passed": true,
+      "detail": "unresolved keys=0"
+    },
+    {
+      "check": "ml_stack_labels to stack: complete parent coverage",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "stack_training to stack: no missing foreign keys",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "stack_training to stack: foreign keys resolve",
+      "passed": true,
+      "detail": "unresolved keys=0"
+    },
+    {
+      "check": "stack_training to stack: complete parent coverage",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "simulation_truth_stack to stack: no missing foreign keys",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "simulation_truth_stack to stack: foreign keys resolve",
+      "passed": true,
+      "detail": "unresolved keys=0"
+    },
+    {
+      "check": "simulation_truth_stack to stack: complete parent coverage",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Cohort lot count",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Wafers per lot",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Sampled dies per wafer",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Unique sampled wafer map sites",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Complete rectangular sampled dies fit inside wafer edge exclusion",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Die radius fraction is calculated from wafer map",
+      "passed": true,
+      "detail": "maximum absolute difference=4.9630866e-09; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Every wafer has the ten ordered modeled process modules",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Process modules do not overlap within a wafer",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Process timestamps agree with durations to whole-second serialization",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Run recipe stage matches",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Run recipe product height matches wafer",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "pressure_torr: exact stage-specific structural nulls",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "pressure_torr: applicable measurements positive",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "gas_flow_sccm: exact stage-specific structural nulls",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "gas_flow_sccm: applicable measurements positive",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "etch_rate_nm_min: exact stage-specific structural nulls",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "etch_rate_nm_min: applicable measurements positive",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "rf_source_power_w: exact stage-specific structural nulls",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "rf_source_power_w: applicable measurements positive",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Membership roles are core or base",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Core rows use only die_id",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Base rows use only base_die_id",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Core dies are never reused",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Base dies are never reused",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Every stack contains its stated 8 or 12 core dies",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Every stack contains exactly one base die",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Base layer index is zero",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Core layers are contiguous from one",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Stack base ID agrees with membership",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Only known-good core dies enter stacks",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Only passed base dies enter stacks",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "KGD screen reconciles with component inspection verdicts",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "TSV continuity reconciles with detected open and short counts",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Die disposition reconciles every die",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Die disposition assignments match membership",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Base inventory accounts for every base die",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Cores come from their stack cohort lot",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Core product height matches destination stack",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Base receiving lot matches stack",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Stack capacity equals sum of core die capacities",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=0; atol=0"
+    },
+    {
+      "check": "Lot capacity equals core count times density",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=0; atol=0"
+    },
+    {
+      "check": "Stack height = core thickness + gaps + base thickness + mold cap",
+      "passed": true,
+      "detail": "maximum absolute difference=1e-05; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Mean gap is computed from core-to-underlying-die interfaces",
+      "passed": true,
+      "detail": "maximum absolute difference=7.5e-07; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Maximum stack alignment offset reconciles with layer placement",
+      "passed": true,
+      "detail": "maximum absolute difference=8.4884775e-08; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Cumulative shift is magnitude of summed displacement vector",
+      "passed": true,
+      "detail": "maximum absolute difference=7.3028111e-08; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Metrology missing reasons are explicit and exhaustive",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Unsampled metrology has not_sampled reason",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Observed or dropout metrology was selected for sampling",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Die detailed measurements present exactly when observed",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "TSV detailed measurements present exactly when observed",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "All non-sampled die measurements remain available",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "All non-sampled TSV measurements remain available",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Observed TSV aspect ratio = etched depth / diameter",
+      "passed": true,
+      "detail": "maximum absolute difference=7.184087e-07; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Final TSV conductor length follows final die thickness",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Observed blind TSV etch extends beyond final die thickness",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "TSV resistance has milliohm scale consistent with SI geometry plus assumed 3 mOhm series term",
+      "passed": true,
+      "detail": "Broad factor-of-two dimensional check; multiplicative measurement noise prevents exact equality."
+    },
+    {
+      "check": "Observed critical_dimension_nm matches recorded simulator truth",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Observed film_thickness_nm matches recorded simulator truth",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Observed tsv_diameter_um matches recorded simulator truth",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Observed tsv_etched_depth_um matches recorded simulator truth",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Observed tsv_copper_void_pct matches recorded simulator truth",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Final acceptance = assembly pass AND electrical pass",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Positive ML target is final acceptance failure",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Label final_test_pass matches final test record",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Label defect_type matches final test record",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Label defect_stage matches final test record",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Accepted stacks have no reported defect",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Final disposition follows acceptance",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Electrical pass reaches offered data rate",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Electrical pass has positive timing margin",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Electrical pass has zero uncorrected errors",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "BER = uncorrected errors / tested bits",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=1e-07; atol=1e-18"
+    },
+    {
+      "check": "Nominal bandwidth uses Gbps times bus bits / eight = GB/s",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Measured bandwidth is 97\u201399.5% of capped achievable bandwidth",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Electrical tested bits and power/thermal measurements are positive",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Final acceptance reconciles with latent failure modes",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Reported defect type reconciles with active mode count",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "All simulator failure probabilities lie in [0,1]",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Reliability is sampled only among final acceptance passers",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Reliability test fields are populated exactly for sampled stacks",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Reliability missing reasons match actual test selection",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Sampled reliability outcomes are binary",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Reliability cycles and thermal extrema match declared protocol",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Label reliability sample flags match reliability table",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Label reliability outcome preserves untested nulls",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=0; atol=0"
+    },
+    {
+      "check": "Lot splits are train, validation or test",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Wafer inherits lot split",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Base inherits receiving-lot split",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Stack inherits lot split",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Core/wafer genealogy never crosses stack split",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Base genealogy never crosses stack split",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Each base source lot is isolated to one split",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "ML features split matches stack",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "ML labels split matches stack",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Core measurements available before placement",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Base probe precedes placement",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "All core placement follows assembly start",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "All core placement precedes reflow",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Assembly events occur in documented order",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Final test occurs after feature availability",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Label becomes available at final test",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Sampled reliability test occurs seven days after final test",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Split lots are ordered in production time",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "train to validation: release embargo plus lot spacing",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=0; atol=1e-08"
+    },
+    {
+      "check": "train labels precede validation feature availability",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "train final/reliability labels precede validation lot release",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "validation to test: release embargo plus lot spacing",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=0; atol=1e-08"
+    },
+    {
+      "check": "validation labels precede test feature availability",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "validation final/reliability labels precede test lot release",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Feature lot_id matches assembly record",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Feature split matches assembly record",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Feature stack_layer_count matches assembly record",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature capacity_gb matches assembly record",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature assembly_tool_id matches assembly record",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Feature feature_available_time_utc matches assembly record",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Feature stack_height_um matches assembly record",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature inter_die_gap_mean_um matches assembly record",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature max_alignment_offset_um matches assembly record",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature cumulative_die_shift_um matches assembly record",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature emc_viscosity_pa_s matches assembly record",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature molding_pressure_mpa matches assembly record",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature molding_vacuum_absolute_kpa matches assembly record",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature reflow_peak_temperature_c matches assembly record",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature time_above_liquidus_sec matches assembly record",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature heating_rate_c_sec matches assembly record",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature cure_temperature_c matches assembly record",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature cure_duration_min matches assembly record",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature underfill_void_pct matches assembly record",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature delamination_area_pct matches assembly record",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature package_warpage_um matches assembly record",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature stacks_since_tool_service matches assembly record",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature core_thickness_mean_um recomputed from constituent dies",
+      "passed": true,
+      "detail": "maximum absolute difference=7.5000001e-07; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature core_thickness_std_um recomputed from constituent dies",
+      "passed": true,
+      "detail": "maximum absolute difference=3.197683e-07; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature core_warpage_max_um recomputed from constituent dies",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature core_ttv_mean_um recomputed from constituent dies",
+      "passed": true,
+      "detail": "maximum absolute difference=6.5e-08; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature core_leakage_mean_ua recomputed from constituent dies",
+      "passed": true,
+      "detail": "maximum absolute difference=6.75e-08; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature core_repair_count_sum recomputed from constituent dies",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature core_particle_count_sum recomputed from constituent dies",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature core_bump_coplanarity_max_um recomputed from constituent dies",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature n_source_wafers recomputed from constituent dies",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature n_dies_with_detailed_metrology recomputed from constituent dies",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature sampled_core_cd_mean_nm recomputed from constituent dies",
+      "passed": true,
+      "detail": "maximum absolute difference=8e-07; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature core_tsv_resistance_mean_mohm recomputed from constituent dies",
+      "passed": true,
+      "detail": "maximum absolute difference=7.5000001e-07; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature core_tsv_resistance_max_mohm recomputed from constituent dies",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature sampled_core_tsv_void_mean_pct recomputed from constituent dies",
+      "passed": true,
+      "detail": "maximum absolute difference=7.3333333e-08; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature base_leakage_current_ua matches base source",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature base_die_thickness_um matches base source",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Feature sampled_core_tsv_void_mean_pct null iff no constituent detailed metrology",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Feature sampled_core_cd_mean_nm null iff no constituent detailed metrology",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Predictor allowlist and excluded metadata partition feature columns",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Predictors contain no latent variables or final verdicts",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Single CSV contains exact feature view plus chosen target",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Trace run/wafer associations agree",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Trace stages agree with run",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Trace variable and unit are explicit",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Trace setpoints agree with run recipe",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Trace has configured sample count per run",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Trace sample indices cover complete sequence",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Trace begins at elapsed zero",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Trace covers complete run duration",
+      "passed": true,
+      "detail": "maximum absolute difference=0; rtol=2e-06; atol=1e-05"
+    },
+    {
+      "check": "Trace elapsed times increase",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Trace timestamps agree with elapsed seconds",
+      "passed": true,
+      "detail": "maximum absolute difference=5e-05; rtol=0; atol=0.0002"
+    },
+    {
+      "check": "Trace mean reproduces process temperature",
+      "passed": true,
+      "detail": "maximum absolute difference=5.2066116e-06; rtol=1e-07; atol=1e-05"
+    },
+    {
+      "check": "Trace sample SD reproduces process temperature SD",
+      "passed": true,
+      "detail": "maximum absolute difference=7.4928642e-07; rtol=0.0001; atol=1e-05"
+    },
+    {
+      "check": "Trace OLS slope reproduces process slope (C/min)",
+      "passed": true,
+      "detail": "maximum absolute difference=5.1375232e-07; rtol=0.0001; atol=1e-05"
+    },
+    {
+      "check": "Trace selection covers configured runs per modeled stage",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "lots.stack_layer_count: nonnegative integer counts",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "wafers.stack_layer_count: nonnegative integer counts",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "recipes.stack_layer_count: nonnegative integer counts",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "wafer_process.alarm_count_run: nonnegative integer counts",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "wafer_process.cleanroom_humidity_pct: percent in [0,100]",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "die_metrology.stack_layer_count: nonnegative integer counts",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "die_metrology.metrology_sampled: binary",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "die_metrology.particle_count: nonnegative integer counts",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "die_metrology.repair_count: nonnegative integer counts",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "die_metrology.wafer_probe_pass: binary",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "die_metrology.missing_bump_count: nonnegative integer counts",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "die_metrology.bridged_bump_count: nonnegative integer counts",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "die_metrology.known_good_die: binary",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tsv_inspection.tsv_count_assumed: nonnegative integer counts",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tsv_inspection.tsv_copper_void_pct: percent in [0,100]",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tsv_inspection.detected_tsv_open_count: nonnegative integer counts",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tsv_inspection.detected_tsv_short_count: nonnegative integer counts",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tsv_inspection.tsv_continuity_pass: binary",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "base_die.base_probe_pass: binary",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "stack_assembly.stack_layer_count: nonnegative integer counts",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "stack_assembly.underfill_void_pct: percent in [0,100]",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "stack_assembly.delamination_area_pct: percent in [0,100]",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "stack_assembly.inspection_sampled: binary",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "electrical_test.tested_bit_count: nonnegative integer counts",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "electrical_test.uncorrected_error_count: nonnegative integer counts",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "electrical_test.ecc_corrected_errors: nonnegative integer counts",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "electrical_test.detected_interconnect_failures: nonnegative integer counts",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "electrical_test.stack_assembly_pass: binary",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "electrical_test.electrical_test_pass: binary",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "electrical_test.final_test_pass: binary",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "reliability_test.reliability_sampled: binary",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "reliability_test.cycles_applied: nonnegative integer counts",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "reliability_test.reliability_pass: binary",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "ml_stack_features.stack_layer_count: nonnegative integer counts",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "ml_stack_features.underfill_void_pct: percent in [0,100]",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "ml_stack_features.delamination_area_pct: percent in [0,100]",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "ml_stack_features.core_repair_count_sum: nonnegative integer counts",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "ml_stack_features.core_particle_count_sum: nonnegative integer counts",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "ml_stack_features.sampled_core_tsv_void_mean_pct: percent in [0,100]",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "ml_stack_labels.final_test_pass: binary",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "ml_stack_labels.final_test_fail: binary",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "ml_stack_labels.reliability_pass: binary",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "ml_stack_labels.reliability_sampled: binary",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "stack_training.stack_layer_count: nonnegative integer counts",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "stack_training.underfill_void_pct: percent in [0,100]",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "stack_training.delamination_area_pct: percent in [0,100]",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "stack_training.core_repair_count_sum: nonnegative integer counts",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "stack_training.core_particle_count_sum: nonnegative integer counts",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "stack_training.sampled_core_tsv_void_mean_pct: percent in [0,100]",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "stack_training.final_test_fail: binary",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "simulation_truth_stack.fault_dram_electrical: binary",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "simulation_truth_stack.fault_tsv_open_short: binary",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "simulation_truth_stack.fault_microbump_open_bridge: binary",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "simulation_truth_stack.fault_die_crack: binary",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "simulation_truth_stack.fault_warpage: binary",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "simulation_truth_stack.fault_underfill_void: binary",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "simulation_truth_stack.fault_delamination: binary",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "simulation_truth_die.actual_tsv_copper_void_pct: percent in [0,100]",
+      "passed": true,
+      "detail": ""
+    }
+  ],
+  "diagnostics": {
+    "split_counts": [
+      {
+        "split": "train",
+        "lots": 168,
+        "wafers": 4200,
+        "sampled_core_dies": 134400,
+        "stacks": 12564,
+        "failures": 653,
+        "failure_rate": 0.051973893664438074,
+        "reliability_tested": 2378,
+        "reliability_failed": 97
+      },
+      {
+        "split": "validation",
+        "lots": 36,
+        "wafers": 900,
+        "sampled_core_dies": 28800,
+        "stacks": 2640,
+        "failures": 126,
+        "failure_rate": 0.04772727272727273,
+        "reliability_tested": 492,
+        "reliability_failed": 26
+      },
+      {
+        "split": "test",
+        "lots": 36,
+        "wafers": 900,
+        "sampled_core_dies": 28800,
+        "stacks": 2589,
+        "failures": 137,
+        "failure_rate": 0.052916183854770184,
+        "reliability_tested": 510,
+        "reliability_failed": 24
+      }
+    ],
+    "defect_counts": [
+      {
+        "split": "train",
+        "defect_type": "delamination",
+        "count": 64,
+        "share_of_stacks": 0.005093919134033747
+      },
+      {
+        "split": "train",
+        "defect_type": "die_crack",
+        "count": 34,
+        "share_of_stacks": 0.002706144539955428
+      },
+      {
+        "split": "train",
+        "defect_type": "dram_electrical",
+        "count": 53,
+        "share_of_stacks": 0.004218401782871697
+      },
+      {
+        "split": "train",
+        "defect_type": "microbump_open_bridge",
+        "count": 89,
+        "share_of_stacks": 0.0070837312957656795
+      },
+      {
+        "split": "train",
+        "defect_type": "multiple",
+        "count": 17,
+        "share_of_stacks": 0.001353072269977714
+      },
+      {
+        "split": "train",
+        "defect_type": "none",
+        "count": 11911,
+        "share_of_stacks": 0.948026106335562
+      },
+      {
+        "split": "train",
+        "defect_type": "tsv_open_short",
+        "count": 72,
+        "share_of_stacks": 0.0057306590257879654
+      },
+      {
+        "split": "train",
+        "defect_type": "underfill_void",
+        "count": 147,
+        "share_of_stacks": 0.011700095510983763
+      },
+      {
+        "split": "train",
+        "defect_type": "warpage",
+        "count": 177,
+        "share_of_stacks": 0.014087870105062083
+      },
+      {
+        "split": "validation",
+        "defect_type": "delamination",
+        "count": 14,
+        "share_of_stacks": 0.005303030303030303
+      },
+      {
+        "split": "validation",
+        "defect_type": "die_crack",
+        "count": 5,
+        "share_of_stacks": 0.001893939393939394
+      },
+      {
+        "split": "validation",
+        "defect_type": "dram_electrical",
+        "count": 20,
+        "share_of_stacks": 0.007575757575757576
+      },
+      {
+        "split": "validation",
+        "defect_type": "microbump_open_bridge",
+        "count": 18,
+        "share_of_stacks": 0.006818181818181818
+      },
+      {
+        "split": "validation",
+        "defect_type": "multiple",
+        "count": 2,
+        "share_of_stacks": 0.0007575757575757576
+      },
+      {
+        "split": "validation",
+        "defect_type": "none",
+        "count": 2514,
+        "share_of_stacks": 0.9522727272727273
+      },
+      {
+        "split": "validation",
+        "defect_type": "tsv_open_short",
+        "count": 14,
+        "share_of_stacks": 0.005303030303030303
+      },
+      {
+        "split": "validation",
+        "defect_type": "underfill_void",
+        "count": 25,
+        "share_of_stacks": 0.00946969696969697
+      },
+      {
+        "split": "validation",
+        "defect_type": "warpage",
+        "count": 28,
+        "share_of_stacks": 0.010606060606060607
+      },
+      {
+        "split": "test",
+        "defect_type": "delamination",
+        "count": 14,
+        "share_of_stacks": 0.005407493240633449
+      },
+      {
+        "split": "test",
+        "defect_type": "die_crack",
+        "count": 6,
+        "share_of_stacks": 0.002317497103128621
+      },
+      {
+        "split": "test",
+        "defect_type": "dram_electrical",
+        "count": 17,
+        "share_of_stacks": 0.00656624179219776
+      },
+      {
+        "split": "test",
+        "defect_type": "microbump_open_bridge",
+        "count": 23,
+        "share_of_stacks": 0.008883738895326381
+      },
+      {
+        "split": "test",
+        "defect_type": "multiple",
+        "count": 2,
+        "share_of_stacks": 0.000772499034376207
+      },
+      {
+        "split": "test",
+        "defect_type": "none",
+        "count": 2452,
+        "share_of_stacks": 0.9470838161452299
+      },
+      {
+        "split": "test",
+        "defect_type": "tsv_open_short",
+        "count": 18,
+        "share_of_stacks": 0.006952491309385863
+      },
+      {
+        "split": "test",
+        "defect_type": "underfill_void",
+        "count": 23,
+        "share_of_stacks": 0.008883738895326381
+      },
+      {
+        "split": "test",
+        "defect_type": "warpage",
+        "count": 34,
+        "share_of_stacks": 0.01313248358439552
+      }
+    ],
+    "split_gaps": [
+      {
+        "boundary": "train \u2192 validation",
+        "lot_release_gap_days": 21.5,
+        "primary_label_to_next_feature_gap_days": 20.5625
+      },
+      {
+        "boundary": "validation \u2192 test",
+        "lot_release_gap_days": 21.5,
+        "primary_label_to_next_feature_gap_days": 20.57638888888889
+      }
+    ],
+    "mechanism_correlations": [
+      {
+        "x": "thickness_variation_um",
+        "y": "die_warpage_um",
+        "mechanism": "Nonuniform thinning and die warpage share process state",
+        "n": 192000,
+        "pearson": 0.5199141644332815,
+        "spearman": 0.43881745271377537
+      },
+      {
+        "x": "particle_count",
+        "y": "repair_count",
+        "mechanism": "Contamination and latent die stress affect repairs",
+        "n": 192000,
+        "pearson": 0.2594594232509609,
+        "spearman": 0.2076758154651336
+      },
+      {
+        "x": "tsv_conductor_length_um",
+        "y": "tsv_resistance_mohm",
+        "mechanism": "Longer copper TSV conductors increase resistance",
+        "n": 192000,
+        "pearson": 0.988056292244094,
+        "spearman": 0.7066812910666304
+      },
+      {
+        "x": "emc_viscosity_pa_s",
+        "y": "underfill_void_pct",
+        "mechanism": "Higher molding viscosity raises void formation",
+        "n": 17793,
+        "pearson": 0.4793337664848501,
+        "spearman": 0.47650229799759963
+      },
+      {
+        "x": "molding_vacuum_absolute_kpa",
+        "y": "underfill_void_pct",
+        "mechanism": "Higher absolute pressure means poorer evacuation",
+        "n": 17793,
+        "pearson": 0.5649916217248158,
+        "spearman": 0.5234106881316755
+      },
+      {
+        "x": "package_warpage_um",
+        "y": "delamination_area_pct",
+        "mechanism": "Warpage contributes to delamination risk",
+        "n": 17793,
+        "pearson": 0.5472461610439291,
+        "spearman": 0.572795520660468
+      },
+      {
+        "x": "underfill_void_pct",
+        "y": "thermal_resistance_c_w",
+        "mechanism": "Voids increase package thermal resistance",
+        "n": 17793,
+        "pearson": 0.4465741793659534,
+        "spearman": 0.37837324327696326
+      }
+    ],
+    "mode_rates": [
+      {
+        "mode": "dram_electrical",
+        "observed_count": 97,
+        "observed_rate": 0.005451582082841567,
+        "mean_generating_probability": 0.006195014866430619
+      },
+      {
+        "mode": "tsv_open_short",
+        "observed_count": 108,
+        "observed_rate": 0.006069802731411229,
+        "mean_generating_probability": 0.006073003191704604
+      },
+      {
+        "mode": "microbump_open_bridge",
+        "observed_count": 137,
+        "observed_rate": 0.007699657168549429,
+        "mean_generating_probability": 0.008240551257989096
+      },
+      {
+        "mode": "die_crack",
+        "observed_count": 47,
+        "observed_rate": 0.0026414882257067385,
+        "mean_generating_probability": 0.0026273632828584274
+      },
+      {
+        "mode": "warpage",
+        "observed_count": 247,
+        "observed_rate": 0.013881863654246053,
+        "mean_generating_probability": 0.0146972939994998
+      },
+      {
+        "mode": "underfill_void",
+        "observed_count": 206,
+        "observed_rate": 0.011577586691395492,
+        "mean_generating_probability": 0.0116865327659248
+      },
+      {
+        "mode": "delamination",
+        "observed_count": 96,
+        "observed_rate": 0.00539538020569887,
+        "mean_generating_probability": 0.0048957420170291695
+      }
+    ],
+    "metrology_sampled_rate": 0.24746875,
+    "metrology_dropout_rate_among_selected": 0.020667592709517194,
+    "detailed_metrology_observed_rate": 0.24235416666666668,
+    "stacks_without_any_detailed_core_metrology": 1214,
+    "reliability_sampling_rate_among_final_passers": 0.2002725602891509,
+    "resistance_to_geometry_ratio_median": 0.9999956324732606,
+    "resistance_log_ratio_std": 0.02510159256629908,
+    "tsv_resistance_median_mohm": 30.965619500000003,
+    "core_disposition_counts": {
+      "assembled": 180648,
+      "screen_rejected": 10244,
+      "eligible_unassigned": 1108
+    },
+    "base_inventory_counts": {
+      "assembled": 17793,
+      "eligible_unassigned": 2035,
+      "rejected": 240
+    },
+    "traced_runs": 600,
+    "trace_rows": 72600
+  },
+  "overview_created": false
+}

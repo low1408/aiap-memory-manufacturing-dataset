@@ -1,0 +1,24 @@
+{
+  "scope": "Archived result from a small 12-lot fixture using the original code and assumptions; full-cohort saved-file checks are in docs/VALIDATION_REPORT.md",
+  "seed": 20260914,
+  "checks": [
+    {
+      "check": "Identical seed/config produces identical frames for all 18 tables",
+      "pass": true
+    },
+    {
+      "check": "Increasing stack fault log-odds preserves manufacturing inputs and cannot reduce failures",
+      "pass": true,
+      "original_failures": 3,
+      "increased_fault_failures": 14
+    },
+    {
+      "check": "Changing measurement dropout does not change physical states or outcome labels",
+      "pass": true
+    },
+    {
+      "check": "Changing seed changes realized physical data",
+      "pass": true
+    }
+  ]
+}

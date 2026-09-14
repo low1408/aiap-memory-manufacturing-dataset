@@ -1,0 +1,320 @@
+{
+  "dataset": "Synthetic SK hynix-like HBM3E manufacturing scenario",
+  "target": "final_test_fail",
+  "positive_class": "Final acceptance failure (assembly or electrical)",
+  "prediction_time": "After assembly and package inspection; before final electrical test",
+  "split_protocol": "Ordered lots 70/15/15, 21-day embargo at boundaries. No die/wafer/lot crosses split. Fit transformations on train only.",
+  "selected_threshold": 0.08247030284456983,
+  "threshold_selection": "Maximum validation F1; highest threshold wins exact ties",
+  "optimization": {
+    "method": "Newton steps with backtracking line search",
+    "l2_mean_loss_coefficient": 0.001,
+    "iterations": 5,
+    "max_absolute_gradient": 8.574262835110355e-10,
+    "objective": 0.19918309883120977
+  },
+  "predictor_count_after_encoding": 41,
+  "training_reference_categories": {
+    "assembly_tool_id": "ASSEMBLY_T01"
+  },
+  "intercept": -3.019523742731145,
+  "coefficients": [
+    {
+      "feature": "package_warpage_um",
+      "coefficient": 0.21980899221742273
+    },
+    {
+      "feature": "underfill_void_pct",
+      "coefficient": 0.15419923176994077
+    },
+    {
+      "feature": "assembly_tool_id=ASSEMBLY_T06",
+      "coefficient": 0.15105838852235481
+    },
+    {
+      "feature": "core_thickness_std_um",
+      "coefficient": 0.11438113272977969
+    },
+    {
+      "feature": "core_leakage_mean_ua",
+      "coefficient": 0.11138679483845929
+    },
+    {
+      "feature": "stack_height_um",
+      "coefficient": -0.09933784033885758
+    },
+    {
+      "feature": "core_tsv_resistance_max_mohm",
+      "coefficient": 0.0972248139284678
+    },
+    {
+      "feature": "inter_die_gap_mean_um",
+      "coefficient": -0.09152604085646716
+    },
+    {
+      "feature": "molding_vacuum_absolute_kpa",
+      "coefficient": 0.0739913761514746
+    },
+    {
+      "feature": "core_tsv_resistance_mean_mohm",
+      "coefficient": 0.06656518713621612
+    },
+    {
+      "feature": "assembly_tool_id=ASSEMBLY_T02",
+      "coefficient": 0.06474995613520403
+    },
+    {
+      "feature": "max_alignment_offset_um",
+      "coefficient": 0.06307559877172647
+    },
+    {
+      "feature": "base_leakage_current_ua",
+      "coefficient": -0.061893197891814654
+    },
+    {
+      "feature": "sampled_core_tsv_void_mean_pct",
+      "coefficient": -0.06179498733436841
+    },
+    {
+      "feature": "assembly_tool_id=ASSEMBLY_T03",
+      "coefficient": -0.06070217940610797
+    },
+    {
+      "feature": "reflow_peak_temperature_c",
+      "coefficient": -0.05011363509733147
+    },
+    {
+      "feature": "stacks_since_tool_service",
+      "coefficient": -0.0490299816154461
+    },
+    {
+      "feature": "sampled_core_tsv_void_mean_pct__missing",
+      "coefficient": 0.04532711576091741
+    },
+    {
+      "feature": "sampled_core_cd_mean_nm__missing",
+      "coefficient": 0.04532711576091741
+    },
+    {
+      "feature": "time_above_liquidus_sec",
+      "coefficient": 0.04449549074744675
+    },
+    {
+      "feature": "cumulative_die_shift_um",
+      "coefficient": -0.0380513291668207
+    },
+    {
+      "feature": "core_particle_count_sum",
+      "coefficient": 0.035945289702030474
+    },
+    {
+      "feature": "sampled_core_cd_mean_nm",
+      "coefficient": -0.03175179976257027
+    },
+    {
+      "feature": "stack_layer_count",
+      "coefficient": 0.03110795417398999
+    },
+    {
+      "feature": "capacity_gb",
+      "coefficient": 0.031107954173988577
+    },
+    {
+      "feature": "core_thickness_mean_um",
+      "coefficient": -0.028009744833312616
+    },
+    {
+      "feature": "core_bump_coplanarity_max_um",
+      "coefficient": 0.02406019373968899
+    },
+    {
+      "feature": "cure_duration_min",
+      "coefficient": 0.019847319244831674
+    },
+    {
+      "feature": "n_dies_with_detailed_metrology",
+      "coefficient": -0.018261322258092214
+    },
+    {
+      "feature": "heating_rate_c_sec",
+      "coefficient": -0.0180057432382803
+    },
+    {
+      "feature": "core_ttv_mean_um",
+      "coefficient": -0.016904383074368763
+    },
+    {
+      "feature": "assembly_tool_id=ASSEMBLY_T04",
+      "coefficient": 0.016259429865110617
+    },
+    {
+      "feature": "n_source_wafers",
+      "coefficient": -0.01588324108499518
+    },
+    {
+      "feature": "cure_temperature_c",
+      "coefficient": -0.011998693087579377
+    },
+    {
+      "feature": "delamination_area_pct",
+      "coefficient": -0.011926331688564659
+    },
+    {
+      "feature": "molding_pressure_mpa",
+      "coefficient": 0.007821389431681354
+    },
+    {
+      "feature": "base_die_thickness_um",
+      "coefficient": 0.005133778397676761
+    },
+    {
+      "feature": "core_repair_count_sum",
+      "coefficient": -0.004122234158684654
+    },
+    {
+      "feature": "assembly_tool_id=ASSEMBLY_T05",
+      "coefficient": 0.0025614748050921416
+    },
+    {
+      "feature": "core_warpage_max_um",
+      "coefficient": -0.002471984361277422
+    },
+    {
+      "feature": "emc_viscosity_pa_s",
+      "coefficient": 0.00028824571687314723
+    }
+  ],
+  "input_sha256": {
+    "ml_task.json": "b4c14a4292d1441319fcbbbd47b0079163a5e59ce820fee7e7584b017972721f",
+    "ml_stack_features.csv": "fef2de93d158a657f15a519c5cfaf904ff6dcb31eaa414558d8086bc22cfbead",
+    "ml_stack_labels.csv": "20a80810b2c48b13f9b164d95a562c96cde0081189f43eaa0d5b88d7403e36e5"
+  },
+  "splits": {
+    "train": {
+      "logistic_regression": {
+        "rows": 12564,
+        "failures": 653,
+        "failure_prevalence": 0.051973893664438074,
+        "threshold": 0.08247030284456983,
+        "average_precision": 0.09172429566227844,
+        "roc_auc": 0.6179636541202793,
+        "accuracy": 0.8881725565106654,
+        "balanced_accuracy": 0.5487653259890899,
+        "precision": 0.11396303901437371,
+        "recall": 0.16998468606431852,
+        "specificity": 0.9275459659138612,
+        "f1": 0.13644744929317762,
+        "confusion_matrix": {
+          "tn": 11048,
+          "fp": 863,
+          "fn": 542,
+          "tp": 111
+        }
+      },
+      "always_pass": {
+        "rows": 12564,
+        "failures": 653,
+        "failure_prevalence": 0.051973893664438074,
+        "threshold": 0.5,
+        "average_precision": 0.051973893664438074,
+        "roc_auc": 0.5,
+        "accuracy": 0.948026106335562,
+        "balanced_accuracy": 0.5,
+        "precision": null,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "f1": 0.0,
+        "confusion_matrix": {
+          "tn": 11911,
+          "fp": 0,
+          "fn": 653,
+          "tp": 0
+        }
+      }
+    },
+    "validation": {
+      "logistic_regression": {
+        "rows": 2640,
+        "failures": 126,
+        "failure_prevalence": 0.04772727272727273,
+        "threshold": 0.08247030284456983,
+        "average_precision": 0.09487193196344099,
+        "roc_auc": 0.5686504779583539,
+        "accuracy": 0.881439393939394,
+        "balanced_accuracy": 0.5495037314846384,
+        "precision": 0.09871244635193133,
+        "recall": 0.18253968253968253,
+        "specificity": 0.9164677804295943,
+        "f1": 0.12813370473537605,
+        "confusion_matrix": {
+          "tn": 2304,
+          "fp": 210,
+          "fn": 103,
+          "tp": 23
+        }
+      },
+      "always_pass": {
+        "rows": 2640,
+        "failures": 126,
+        "failure_prevalence": 0.04772727272727273,
+        "threshold": 0.5,
+        "average_precision": 0.04772727272727273,
+        "roc_auc": 0.5,
+        "accuracy": 0.9522727272727273,
+        "balanced_accuracy": 0.5,
+        "precision": null,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "f1": 0.0,
+        "confusion_matrix": {
+          "tn": 2514,
+          "fp": 0,
+          "fn": 126,
+          "tp": 0
+        }
+      }
+    },
+    "test": {
+      "logistic_regression": {
+        "rows": 2589,
+        "failures": 137,
+        "failure_prevalence": 0.052916183854770184,
+        "threshold": 0.08247030284456983,
+        "average_precision": 0.09466466417895208,
+        "roc_auc": 0.558355461354354,
+        "accuracy": 0.8798764001544999,
+        "balanced_accuracy": 0.5713360760171944,
+        "precision": 0.13135593220338984,
+        "recall": 0.22627737226277372,
+        "specificity": 0.916394779771615,
+        "f1": 0.16621983914209115,
+        "confusion_matrix": {
+          "tn": 2247,
+          "fp": 205,
+          "fn": 106,
+          "tp": 31
+        }
+      },
+      "always_pass": {
+        "rows": 2589,
+        "failures": 137,
+        "failure_prevalence": 0.052916183854770184,
+        "threshold": 0.5,
+        "average_precision": 0.052916183854770184,
+        "roc_auc": 0.5,
+        "accuracy": 0.9470838161452299,
+        "balanced_accuracy": 0.5,
+        "precision": null,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "f1": 0.0,
+        "confusion_matrix": {
+          "tn": 2452,
+          "fp": 0,
+          "fn": 137,
+          "tp": 0
+        }
+      }
+    }
+  }
+}

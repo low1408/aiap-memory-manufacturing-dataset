@@ -1,0 +1,157 @@
+[
+  {
+    "file": "README.md",
+    "bytes": 12771,
+    "sha256": "49e1d302efeaa9d724ea96d31956cc5b6fe0d9ea8020e817aa3326b2940fed1c"
+  },
+  {
+    "file": "data/assembly/die_disposition.csv",
+    "bytes": 5177108,
+    "sha256": "ddae7b0d6683d071d5f7ebbbde8193348595d4ab0d6702fb743cce2168ce7827"
+  },
+  {
+    "file": "data/assembly/electrical_test.csv",
+    "bytes": 3119709,
+    "sha256": "35b5a8d5f350cfc4851b0fd87306f1d0dc73f59bbe5d9d4d17fd21a2c88888e0"
+  },
+  {
+    "file": "data/assembly/reliability_test.csv",
+    "bytes": 655961,
+    "sha256": "c94de9738d3b7d2c3694f5cddc54f721cc187129539e5620c91fd4be85ef3f3b"
+  },
+  {
+    "file": "data/assembly/stack_assembly.csv",
+    "bytes": 6010125,
+    "sha256": "827eec23774ce512c4bac7e83d888f0e0244b7da2f41ebf69046e2414c7b7fd0"
+  },
+  {
+    "file": "data/assembly/stack_membership.csv",
+    "bytes": 23251698,
+    "sha256": "f15a41c6dbf60d8e2f5f0db7b359f31ded7a5f30798e83011be68ce123429958"
+  },
+  {
+    "file": "data/data_dictionary.csv",
+    "bytes": 176702,
+    "sha256": "cc8b632516c5b3fe446fa418ed09bd8ac531dc651e75472006995f844a0a90b1"
+  },
+  {
+    "file": "data/manufacturing/base_die.csv",
+    "bytes": 2158385,
+    "sha256": "e824c3355459edb6f08822a5242e964de2c53226fc16abf83e66a8294a8cabde"
+  },
+  {
+    "file": "data/manufacturing/die_metrology.csv",
+    "bytes": 32676522,
+    "sha256": "c6a3c8d58926308701ff4210391aa6375dbc16aa709045f470e5885eafb6b6dc"
+  },
+  {
+    "file": "data/manufacturing/lots.csv",
+    "bytes": 21323,
+    "sha256": "5a0cc99bc11297d2eb1630df2c2e78adbf11ade277a5343bf1c93f0f7001264f"
+  },
+  {
+    "file": "data/manufacturing/recipes.csv",
+    "bytes": 1588,
+    "sha256": "e66097476db3bc7ef99e941d28e60504a75dea38e6a5de7eabef3305dc46c9d0"
+  },
+  {
+    "file": "data/manufacturing/sensor_trace.csv",
+    "bytes": 7202033,
+    "sha256": "9f1ce11bdc11123965b0a8e5c3a9e0d343ee6e9982bb077f33bff469afee6cdc"
+  },
+  {
+    "file": "data/manufacturing/tsv_inspection.csv",
+    "bytes": 15924431,
+    "sha256": "8421971f1936317e9741bdac7971ab2d5dafd888406797352bdbf07535762e87"
+  },
+  {
+    "file": "data/manufacturing/wafer_process.csv",
+    "bytes": 12215853,
+    "sha256": "4e288f17866d75a635e65e10789d87f833d7621b6791861a62e0743e1524d18f"
+  },
+  {
+    "file": "data/manufacturing/wafers.csv",
+    "bytes": 347398,
+    "sha256": "da13f630375c640bd0e32fdf0091f45eb867285a719e4afe65d3d69db156d9e2"
+  },
+  {
+    "file": "data/ml/ml_stack_features.csv",
+    "bytes": 6178639,
+    "sha256": "fef2de93d158a657f15a519c5cfaf904ff6dcb31eaa414558d8086bc22cfbead"
+  },
+  {
+    "file": "data/ml/ml_stack_labels.csv",
+    "bytes": 951934,
+    "sha256": "20a80810b2c48b13f9b164d95a562c96cde0081189f43eaa0d5b88d7403e36e5"
+  },
+  {
+    "file": "data/ml/stack_training.csv",
+    "bytes": 6214241,
+    "sha256": "ff7fdb7dfcf74f5d9a5c25d0188ad864addd21ca72b5a6bb34fd0ef07256cf75"
+  },
+  {
+    "file": "data/simulation_truth/simulation_truth_die.csv",
+    "bytes": 15320768,
+    "sha256": "36dd5958b20b9b5a93a98b5a78481e3da2ba9f8d45f951b5afb93ca22760b6b7"
+  },
+  {
+    "file": "data/simulation_truth/simulation_truth_stack.csv",
+    "bytes": 2453466,
+    "sha256": "989184a92e3a05a7da921982dc488405553fbdd769293df7180b3012ad10343c"
+  },
+  {
+    "file": "docs/BASELINE_REPORT.md",
+    "bytes": 5392,
+    "sha256": "24677d6e82df2539fc8679361758a2fee2fa95dfce09ca0958775613909a42b4"
+  },
+  {
+    "file": "docs/GENERATING_MODEL.md",
+    "bytes": 11111,
+    "sha256": "c5b7650907e7c1ee094650454ae59faedd84574b54d028161b5d06ca1f32acc1"
+  },
+  {
+    "file": "docs/SOURCES.md",
+    "bytes": 6624,
+    "sha256": "feb0019c8e8cebcc87264827d903ce48ccffc29dc7fa77d6caddad5f3597bc08"
+  },
+  {
+    "file": "docs/VALIDATION_REPORT.md",
+    "bytes": 7865,
+    "sha256": "eb56286c8e0e4bbfb757dc7f2b87050b29e125b9cb04386c8ca79c6c0737f579"
+  },
+  {
+    "file": "metadata/baseline_metrics.json",
+    "bytes": 8884,
+    "sha256": "311762f32edb85a7b481d90856da68dec7be192b00df1583688dcc6e92bdfe46"
+  },
+  {
+    "file": "metadata/config.json",
+    "bytes": 1417,
+    "sha256": "f5e2ea9e11e5b9e0ca1a2390863133b9f32da1f42000468749195a53f7d9e88f"
+  },
+  {
+    "file": "metadata/generation_config.json",
+    "bytes": 1415,
+    "sha256": "15ad7cf6786e35fe2289818e2344c9b15f49d711a3b2b37a939e910cd221a814"
+  },
+  {
+    "file": "metadata/manifest.json",
+    "bytes": 3723,
+    "sha256": "8896e7ed35cb96f6008d1e429227aa1a7f53dceca9fe9ea580bbe3b018f2aa25"
+  },
+  {
+    "file": "metadata/ml_task.json",
+    "bytes": 1966,
+    "sha256": "71318212d024a712a9ba91385b1cb68b1130f4bd8fbd5d8f7b97464c23628f4c"
+  },
+  {
+    "file": "metadata/reproducibility_checks.json",
+    "bytes": 751,
+    "sha256": "dbfa31371a13a0edef19b67600babee0a0bfd6c23d346e43a8ba0bf367e089f1"
+  },
+  {
+    "file": "metadata/validation.json",
+    "bytes": 56400,
+    "sha256": "b82f1a8c80dffbc663c4b9819c43647b4866fa6d8bc7434d4ab37dd461af9c3c"
+  }
+]

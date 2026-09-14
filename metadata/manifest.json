@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.0.0",
+  "scenario": "SK_hynix_like_HBM3E_synthetic",
+  "seed": 20260914,
+  "generator": "removed during data-only cleanup (originally generate.py)",
+  "numpy_version": "2.3.5",
+  "pandas_version": "3.0.2",
+  "all_records_synthetic": true,
+  "calibrated_to_real_fab": false,
+  "files": [
+    {
+      "file": "data/manufacturing/lots.csv",
+      "rows": 240,
+      "columns": 10,
+      "sha256": "5a0cc99bc11297d2eb1630df2c2e78adbf11ade277a5343bf1c93f0f7001264f"
+    },
+    {
+      "file": "data/manufacturing/wafers.csv",
+      "rows": 6000,
+      "columns": 9,
+      "sha256": "da13f630375c640bd0e32fdf0091f45eb867285a719e4afe65d3d69db156d9e2"
+    },
+    {
+      "file": "data/manufacturing/recipes.csv",
+      "rows": 20,
+      "columns": 10,
+      "sha256": "e66097476db3bc7ef99e941d28e60504a75dea38e6a5de7eabef3305dc46c9d0"
+    },
+    {
+      "file": "data/manufacturing/wafer_process.csv",
+      "rows": 60000,
+      "columns": 23,
+      "sha256": "4e288f17866d75a635e65e10789d87f833d7621b6791861a62e0743e1524d18f"
+    },
+    {
+      "file": "data/manufacturing/die_metrology.csv",
+      "rows": 192000,
+      "columns": 30,
+      "sha256": "c6a3c8d58926308701ff4210391aa6375dbc16aa709045f470e5885eafb6b6dc"
+    },
+    {
+      "file": "data/manufacturing/tsv_inspection.csv",
+      "rows": 192000,
+      "columns": 15,
+      "sha256": "8421971f1936317e9741bdac7971ab2d5dafd888406797352bdbf07535762e87"
+    },
+    {
+      "file": "data/manufacturing/base_die.csv",
+      "rows": 20068,
+      "columns": 10,
+      "sha256": "e824c3355459edb6f08822a5242e964de2c53226fc16abf83e66a8294a8cabde"
+    },
+    {
+      "file": "data/assembly/stack_membership.csv",
+      "rows": 198441,
+      "columns": 13,
+      "sha256": "f15a41c6dbf60d8e2f5f0db7b359f31ded7a5f30798e83011be68ce123429958"
+    },
+    {
+      "file": "data/assembly/stack_assembly.csv",
+      "rows": 17793,
+      "columns": 32,
+      "sha256": "827eec23774ce512c4bac7e83d888f0e0244b7da2f41ebf69046e2414c7b7fd0"
+    },
+    {
+      "file": "data/assembly/electrical_test.csv",
+      "rows": 17793,
+      "columns": 26,
+      "sha256": "35b5a8d5f350cfc4851b0fd87306f1d0dc73f59bbe5d9d4d17fd21a2c88888e0"
+    },
+    {
+      "file": "data/assembly/reliability_test.csv",
+      "rows": 17793,
+      "columns": 9,
+      "sha256": "c94de9738d3b7d2c3694f5cddc54f721cc187129539e5620c91fd4be85ef3f3b"
+    },
+    {
+      "file": "data/ml/ml_stack_features.csv",
+      "rows": 17793,
+      "columns": 39,
+      "sha256": "fef2de93d158a657f15a519c5cfaf904ff6dcb31eaa414558d8086bc22cfbead"
+    },
+    {
+      "file": "data/ml/ml_stack_labels.csv",
+      "rows": 17793,
+      "columns": 9,
+      "sha256": "20a80810b2c48b13f9b164d95a562c96cde0081189f43eaa0d5b88d7403e36e5"
+    },
+    {
+      "file": "data/ml/stack_training.csv",
+      "rows": 17793,
+      "columns": 40,
+      "sha256": "ff7fdb7dfcf74f5d9a5c25d0188ad864addd21ca72b5a6bb34fd0ef07256cf75"
+    },
+    {
+      "file": "data/simulation_truth/simulation_truth_stack.csv",
+      "rows": 17793,
+      "columns": 19,
+      "sha256": "989184a92e3a05a7da921982dc488405553fbdd769293df7180b3012ad10343c"
+    },
+    {
+      "file": "data/assembly/die_disposition.csv",
+      "rows": 192000,
+      "columns": 3,
+      "sha256": "ddae7b0d6683d071d5f7ebbbde8193348595d4ab0d6702fb743cce2168ce7827"
+    },
+    {
+      "file": "data/simulation_truth/simulation_truth_die.csv",
+      "rows": 192000,
+      "columns": 11,
+      "sha256": "36dd5958b20b9b5a93a98b5a78481e3da2ba9f8d45f951b5afb93ca22760b6b7"
+    },
+    {
+      "file": "data/manufacturing/sensor_trace.csv",
+      "rows": 72600,
+      "columns": 10,
+      "sha256": "9f1ce11bdc11123965b0a8e5c3a9e0d343ee6e9982bb077f33bff469afee6cdc"
+    }
+  ]
+}

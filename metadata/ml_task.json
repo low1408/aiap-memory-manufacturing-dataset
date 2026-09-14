@@ -1,0 +1,62 @@
+{
+  "prediction_time": "After assembly and package inspection; before final electrical test",
+  "target": "final_test_fail",
+  "positive_class": "Final acceptance failure (assembly or electrical)",
+  "features_file": "data/ml/ml_stack_features.csv",
+  "labels_file": "data/ml/ml_stack_labels.csv",
+  "join_key": "stack_id",
+  "single_csv_alternative": "data/ml/stack_training.csv",
+  "exclude_from_predictors": [
+    "stack_id",
+    "lot_id",
+    "split",
+    "feature_available_time_utc"
+  ],
+  "categorical_predictors": [
+    "assembly_tool_id"
+  ],
+  "numeric_predictors": [
+    "stack_layer_count",
+    "capacity_gb",
+    "stack_height_um",
+    "inter_die_gap_mean_um",
+    "max_alignment_offset_um",
+    "cumulative_die_shift_um",
+    "emc_viscosity_pa_s",
+    "molding_pressure_mpa",
+    "molding_vacuum_absolute_kpa",
+    "reflow_peak_temperature_c",
+    "time_above_liquidus_sec",
+    "heating_rate_c_sec",
+    "cure_temperature_c",
+    "cure_duration_min",
+    "underfill_void_pct",
+    "delamination_area_pct",
+    "package_warpage_um",
+    "stacks_since_tool_service",
+    "core_thickness_mean_um",
+    "core_thickness_std_um",
+    "core_warpage_max_um",
+    "core_ttv_mean_um",
+    "core_leakage_mean_ua",
+    "core_repair_count_sum",
+    "core_particle_count_sum",
+    "core_tsv_resistance_mean_mohm",
+    "core_tsv_resistance_max_mohm",
+    "core_bump_coplanarity_max_um",
+    "n_source_wafers",
+    "n_dies_with_detailed_metrology",
+    "sampled_core_tsv_void_mean_pct",
+    "sampled_core_cd_mean_nm",
+    "base_leakage_current_ua",
+    "base_die_thickness_um"
+  ],
+  "forbidden_sources": [
+    "data/assembly/electrical_test.csv",
+    "data/ml/ml_stack_labels.csv (except chosen target)",
+    "data/simulation_truth/",
+    "data/assembly/reliability_test.csv",
+    "data/assembly/die_disposition.csv"
+  ],
+  "split_protocol": "Ordered lots 70/15/15, 21-day embargo at boundaries. No die/wafer/lot crosses split. Fit transformations on train only."
+}
