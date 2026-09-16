@@ -1,9 +1,17 @@
-# HBM3E manufacturing simulation and stack-failure triage
+# HBM3E failure-mechanism prediction for diagnostic test selection
 
-This is a fully synthetic dataset for a supervised manufacturing-quality
-classification exercise. **One case is one assembled HBM stack. The current
-target is final acceptance failure, combining assembly and electrical failure.**
-Individual die measurements are inputs to that stack-level prediction.
+**Main proposal:** predict likely HBM failure mechanisms from manufacturing
+measurements and initial acceptance-test observations, helping the quality
+engineer select additional diagnostic tests with lower investigation cost and
+comparable diagnostic coverage. One case is one assembled HBM stack that has
+**already failed required acceptance testing**.
+
+The proposed model is one multi-label classifier with seven probability outputs.
+It has not been trained or evaluated. Diagnostic test savings, diagnostic accuracy
+and a need for ML have not been demonstrated. The delivered v1 package remains a
+synthetic dataset and a binary acceptance-failure benchmark; its files, task
+metadata and archived results have not been converted to the proposed task.
+See [Delivered v1 binary benchmark](#delivered-v1-binary-benchmark).
 
 The scenario uses public HBM3E architecture and Advanced MR-MUF descriptions as
 context. It contains **no SK hynix production records** and is **not calibrated
@@ -15,138 +23,226 @@ assumptions. The evidence and its limits are recorded in
 The original Kaggle file motivated this project but is not used as training data,
 calibration data or as a source of measurements in this release. HBM requires
 different record relationships and failure mechanisms, so the cohort was generated
-from scratch.
-
-This README describes the **delivered v1 data and task**, and frames its use for
-[BYO_PROBLEM.pdf](BYO_PROBLEM.pdf). Electrical-only prediction and a richer repair
-model remain proposed extensions; they have not replaced the current target.
+from scratch. This README frames the new proposal for
+[BYO_PROBLEM.pdf](BYO_PROBLEM.pdf), while retaining the delivered v1 data description.
 The CSVs are checksum-verifiable, but regenerating them requires the original
 generator, which is absent from this cleaned package.
 
 ## Problem statement and human decision
 
-The exercise is to help the **on-duty HBM quality engineer** decide which newly
-assembled stacks should receive additional engineering review before final testing.
-A binary classifier estimates the probability of final acceptance failure from
-incoming die results, assembly conditions and package measurements. Success means
-identifying more eventual failures within the engineer's review capacity, with
-lower weighted error cost than a simple inspection-rule baseline.
+Existing diagnostic techniques can identify faults. The question is whether
+predictions help an engineer choose a more efficient investigation than the
+existing diagnostic workflow. All stacks still undergo required acceptance
+testing. The proposed savings concern **additional diagnosis of rejected stacks**;
+predicting a defect does not itself improve manufacturing yield or repair a stack.
 
-The human role, review capacity and error costs below are **exercise assumptions**,
-not observations of an actual factory or implemented application behavior.
-
-| Task element | Definition for this release |
+| Task element | Proposed diagnostic-selection task |
 |---|---|
-| Unit of prediction | One assembled 8-high or 12-high HBM3E stack, including its separate base die. |
-| Task type | Supervised binary classification used for human review triage. |
-| Target | `final_test_fail`: 1 means final rejection; 0 means both assembly and electrical acceptance passed. |
-| Prediction checkpoint | After assembly and package measurements are available, before final electrical testing and the recorded final acceptance verdict. |
-| Human decision | The quality engineer reviews a flagged stack's measurements and genealogy and decides whether to request additional investigation or expedited testing. |
-| Model output | A failure-risk score and a review flag. It does not authorize shipment, automatic scrap, or bypassing required tests. |
-| Scope | One model and one review-routing decision. Die-level screening, reliability forecasting and root-cause classification are outside the primary task. |
+| Unit of prediction | One assembled 8-high or 12-high HBM3E stack, including its separate base die, after acceptance failure. |
+| Task type | Supervised multi-label classification: several failure mechanisms can coexist. This is not multiple regression. |
+| Target | Seven binary mechanism indicators, used only as training/evaluation labels. |
+| Prediction checkpoint | Initial acceptance-test observations are available; additional diagnostic selection and confirmed diagnostic findings are still to follow. |
+| Human decision | The on-duty HBM quality engineer selects the additional diagnostic investigation to perform. |
+| Model output | Seven estimated mechanism probabilities and their ranking, supporting one investigation-selection decision. |
+| Authority | The engineer interprets available evidence, chooses diagnostics and follows the investigation's confirmation and stopping rules. Scores do not authorize shipment, automatic scrap or omission of required acceptance tests. |
+| Scope | One model supporting diagnostic selection. Process root-cause discovery, repair, process control and reliability forecasting are outside this proposal. |
 
-### What the classification label means
-
-```text
-final_test_fail = 1 - final_test_pass
-final_test_pass = stack_assembly_pass AND electrical_test_pass
-```
-
-| Assembly acceptance | Electrical acceptance | `final_test_fail` |
-|---|---|---:|
-| Pass | Pass | 0 |
-| Fail | Pass | 1 |
-| Pass | Fail | 1 |
-| Fail | Fail | 1 |
-
-Assembly failure covers die crack, warpage, underfill void and delamination modes.
-Electrical failure covers DRAM/base electrical, TSV open/short and microbump
-open/bridge modes. The label identifies whether any acceptance failure occurs;
-it does not identify its cause. The simulator draws these faults probabilistically
-from shared physical state and process conditions.
-
-The modeled sequence is:
+The proposed workflow is:
 
 ```text
-Individual die electrical screening and KGD selection
-  -> stack assembly and package measurements
-  -> feature snapshot and human-review risk score
-  -> final electrical test and recorded assembly/electrical acceptance verdicts
-  -> optional sampled reliability testing
+Required acceptance testing
+  -> rejected stack
+  -> mechanism predictions from manufacturing and initial test observations
+  -> quality engineer selects additional diagnostic tests
+  -> confirmed findings and investigation effort recorded
 ```
 
-KGD means known-good die: a die that passed the modeled incoming screens. The
-individual dies have already been electrically screened when the prediction is
-made. The later test concerns the completed stack, which can contain screening
-escapes or faults introduced during assembly. In v1, the formal
-`stack_assembly_pass` verdict is an outcome recorded in the final-test table;
-package measurements alone are available at the prediction checkpoint.
+The engineer can continue or expand an inconclusive investigation. A high-ranked
+mechanism is a hypothesis to check. For example, predicting a microbump open does
+not establish which manufacturing condition caused that open. Probabilities need
+not sum to one because multiple faults can be present.
 
-If a real workflow already knows the mechanical pass/fail verdict at that point,
-the appropriate remaining-risk task is **electrical failure among
-assembly-accepted stacks**. That is a separate proposed task requiring its own
-cohort, label, availability definition and fitted model. It is not the task in
-`stack_training.csv` or `metadata/ml_task.json` today.
+## Proposed cohort, labels and inputs
 
-### Error costs, serving and the baseline to beat
+### Rejected-stack cohort and seven targets
 
-- **False positive:** an ultimately passing stack is unnecessarily flagged,
-  consuming engineer time and potentially delaying its testing.
-- **False negative:** an ultimately failing stack is not prioritized; the problem
-  is discovered later through required testing, with late diagnosis, avoidable
-  testing effort or schedule disruption. This is not automatically a defective
-  shipment to a customer.
-- **Illustrative asymmetry:** use 10 penalty units for a false negative and 1 for
-  a false positive: `weighted_error = 10 * FN + FP`. This 10:1 ratio is an
-  explicit proposal assumption for group discussion, not a measured factory cost.
-  Review does not necessarily prevent a physical failure; this is a triage score,
-  not a measured return-on-investment calculation.
-- **Capacity and success metric:** a starting assumption is review capacity for
-  10% of arriving stacks. Compare weighted error per 1,000 stacks and failure
-  recall within the same review budget. Select rules and thresholds using training
-  and validation data, then evaluate on untouched test data. No monetary cost
-  model or capacity-constrained policy has been fitted in this release.
-- **Simple rule baseline still to evaluate:** flag unusually high package warpage,
-  underfill void or alignment offset, using thresholds chosen on training and
-  validation data. Compare against that policy at the same review capacity.
-  The saved always-pass and logistic baselines do not establish that ML beats
-  these rules.
-- **Serving choice:** batch scoring after a group of stacks completes inspection
-  fits a shared engineer review queue. On-demand scoring could fit stacks arriving
-  continuously with tight dispatch deadlines. Batch review is the initial design
-  assumption; a deployed service and its latency are outside this package.
+The proposed cohort contains **916 rejected stacks** from the delivered 17,793
+assembled stacks. The 16,877 acceptance passers are outside this diagnostic task;
+`final_test_fail` is an eligibility condition, not its prediction target. Retain
+the original lot/time partitions rather than creating a random row split:
 
-All stacks remain subject to required final testing. This preserves outcome
-observation for flagged and unflagged cases. A future workflow that repairs or
-withholds flagged stacks would change the observed outcomes and must record those
-interventions separately.
+| Partition | Rejected stacks for the proposed task |
+|---|---:|
+| Train | 653 |
+| Validation | 126 |
+| Test | 137 |
+| Total | 916 |
 
-## Start with the modeling table
+Join the records by `stack_id`. The seven realized indicators in
+`data/simulation_truth/simulation_truth_stack.csv` are available as **synthetic
+reference labels only**. Their counts below use rejected stacks as the denominator;
+21 rejected stacks contain multiple mechanisms, so the percentages need not sum
+to 100%.
 
-Open `data/ml/stack_training.csv`: one row per assembled HBM stack, with pre-electrical-test
-features, IDs, a split and the target `final_test_fail` (1 = failure, 0 = pass).
-It contains **17,793 rows and 40 columns: 35 allowed predictors, four metadata
-columns and one target**. Of the predictors, 34 are numeric and one is categorical.
-Use the `train`, `validation` and `test` partitions already in the file. Exclude
-`stack_id`, `lot_id`, `split` and `feature_available_time_utc` from predictors.
-The categorical predictor is `assembly_tool_id`. Missing numerical measurements
-must be imputed using training data only. `metadata/ml_task.json` supplies an explicit
-feature allowlist and prediction-time definition.
+| Failure mechanism | Proposed target column | Positive stacks / 916 | Share of rejected stacks |
+|---|---|---:|---:|
+| DRAM/base electrical failure | `fault_dram_electrical` | 97 | 10.59% |
+| TSV open/short | `fault_tsv_open_short` | 108 | 11.79% |
+| Microbump open/bridge | `fault_microbump_open_bridge` | 137 | 14.96% |
+| Die crack | `fault_die_crack` | 47 | 5.13% |
+| Warpage | `fault_warpage` | 247 | 26.97% |
+| Underfill void | `fault_underfill_void` | 206 | 22.49% |
+| Delamination | `fault_delamination` | 96 | 10.48% |
 
-Feature families include constituent-die thickness, warpage, leakage, repair
-counts and TSV resistance; base-die measurements; placement accuracy; reflow,
-molding and cure conditions; and package voids, delamination and warpage.
-The source tables support traceability and inspection of these aggregates.
+The OR of these seven indicators equals `final_test_fail` in the delivered data.
+All-zero label vectors therefore belong to acceptance passers and are outside
+this cohort. The single `defect_type=multiple` category does not identify which
+mechanisms coexist and cannot replace the seven individual indicators.
 
-For an earlier decision, construct a separate feature snapshot and exclude fields
-not yet observed. Never use `data/assembly/electrical_test.csv`, reliability outcomes, simulator
-truth, or other labels to predict the same final acceptance outcome.
-In particular, final-test `timing_margin_ps`, `max_pass_data_rate_gbps`, BER and
-ECC results are later observations, not pre-test predictors. The current timing
-margin is generated with a sign determined by electrical pass/fail, so including
-it would directly leak the answer.
+In an operational study, reference labels would come from confirmed diagnostic
+findings. Here, the labels come from the simulator's fault draws. They are not
+real diagnostic observations, confirmed process root causes, or evidence that a
+particular test can detect a mechanism. No multi-label modeling table, fitted
+model or new machine-readable task specification has been delivered.
 
-## Cohort and record structure
+### Information available at diagnostic selection
+
+Start with the existing 35 manufacturing/package predictors and add only initial
+acceptance-test observations known before the engineer selects further tests.
+The following is a **proposed input boundary requiring an availability and realism
+audit**, not a newly implemented feature allowlist:
+
+| Input group | Candidate fields / role |
+|---|---|
+| Manufacturing and package measurements | Constituent-die aggregates, base-die measurements, assembly tool, placement, reflow, molding, cure and inspected package measurements from the v1 feature snapshot. |
+| Acceptance verdicts | `stack_assembly_pass` and `electrical_test_pass`; overall acceptance failure selects the cohort. |
+| Error and interconnect observations | `uncorrected_error_count`, `bit_error_rate`, `ecc_corrected_errors`, `detected_interconnect_failures`. |
+| Speed and timing observations | `max_pass_data_rate_gbps`, `measured_bandwidth_gb_s`, `timing_margin_ps`. |
+| Power and thermal observations | `power_consumption_w`, `thermal_resistance_c_w`, if actually measured in initial acceptance testing. |
+| Initial test conditions | `test_temperature_c`, `test_voltage_v`, `test_duration_sec`, `offered_data_rate_gbps`, `bus_width_bits`, `nominal_peak_bandwidth_gb_s`, `tested_bit_count` and `test_program_id`. Constants or redundant fields need not become fitted predictors. |
+
+The v1 pre-test snapshot is in `data/ml/ml_stack_features.csv`; initial test
+records are in `data/assembly/electrical_test.csv`. Use unique-key joins and retain
+lot/split information for partitioning. IDs, split markers and timestamps are
+join/audit metadata, not predictive features. Imputation, scaling and categorical
+encoding must be fitted using training records only.
+
+**Exclude** `defect_type`, `defect_stage`, `defect_severity`, `final_disposition`,
+later diagnostic findings, reliability outcomes, all `fault_*` target columns,
+latent states and simulator `p_*` probabilities from predictors. Extract only the
+seven target columns plus the join key from the truth table into a separate label
+view; never merge the full truth table into model inputs.
+
+The original ban on final-test inputs in `metadata/ml_task.json` applies to the
+**v1 pre-test binary task**. At the new decision point, completed initial test
+measurements may be legitimate inputs. That file still describes v1 and must not
+be read as an implemented specification for this proposal. The initial test file
+mixes measurements and outcome annotations, so a whole-table feature import would
+be inappropriate for either task.
+
+Some measurements were generated directly from simulated outcomes. For example,
+`timing_margin_ps` has a sign determined by electrical pass/fail. Its availability
+after acceptance does not make it a realistic diagnostic signal. Review the
+measurement-generation rules and compare models with and without such fields
+before interpreting any mechanism-prediction result.
+
+### Chronology that still needs to be established
+
+V1 stores acceptance observations and defect annotations in the same test record.
+It provides no separate timestamp for a later diagnostic confirmation. The new
+workflow assumes a distinct acceptance event followed by diagnostic selection and
+confirmed findings; separate file columns do not prove that chronology.
+
+The existing `feature_available_time_utc` is the pre-acceptance snapshot time.
+Its 12-hour gap to the v1 final label ends **before** the proposed diagnostic
+selection. It cannot demonstrate delayed mechanism labels for this new task.
+A future operational dataset must record initial-result availability, selection,
+tests actually performed, diagnostic completion and the labels each test supports.
+
+## Where diagnostic test savings could come from
+
+The reference is the engineer's existing diagnostic workflow on rejected stacks,
+including its inspection rules, ordering and stopping criteria. Do not assume that
+engineers currently run every possible procedure. The proposed model would rank
+mechanisms to help select the next useful investigation within that workflow.
+
+Ranking can reduce time only when it changes the investigation path or a measured
+operational delay. Fewer tests can be claimed only when some procedures are
+avoided under a justified completeness requirement. If every procedure still runs,
+changing their order does not by itself reduce their count or summed execution
+time. A mechanism probability alone does not specify which diagnostic test is
+most informative; that also depends on test coverage, cost and existing evidence.
+
+```text
+Net saving = existing diagnostic-workflow cost
+             - model-assisted diagnostic-workflow cost
+             - incremental model overhead
+```
+
+Compare the same cases and diagnostic completeness requirement. Workflow costs
+include diagnostic procedures, equipment and engineer time, repeat investigations
+and the consequences of incorrect recommendations. Count both successful and
+unsuccessful investigations. Model overhead includes development, operation and
+maintenance over a stated evaluation period. Avoid counting the same delay or
+labor cost twice. Required acceptance-test costs common to both workflows cancel.
+No numerical savings or monetary costs have been estimated for this proposal.
+
+Before estimating savings, define:
+
+- A diagnostic-test catalogue mapping each procedure to mechanisms it can confirm
+  or exclude, its detection limits, possible inconclusive results and dependencies.
+- Per-procedure duration, equipment/engineer cost and relevant scheduling effects.
+- The existing engineering rules and diagnostic order, including their use of
+  initial acceptance observations.
+- Confirmation, fallback and stopping rules, with a stated requirement for
+  diagnostic completeness that includes coexisting faults.
+- Fully investigated reference cases against which a reduced workflow can be
+  evaluated, including unresolved cases and any missed mechanisms.
+
+Confirming a TSV defect does not rule out a coexisting microbump defect. Stopping
+at the first positive diagnostic result is not automatically a complete diagnosis.
+These procedure definitions and investigation records are absent from v1; its
+fixed final-test duration is not a catalogue of additional diagnostic costs.
+
+Adaptive testing is an established semiconductor-test direction: Advantest
+[describes using device data to adapt test flows and reduce test time](https://www.advantest.com/en/semiconductor-basics/automated-test-equipment/).
+That supports the general concept, not the effectiveness of this HBM model or a
+claim that required acceptance tests can be omitted.
+
+### Error costs and the former 10:1 assumption
+
+An incorrect high-ranked mechanism can lead to an unnecessary investigation.
+An omitted or low-ranked mechanism can delay diagnosis, require repeat work or
+leave a coexisting fault unresolved. A low rank is not itself proof that a fault
+will be missed: the engineer's fallback and stopping rules determine that outcome.
+
+The relative consequences depend on the mechanism, diagnostic procedure and
+investigation policy. They need not be constant across cases. No fixed FN:FP
+penalty is justified yet; the earlier 10:1 proposal remains withdrawn. A yield
+target does not determine that ratio. These are already rejected stacks, so a
+missed diagnostic recommendation is not automatically an escaped shipment.
+Core 3 remains pending until a defensible asymmetry is specified and evaluated.
+
+### What the model must add beyond inspection rules
+
+Compare existing engineering rules and diagnostic ordering against model-assisted
+selection using **the same available information, procedure catalogue and
+completeness requirement**. Include simple warpage/void/alignment/delamination
+rules and a fixed diagnostic order as transparent experimental baselines. Select
+any thresholds or ordering using training/validation information only.
+
+Already-observed warpage, void or delamination measurements may make some
+mechanism recommendations redundant. Check whether the model adds useful
+information beyond those observations, rather than crediting it for repeating
+an inspection finding. Combinations of measurements are a hypothesis for added
+value, not evidence of it. The earlier binary rule comparison belongs to v1 and
+neither validates nor disproves this diagnostic-selection task.
+
+Retain ML only if it reduces diagnostic time or cost at the agreed completeness
+requirement relative to those baselines, after overhead. If rules suffice, use
+rules. Core 4 remains pending until this comparison is performed.
+
+## Delivered v1 data: cohort and record structure
 
 The default scenario includes 240 lots, 25 wafers per lot and 32 sampled die
 locations per wafer: 6,000 wafers and 192,000 DRAM die records. Each lot is assigned
@@ -216,10 +312,10 @@ The mutually exclusive reported outcomes are:
 | `die_crack` | 45 |
 | `multiple` | 21 |
 
-The eight failure categories sum to 916. These are diagnostic labels, not
-additional classification targets for the primary exercise. Per-mechanism counts
-in `docs/VALIDATION_REPORT.md` include overlapping faults and therefore differ
-from the mutually exclusive counts above.
+The eight failure categories sum to 916. These are mutually exclusive v1
+outcome summaries, not the proposed multi-label target vectors. Per-mechanism
+counts in the archived v1 [validation report](docs/VALIDATION_REPORT.md) include
+overlapping faults and therefore differ from the mutually exclusive counts above.
 
 ## How values and defects are generated
 
@@ -248,8 +344,9 @@ TSV/interconnect open or short, microbump open or bridge, die crack, warpage,
 underfill void and delamination. A package can have more than one mechanism.
 `defect_type=multiple` reports such packages; individual indicators are retained
 only in the simulator-truth table. Those indicators are synthetic ground truth,
-not results of a real root-cause investigation. For multi-label research they
-may serve as targets, but must never become predictors of final acceptance.
+not results of a real root-cause investigation. The new proposal uses the seven
+realized indicators as targets only. Neither those indicators nor the latent
+probabilities may become predictors of acceptance failure or diagnostic mechanisms.
 
 Wafer probe and TSV screening have imperfect detection. Some hidden faults escape
 known-good-die screening. Final screening in this scenario perfectly reports the
@@ -263,7 +360,8 @@ or two measured sensors. Mechanical rejects can remain electrically functional.
   instrument dropout among sampled dies. Each record distinguishes `not_sampled`,
   `instrument_dropout` and `none`. Missing values are blank CSV cells, not zero.
 - Geometric/physical states are generated for every die, even when not observed.
-  The latent truth files preserve selected states exclusively for simulator audits.
+  Latent states remain for simulator audits; only the seven realized stack-fault
+  indicators are proposed as multi-label targets, never predictors.
 - TSV continuity, wafer probe, basic thickness and package inspections use 100%
   coverage in this scenario. Those are assumptions, not manufacturer practices.
 - Pressure, gas flow, etch rate and RF power are structurally unavailable for
@@ -289,27 +387,122 @@ or two measured sensors. Mechanical rejects can remain electrically functional.
   Traces are autocorrelated process segments with mean/SD matching the recorded
   summaries, not a complete thermal recipe waveform. AR coefficient is in config.
 
-## Split and evaluation protocol
+## Proposed evaluation and monitoring
 
-Lots are ordered by release time and assigned approximately 70/15/15 to training,
-validation and test. A 21-day embargo is inserted at the two boundaries. No source
-lot, wafer, core die or receiving base lot crosses partitions. The validation
-checks timestamps to ensure outcomes in one partition precede the next partition's
-available features. Manufacturing equipment and recurring material settings may
-appear in multiple splits: this evaluates future runs on an existing process,
-not generalization to a previously unseen tool or foundry.
+Preserve the original lot/time split and its 21-day embargoes when selecting the
+916 rejected stacks. No source lot, wafer, core die or receiving base lot crosses
+partitions. Fit transformations on training records only; choose model settings,
+calibration, ranking thresholds and diagnostic policies on training/validation
+information. The v1 timestamp checks concern pre-test features and acceptance
+labels; a future diagnostic dataset needs its own checks that training labels
+are available before later prediction events.
 
-The data includes normal process variation, mild drift and fixed-size excursions.
-The defect rate is a simulated scenario result. A pass rate or model accuracy here
-does not establish a real manufacturer's quality or relative competitiveness.
-Use precision/recall, average precision (PR-AUC convention documented in the example),
-balanced accuracy and per-mode counts. Ordinary accuracy alone can be misleading.
+Manufacturing equipment and recurring material settings may appear in multiple
+splits. This evaluates later runs of the same simulated process, not a new fab
+or previously unseen equipment. The test cohort has already been examined in
+v1 audits. Treat further analysis of it as retrospective and require fresh later
+cases for confirmatory performance or savings claims.
 
-`docs/BASELINE_REPORT.md` records the held-out result and
-`metadata/baseline_metrics.json` contains the underlying metrics. Do not use the
-test labels to select a preferred model or threshold.
+| Evaluation level | Proposed measures |
+|---|---|
+| Mechanism prediction | Per-mechanism precision, recall and average precision, with positive/negative support; probability calibration; macro and micro summaries alongside individual results. |
+| Ranked recommendations | Fraction of confirmed active mechanisms covered by the highest-ranked `k` recommendations; report cases where a coexisting mechanism is omitted. Choose `k` on validation rather than test. |
+| Diagnostic workflow | Total diagnostic time and cost at a stated, unchanged completeness requirement; tests performed, confirmed mechanisms, unresolved cases and missed coexisting faults. Include wrong recommendations and fallback work. |
+| Incremental value | Compare with existing engineering rules and a fixed diagnostic order on the same cases, with the same information and permitted procedures, after model overhead. |
 
-### Dataset partitions and existing baseline
+Recommendation coverage is not the same as diagnostic-test coverage: a procedure
+may address several mechanisms or fail to resolve one. A procedure catalogue and
+observed or explicitly simulated investigation paths are needed to connect the
+two. Prediction metrics alone cannot establish tests avoided or money saved.
+With only 137 rejected test stacks and few examples of some mechanisms, report
+uncertainty and per-mode counts; account for shared lot conditions rather than
+assuming independent rows. Do not interpret overall accuracy or the original
+5.15% acceptance-failure prevalence as diagnostic-task performance.
+
+Once selective testing is introduced, maintain representative full-diagnostic
+audits across recommendation patterns and confidence levels, not only cases the
+model prioritizes. Untested or inconclusive mechanisms remain **unknown**, not
+confirmed negatives. Record test selection, results, engineer overrides and
+label provenance so that selective observation does not silently bias evaluation
+or retraining.
+
+For serving, on-demand scoring after acceptance failure would support immediate
+selection; batch scoring may fit a scheduled diagnostic bench. The choice depends
+on lab capacity and turnaround requirements, which v1 does not model. Monitor
+feature availability/missingness, product and tool mix, calibration, mechanism
+recall, test use, diagnostic time, unresolved cases and audited missed mechanisms.
+Use consistent aggregation at training and serving. Later recipe, test-program
+or diagnostic-procedure changes may alter both predictions and observed labels.
+No serving system, diagnostic policy or intervention study has been implemented.
+
+## Delivered v1 binary benchmark
+
+The following describes the **unchanged delivered task and archived evidence**.
+It predicts acceptance failure before initial testing across all assembled stacks.
+It does not predict individual mechanisms or evaluate post-acceptance diagnostic
+test selection. The archived [baseline report](docs/BASELINE_REPORT.md),
+[baseline metrics](metadata/baseline_metrics.json) and
+[review decision audit](docs/REVIEW_DECISION_AUDIT.md) retain their v1 scope.
+
+### Original task and sequence
+
+```text
+final_test_fail = 1 - final_test_pass
+final_test_pass = stack_assembly_pass AND electrical_test_pass
+```
+
+| Assembly acceptance | Electrical acceptance | `final_test_fail` |
+|---|---|---:|
+| Pass | Pass | 0 |
+| Fail | Pass | 1 |
+| Pass | Fail | 1 |
+| Fail | Fail | 1 |
+
+Assembly failure covers die crack, warpage, underfill void and delamination.
+Electrical failure covers DRAM/base electrical, TSV open/short and microbump
+open/bridge modes. The binary target identifies whether any acceptance failure
+occurs, not its mechanism.
+
+```text
+Individual die electrical screening and KGD selection
+  -> stack assembly and package measurements
+  -> v1 pre-test feature snapshot and binary risk score
+  -> initial final electrical test and assembly/electrical acceptance verdicts
+  -> optional sampled reliability testing for acceptance passers
+```
+
+KGD means known-good die: a die that passed the modeled incoming screens. Stack
+faults may reflect screening escapes or damage introduced during assembly. In
+v1, `stack_assembly_pass` is recorded with final-test outcomes; only package
+measurements are available at the original prediction checkpoint. The proposed
+diagnostic decision occurs after these acceptance verdicts are known.
+
+### Original modeling table
+
+For the v1 binary task, open `data/ml/stack_training.csv`: one row per assembled HBM stack, with pre-electrical-test
+features, IDs, a split and the target `final_test_fail` (1 = failure, 0 = pass).
+It contains **17,793 rows and 40 columns: 35 allowed predictors, four metadata
+columns and one target**. Of the predictors, 34 are numeric and one is categorical.
+Use the `train`, `validation` and `test` partitions already in the file. Exclude
+`stack_id`, `lot_id`, `split` and `feature_available_time_utc` from predictors.
+The categorical predictor is `assembly_tool_id`. Missing numerical measurements
+must be imputed using training data only. `metadata/ml_task.json` supplies an explicit
+feature allowlist and prediction-time definition.
+
+Feature families include constituent-die thickness, warpage, leakage, repair
+counts and TSV resistance; base-die measurements; placement accuracy; reflow,
+molding and cure conditions; and package voids, delamination and warpage.
+The source tables support traceability and inspection of these aggregates.
+
+For the v1 pre-test decision, exclude fields not yet observed. Never use
+`data/assembly/electrical_test.csv`, reliability outcomes, simulator truth, or
+other labels to predict the same final acceptance outcome.
+In particular, final-test `timing_margin_ps`, `max_pass_data_rate_gbps`, BER and
+ECC results are later observations, not pre-test predictors. The current timing
+margin is generated with a sign determined by electrical pass/fail, so including
+it would directly leak the answer.
+
+### Original dataset partitions and binary results
 
 | Partition | Lots | Stacks | Final failures | Failure rate |
 |---|---:|---:|---:|---:|
@@ -319,13 +512,13 @@ test labels to select a preferred model or threshold.
 
 Feature snapshots span January to June 2025 in a fabricated chronology. In this
 release, the final label arrives exactly **12 simulated hours** after the feature
-snapshot. This gives a concrete delayed-label problem even though the simulator's
-acceptance labels themselves are noise-free.
+snapshot. This is a delayed acceptance label for the v1 task only; it does not
+establish delayed diagnostic confirmation after the new decision point.
 
 The saved baseline is logistic regression with training-only imputation,
 standardization and categorical encoding. Its threshold, **0.082470**, was selected
 to maximize validation F1. That is an initial classification benchmark, not the
-capacity-constrained or cost-selected review policy proposed above.
+v1 review-capacity ranking audited below, and it was not selected using costs.
 
 | Existing model, test split | Average precision | ROC AUC | Precision | Recall | F1 | Accuracy |
 |---|---:|---:|---:|---:|---:|---:|
@@ -354,47 +547,109 @@ Neither low nor high ROC AUC establishes physical realism. The original baseline
 and validation reports remain archived results; the decomposition is documented
 here as a later audit of the unchanged data and model.
 
-For a future system design, monitor review load, missingness, feature availability,
-product mix, score distributions and delayed per-product/lot performance. Reuse
-the same aggregation and preprocessing definitions at training and serving time.
-Actual human actions and their effects are not recorded in this release.
+### Retrospective v1 inspection-rule audit
+
+The retrospective [rule audit](docs/REVIEW_DECISION_AUDIT.md) compares the archived
+model with high-side warpage, underfill-void, alignment and delamination rankings,
+plus simple OR combinations. All receive the same assumed review allowance of at most 10%
+of stacks. The rule is selected on validation, not test.
+
+| Policy | Validation failures found / 264 reviews | Test failures found / 258 reviews |
+|---|---:|---:|
+| Delamination rule selected on validation | 26 | 20 |
+| Underfill-void rule, shown for context | 24 | 29 |
+| Archived logistic model | 23 | 31 |
+
+The selected rule outperforms the model on validation. On test the model finds
+11 more failures than that selected rule, but a paired lot-bootstrap interval for
+the recall difference includes zero. The underfill-void rule finds only two fewer
+test failures than the model; it was not selected using that test result. This
+audit does **not establish a robust or economically worthwhile ML advantage**.
+The rules are transparent proxies, not manufacturer specification limits or an
+engineer's validated procedure. The already examined test set is not a fresh
+confirmatory holdout.
+
+Review capacity of 10% is an assumption of that v1 audit. It treats a split as
+one offline batch with equal review effort per stack. The 31-versus-29 comparison
+measures eventual failures found in a review queue; it supplies no result about
+mechanism ranking, diagnostics avoided or post-acceptance investigation cost.
+
+### Historical economics of the v1 early-review proposal
+
+The former v1 proposal compared early review against no early review. Let `B`
+be the expected avoidable cost per correctly flagged failure **before charging
+for early review**, `R` the cost of each early review, and `H` the policy's other
+incremental costs, including implementation, maintenance and any displaced work.
+Use a common unit and period:
+
+```text
+net saving = B * TP - R * (TP + FP) - H
+```
+
+`B` must include the chance that the early action actually helps; it is not the
+stack's selling price or its full investigation cost. Every flag costs review
+time, including true positives. If later investigation and delay are unchanged,
+`B = 0` and the extra review adds cost. If it merely moves identical work earlier,
+the displaced later effort offsets that earlier effort for true positives;
+false flags still add work. Neither case establishes a saving that would justify
+the former early-review decision.
+
+The archived model at its original F1 threshold flagged 236 test stacks: 31
+failures and 205 passes. Even ignoring overhead, early action would need to save
+more than `236 / 31 = 7.61` review-cost equivalents per correctly flagged failure
+to break even against no early review. The data does not establish that benefit.
+This is a break-even condition, not an estimated saving or an endorsed cost ratio.
+
+At the v1 audit's 258-review allowance, the model still finds 31 failures;
+`258 / 31 = 8.32` review-cost equivalents would be needed before overhead. These
+are historical break-even conditions, not measured savings or costs for the new
+diagnostic-selection proposal. The unsupported `10 * FN + FP` penalty was
+withdrawn and does not define the new task's economics.
 
 ## Compliance with the BYO problem specification
 
 Reference: [Bring Your Own Problem - Pre-Work Brief](BYO_PROBLEM.pdf), Sections
 2A-2D and 4-5, PDF pages 3-7. It requires **all five core items**, **at least four
-of six enrichment items**, and **group-owned framing**. Its pages 2 and 6 explicitly
-allow synthetic data and say realism is not graded. A working pipeline is an
-optional stretch; the assessed work is problem framing, system design and the viva.
+of six enrichment items**, and **group-owned framing**. Synthetic data is allowed;
+a working pipeline is an optional stretch. This assessment concerns the proposed
+post-acceptance diagnostic-selection task, not the archived binary benchmark.
 
-**Status key:** "Met - data" means supported by delivered records; "Met - framing"
-means the exercise defines the required decision or scenario, not that a service
-has been built; "Pending" identifies evidence or group action still needed.
+**Status key:** "Met - data" identifies delivered supporting records;
+"Defined - proposal" identifies a specified scenario or design, not an implemented
+system; "Pending" identifies evidence or group action still required.
 
 | Requirement | Status | Evidence, interpretation or remaining action |
 |---|---|---|
-| Core 1: supervised classification with a definable label (2A, p. 3) | Met - data | One row per stack; binary `final_test_fail`; explicit assembly/electrical acceptance identity; labels for all 17,793 cases. |
-| Core 2: a named human acts on flagged cases (2A, pp. 3-4) | Met - framing | The on-duty HBM quality engineer decides whether to request extra investigation or expedited testing. The model supplies a review flag and retains human control. |
-| Core 3: asymmetric error costs (2A, p. 4) | Met - framing | Missed failures imply late diagnosis and disruption; false flags consume review time. Proposed FN:FP penalties are 10:1, explicitly assumed and subject to group agreement. |
-| Core 4: genuinely needs ML rather than a few rules (2C, p. 4) | Pending | Multiple interacting process conditions and imperfect incoming screens motivate the question, but no comparison against practical warpage/void/alignment rules has been run. Low AUC or stochastic labels alone do not establish the need for ML. |
-| Core 5: one model, one decision (2D, p. 5) | Met - framing | One stack-failure classifier routes cases to human review. Extra source tables and diagnostic outcome breakdowns do not introduce additional deployed models. |
-| Enrichment 1: class imbalance (2B, p. 4) | Met - data | 916 of 17,793 stacks fail final acceptance (5.15%). Always predicting pass gives 94.85% overall accuracy while finding no failures. |
-| Enrichment 2: late, noisy, proxy or selectively observed label (2B, p. 4) | Met - data | Primary labels arrive 12 simulated hours after features. This satisfies the delayed-label alternative; primary labels are complete and noise-free, not claimed to be noisy operator diagnoses. |
-| Enrichment 3: time dimension (2B, p. 4) | Met - data | Timestamped cases and later outcomes; ordered lot splits with 21-day embargoes. The task remains per-stack classification, not time-series forecasting. |
-| Enrichment 4: leakage trap and/or train/serve skew (2B, p. 4) | Met - data | Final-test timing margins, BER and simulator truth would leak outcomes. Random row splits could mix shared lots/wafers. The feature allowlist and group/time split address these traps; aggregate definitions must match at serving. |
-| Enrichment 5: feedback loop and/or genuine serving choice (2B, p. 4) | Met - framing | Batch review queues versus on-demand pre-test scoring depend on engineer capacity and dispatch deadlines. Serving choice satisfies this line; an intervention feedback loop is not implemented. |
-| Enrichment 6: plausible data/concept drift (2B, p. 4) | Met - data and framing | Tool age, maintenance, excursions and material effects create changing inputs. A later recipe or screening change could alter the feature-to-failure relationship; that concept-drift scenario is not implemented. |
-| Framing belongs to the group, rather than an assigned Kaggle/tutorial task (2D, p. 5; Section 5, p. 7) | Pending group confirmation | The Kaggle source was only topic inspiration. This is an LLM-assisted framing proposal; group members must choose, challenge and defend the target, human action, metric and baseline themselves. This README cannot certify that ownership. |
-| Other disqualifiers (2D, pp. 4-5) | Avoided in the framing | The proposed system is supervised, supports a human, has asymmetric error assumptions and makes one decision. It is not a clustering task, chatbot or fully automated decision system. |
-| Do not leave both drift/monitoring and leakage/skew blank (2D, p. 5) | Met - framing and data | Both have concrete examples above and a proposed monitoring approach. |
-| Data plan and optional pipeline (Sections 1 and 4, pp. 1-2, 6) | Data available | Synthetic CSVs, a dictionary, feature/label views and archived baselines are available. A smaller group-disjoint cohort could support the exercise if needed. Real fab access and a built serving pipeline are not required by the brief. |
-| Half-page group proposal and mentor approval (Section 4, p. 6) | Pending group action | The problem statement, costs, data plan and checklist here supply the content. Submit a half-page version together before ML Systems Week; submission and mentor sign-off are not evidenced by this repository. |
+| Core 1: supervised prediction with definable labels (2A, p. 3) | Met - synthetic label data; proposed task | Seven realized binary fault indicators for 916 rejected stacks support multi-label classification. They are simulator labels, not observed diagnostic outcomes; the new model/table has not been built. |
+| Core 2: a named human acts on the output (2A, pp. 3-4) | Defined - proposal | The on-duty HBM quality engineer selects the additional diagnostic investigation after acceptance failure, using mechanism probabilities and existing test evidence. Operational benefit remains unverified. |
+| Core 3: asymmetric error costs (2A, p. 4) | Pending economic justification | A wrong recommendation can waste a procedure; an omitted mechanism can prolong or leave diagnosis incomplete. A defensible difference in consequences must be established through the procedure catalogue and stopping policy. No fixed 10:1 penalty is asserted. |
+| Core 4: genuinely needs ML rather than a few rules (2C, p. 4) | Pending diagnostic-workflow comparison | Compare diagnostic time/cost at the same completeness requirement against engineering rules and fixed ordering using the same inputs. Existing binary results do not answer this question. |
+| Core 5: one model, one decision (2D, p. 5) | Defined - proposal | One multi-label classifier with seven outputs supports one engineer decision: selecting the additional diagnostic investigation. There is no separate deployed model for each fault or automatic process correction. |
+| Enrichment 1: class imbalance (2B, p. 4) | Met - data | Within the 916 rejected stacks, mechanism prevalence ranges from die crack at 47/916 (5.13%) to warpage at 247/916 (26.97%). Evaluate each label; overall acceptance-failure prevalence is not this cohort's imbalance. |
+| Enrichment 2: late, noisy, proxy or selectively observed label (2B, p. 4) | Proposed workflow only; not established by v1 chronology | Confirmed diagnostic findings would follow test selection, and selective tests could leave labels unknown. V1 supplies complete simulated mechanisms with no separate diagnosis timestamp. Its 12-hour pre-acceptance delay does not establish this property. |
+| Enrichment 3: time dimension (2B, p. 4) | Met - data | Retain timestamped lots and ordered train/validation/test partitions with 21-day embargoes. Proposed diagnostic cases total 653/126/137; the task remains per-stack classification. |
+| Enrichment 4: leakage trap and/or train/serve skew (2B, p. 4) | Met - data and defined boundary | Defect annotations and simulator truth would reveal the targets; whole-table joins would mix them with initial test measurements. Initial test observations may be valid at the new checkpoint. Audit feature availability, generated shortcuts and consistent aggregation. |
+| Enrichment 5: feedback loop and/or genuine serving choice (2B, p. 4) | Defined - proposal | Test selection changes which mechanism labels are observed, requiring representative full-diagnostic audits. On-demand selection versus batch bench scheduling depends on diagnostic capacity and turnaround; neither is implemented. |
+| Enrichment 6: plausible data/concept drift (2B, p. 4) | Met - data and proposal | Tool age, maintenance and material effects create changing inputs. Future recipe, test-program or diagnostic-procedure changes could change relationships or label ascertainment; those changes are not implemented. |
+| Framing belongs to the group (2D, p. 5; Section 5, p. 7) | Pending group confirmation | The group must choose and defend the diagnostic decision, labels, costs, baselines and completeness requirement. LLM-assisted documentation cannot certify that ownership. |
+| Other disqualifiers (2D, pp. 4-5) | Partly addressed; core gates unresolved | Supervised labels, human control and one decision are defined. Cost asymmetry and a need for ML remain open; no full-compliance claim is made. |
+| Do not leave both drift/monitoring and leakage/skew blank (2D, p. 5) | Met - data and proposal | Both have concrete risks and proposed checks above. |
+| Data plan and optional pipeline (Sections 1 and 4, pp. 1-2, 6) | Synthetic prediction data available; workflow evidence pending | V1 supplies candidate inputs and mechanism labels. A diagnostic catalogue, costs, investigation paths and confirmation timestamps are still needed to evaluate test savings. |
+| Half-page group proposal and mentor approval (Section 4, p. 6) | Pending group action | Summarize the revised decision and evidence gaps for the group's submission. Submission and mentor sign-off are not evidenced here. |
 
-**Assessment:** four of the five core items are defined; the "needs ML" gate
-remains unverified. All six enrichment lines have a supported data or framing
-argument, including delayed labels and a serving choice rather than forced label
-noise or feedback effects. Group ownership and mentor approval remain separate
-requirements. This is a compliance self-assessment, not a claim of full approval.
+**Assessment:** Core 1 has synthetic label support; Core 2 and Core 5 are defined
+as a proposal. Core 3 and Core 4 remain unresolved. Enrichments 1, 3 and 4 have
+delivered-data support; 6 combines data and a drift scenario. Enrichment 5 adds a
+proposed serving/selection-feedback argument, while 2 is a future workflow
+property. These do not establish diagnostic savings or repair the missing core
+evidence. Group ownership and mentor approval remain separate requirements.
+
+A defensible viva statement is: **"We propose one multi-label model to help the
+quality engineer select additional diagnostics after a stack fails acceptance.
+The hypothesis is lower investigation cost at comparable diagnostic completeness.
+V1 provides synthetic mechanism labels and an older binary benchmark; a trained
+mechanism model, workflow comparison, justified error costs and measured test
+savings remain to be established."**
 
 ## Cleaned package layout
 
@@ -403,14 +658,18 @@ This copy is organized for data analysis rather than regeneration:
 ```text
 data/manufacturing/   Lot, wafer, process, metrology and TSV records
 data/assembly/        Stack genealogy, assembly, final test and reliability records
-data/ml/              Modeling features, labels and the joined training table
-data/simulation_truth/ Latent simulator state for audits only
-docs/                 Model, source, validation and baseline reports
+data/ml/              Delivered v1 binary-task features, labels and training table
+data/simulation_truth/ Audit truth; seven stack-fault indicators proposed as labels only
+docs/                 Archived v1 model, source, validation and baseline reports
 metadata/             Configuration, manifests and machine-readable results
+scripts/              Reproducible retrospective v1 binary review-rule audit
 ```
 
-The Python generator, validation and training utilities and their dependency file
-were removed during cleanup. `metadata/manifest.json` retains original row counts,
+The original Python generator, validation and training utilities and their
+dependency file were removed during cleanup. The later rule-audit script uses
+Python's standard library and reconstructs the archived scores; it does not
+regenerate data or train a replacement model. `metadata/manifest.json` retains
+original row counts,
 column counts and CSV checksums. The initial simulation seed was 20260914.
 The saved reproducibility checks describe an earlier run with that original code;
 the seed and preserved equations alone do not make this copy self-regenerating.
@@ -427,6 +686,13 @@ timestamps do not represent a single-resource occupancy schedule. Functional
 TSV counts/pitches and wafer-grid pitch are assumed architecture settings.
 
 Current limitations relevant to interpretation are:
+
+- No additional diagnostic-test catalogue, procedure-level coverage, cost,
+  investigation path or separate confirmation timestamp is modeled. The proposed
+  input/label boundary and test-saving workflow therefore require new validation.
+- Some initial test readings are functions of simulated acceptance faults. A
+  model can exploit those generated relationships without establishing realistic
+  diagnostic value; outcome annotations must remain excluded from inputs.
 
 - Incoming `repair_count` and screening exist, but explicit spare-row/column
   budgets, TSV redundancy and post-package repair do not. Inherited latent faults
@@ -445,7 +711,7 @@ Current limitations relevant to interpretation are:
 - Baselines assess predictive usefulness on this simulation. Physical constraints,
   causal semantics and empirical comparison are separate tests of realism.
 
-Potential extensions include an electrical-only task among assembly-accepted
+Other possible data-generation extensions include an electrical-only task among assembly-accepted
 stacks, explicit fault/repair semantics, causal speed-margin modeling, clustered
 metrology, additional recipes and real-data parameter calibration. Each needs its
 own assumptions and validation. None is required merely to add more features for
