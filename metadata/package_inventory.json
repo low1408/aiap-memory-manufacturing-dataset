@@ -1,8 +1,8 @@
 [
   {
     "file": "README.md",
-    "bytes": 30441,
-    "sha256": "95ccb38901400971a3774cae5e474021974940e3af4fe505ac8f76a1388d8206"
+    "bytes": 47056,
+    "sha256": "5b009513385c0aaf9efefb4c03f9cae4d7d23943bf8bec36f23684f554db9fe6"
   },
   {
     "file": "data/assembly/die_disposition.csv",
@@ -101,13 +101,18 @@
   },
   {
     "file": "docs/BASELINE_REPORT.md",
-    "bytes": 5392,
-    "sha256": "24677d6e82df2539fc8679361758a2fee2fa95dfce09ca0958775613909a42b4"
+    "bytes": 5755,
+    "sha256": "e08838ebe74b3ec63c3e466c077cf7886be3a46f3f92a483a2ce1513ba2743f5"
   },
   {
     "file": "docs/GENERATING_MODEL.md",
     "bytes": 11111,
     "sha256": "c5b7650907e7c1ee094650454ae59faedd84574b54d028161b5d06ca1f32acc1"
+  },
+  {
+    "file": "docs/REVIEW_DECISION_AUDIT.md",
+    "bytes": 9524,
+    "sha256": "7805d6fc0c9fd25cbf4542008f5184c8ec45a16b16adea5d3c6b5115f619ea6a"
   },
   {
     "file": "docs/SOURCES.md",
@@ -150,8 +155,18 @@
     "sha256": "dbfa31371a13a0edef19b67600babee0a0bfd6c23d346e43a8ba0bf367e089f1"
   },
   {
+    "file": "metadata/review_rule_audit.json",
+    "bytes": 11124,
+    "sha256": "6e3c1a7633bdbe937c4c803008d8082280849a7c7f1ba15fb8759ab34714e179"
+  },
+  {
     "file": "metadata/validation.json",
     "bytes": 56400,
     "sha256": "b82f1a8c80dffbc663c4b9819c43647b4866fa6d8bc7434d4ab37dd461af9c3c"
+  },
+  {
+    "file": "scripts/audit_review_rules.py",
+    "bytes": 10489,
+    "sha256": "a69904c6305b3f25adbbb1832df450f07f4afbeae2234cf2fa5faf2841ea5a2d"
   }
 ]

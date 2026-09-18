@@ -1,0 +1,354 @@
+{
+  "status": "Retrospective synthetic-data audit; no measured operational savings",
+  "capacity": "floor(10% of each split); split treated as one offline batch",
+  "rule_candidates_in_tie_break_order": [
+    "package_warpage_um",
+    "underfill_void_pct",
+    "max_alignment_offset_um",
+    "delamination_area_pct",
+    "worst_percentile_3",
+    "worst_percentile_4"
+  ],
+  "rule_definition": "Single high-side measurements or maximum training empirical percentile; first 3 exclude delamination",
+  "selection": "Most validation failures in capacity; candidate order breaks ties",
+  "score_ties": "Ascending stack_id, used only to break exact score ties",
+  "selected_rule": "delamination_area_pct",
+  "reconstruction_checks": {
+    "train": {
+      "average_precision": 0.09172429566227847,
+      "confusion_matrix": {
+        "tp": 111,
+        "fp": 863,
+        "fn": 542,
+        "tn": 11048
+      }
+    },
+    "validation": {
+      "average_precision": 0.09487193196344103,
+      "confusion_matrix": {
+        "tp": 23,
+        "fp": 210,
+        "fn": 103,
+        "tn": 2304
+      }
+    },
+    "test": {
+      "average_precision": 0.09466466417895207,
+      "confusion_matrix": {
+        "tp": 31,
+        "fp": 205,
+        "fn": 106,
+        "tn": 2247
+      }
+    }
+  },
+  "results": {
+    "train": {
+      "package_warpage_um": {
+        "rows": 12564,
+        "failures": 653,
+        "reviews": 1256,
+        "tp": 109,
+        "fp": 1147,
+        "fn": 544,
+        "tn": 10764,
+        "precision": 0.08678343949044585,
+        "recall": 0.1669218989280245,
+        "average_precision": 0.08032679792651037,
+        "break_even_benefit_per_review_cost_excluding_overhead": 11.522935779816514
+      },
+      "underfill_void_pct": {
+        "rows": 12564,
+        "failures": 653,
+        "reviews": 1256,
+        "tp": 117,
+        "fp": 1139,
+        "fn": 536,
+        "tn": 10772,
+        "precision": 0.09315286624203821,
+        "recall": 0.17917304747320062,
+        "average_precision": 0.0781341213052978,
+        "break_even_benefit_per_review_cost_excluding_overhead": 10.735042735042734
+      },
+      "max_alignment_offset_um": {
+        "rows": 12564,
+        "failures": 653,
+        "reviews": 1256,
+        "tp": 93,
+        "fp": 1163,
+        "fn": 560,
+        "tn": 10748,
+        "precision": 0.07404458598726114,
+        "recall": 0.14241960183767227,
+        "average_precision": 0.06838204320996319,
+        "break_even_benefit_per_review_cost_excluding_overhead": 13.505376344086022
+      },
+      "delamination_area_pct": {
+        "rows": 12564,
+        "failures": 653,
+        "reviews": 1256,
+        "tp": 93,
+        "fp": 1163,
+        "fn": 560,
+        "tn": 10748,
+        "precision": 0.07404458598726114,
+        "recall": 0.14241960183767227,
+        "average_precision": 0.07154040978327035,
+        "break_even_benefit_per_review_cost_excluding_overhead": 13.505376344086022
+      },
+      "worst_percentile_3": {
+        "rows": 12564,
+        "failures": 653,
+        "reviews": 1256,
+        "tp": 116,
+        "fp": 1140,
+        "fn": 537,
+        "tn": 10771,
+        "precision": 0.09235668789808917,
+        "recall": 0.1776416539050536,
+        "average_precision": 0.08301083435504243,
+        "break_even_benefit_per_review_cost_excluding_overhead": 10.827586206896552
+      },
+      "worst_percentile_4": {
+        "rows": 12564,
+        "failures": 653,
+        "reviews": 1256,
+        "tp": 115,
+        "fp": 1141,
+        "fn": 538,
+        "tn": 10770,
+        "precision": 0.09156050955414012,
+        "recall": 0.17611026033690658,
+        "average_precision": 0.08173162746211678,
+        "break_even_benefit_per_review_cost_excluding_overhead": 10.921739130434782
+      },
+      "archived_logistic": {
+        "rows": 12564,
+        "failures": 653,
+        "reviews": 1256,
+        "tp": 131,
+        "fp": 1125,
+        "fn": 522,
+        "tn": 10786,
+        "precision": 0.10429936305732485,
+        "recall": 0.2006125574272588,
+        "average_precision": 0.09172429566227847,
+        "break_even_benefit_per_review_cost_excluding_overhead": 9.587786259541986
+      }
+    },
+    "validation": {
+      "package_warpage_um": {
+        "rows": 2640,
+        "failures": 126,
+        "reviews": 264,
+        "tp": 25,
+        "fp": 239,
+        "fn": 101,
+        "tn": 2275,
+        "precision": 0.0946969696969697,
+        "recall": 0.1984126984126984,
+        "average_precision": 0.0763802696312031,
+        "break_even_benefit_per_review_cost_excluding_overhead": 10.56
+      },
+      "underfill_void_pct": {
+        "rows": 2640,
+        "failures": 126,
+        "reviews": 264,
+        "tp": 24,
+        "fp": 240,
+        "fn": 102,
+        "tn": 2274,
+        "precision": 0.09090909090909091,
+        "recall": 0.19047619047619047,
+        "average_precision": 0.10744957411411182,
+        "break_even_benefit_per_review_cost_excluding_overhead": 11.0
+      },
+      "max_alignment_offset_um": {
+        "rows": 2640,
+        "failures": 126,
+        "reviews": 264,
+        "tp": 11,
+        "fp": 253,
+        "fn": 115,
+        "tn": 2261,
+        "precision": 0.041666666666666664,
+        "recall": 0.0873015873015873,
+        "average_precision": 0.05976980685797149,
+        "break_even_benefit_per_review_cost_excluding_overhead": 24.0
+      },
+      "delamination_area_pct": {
+        "rows": 2640,
+        "failures": 126,
+        "reviews": 264,
+        "tp": 26,
+        "fp": 238,
+        "fn": 100,
+        "tn": 2276,
+        "precision": 0.09848484848484848,
+        "recall": 0.20634920634920634,
+        "average_precision": 0.11190648436125077,
+        "break_even_benefit_per_review_cost_excluding_overhead": 10.153846153846153
+      },
+      "worst_percentile_3": {
+        "rows": 2640,
+        "failures": 126,
+        "reviews": 264,
+        "tp": 21,
+        "fp": 243,
+        "fn": 105,
+        "tn": 2271,
+        "precision": 0.07954545454545454,
+        "recall": 0.16666666666666666,
+        "average_precision": 0.09608256824873325,
+        "break_even_benefit_per_review_cost_excluding_overhead": 12.571428571428571
+      },
+      "worst_percentile_4": {
+        "rows": 2640,
+        "failures": 126,
+        "reviews": 264,
+        "tp": 23,
+        "fp": 241,
+        "fn": 103,
+        "tn": 2273,
+        "precision": 0.08712121212121213,
+        "recall": 0.18253968253968253,
+        "average_precision": 0.10231703569790733,
+        "break_even_benefit_per_review_cost_excluding_overhead": 11.478260869565217
+      },
+      "archived_logistic": {
+        "rows": 2640,
+        "failures": 126,
+        "reviews": 264,
+        "tp": 23,
+        "fp": 241,
+        "fn": 103,
+        "tn": 2273,
+        "precision": 0.08712121212121213,
+        "recall": 0.18253968253968253,
+        "average_precision": 0.09487193196344103,
+        "break_even_benefit_per_review_cost_excluding_overhead": 11.478260869565217
+      }
+    },
+    "test": {
+      "package_warpage_um": {
+        "rows": 2589,
+        "failures": 137,
+        "reviews": 258,
+        "tp": 23,
+        "fp": 235,
+        "fn": 114,
+        "tn": 2217,
+        "precision": 0.08914728682170543,
+        "recall": 0.1678832116788321,
+        "average_precision": 0.09102817499726906,
+        "break_even_benefit_per_review_cost_excluding_overhead": 11.217391304347826
+      },
+      "underfill_void_pct": {
+        "rows": 2589,
+        "failures": 137,
+        "reviews": 258,
+        "tp": 29,
+        "fp": 229,
+        "fn": 108,
+        "tn": 2223,
+        "precision": 0.1124031007751938,
+        "recall": 0.2116788321167883,
+        "average_precision": 0.0821567972450544,
+        "break_even_benefit_per_review_cost_excluding_overhead": 8.89655172413793
+      },
+      "max_alignment_offset_um": {
+        "rows": 2589,
+        "failures": 137,
+        "reviews": 258,
+        "tp": 19,
+        "fp": 239,
+        "fn": 118,
+        "tn": 2213,
+        "precision": 0.07364341085271318,
+        "recall": 0.1386861313868613,
+        "average_precision": 0.07114853354742522,
+        "break_even_benefit_per_review_cost_excluding_overhead": 13.578947368421053
+      },
+      "delamination_area_pct": {
+        "rows": 2589,
+        "failures": 137,
+        "reviews": 258,
+        "tp": 20,
+        "fp": 238,
+        "fn": 117,
+        "tn": 2214,
+        "precision": 0.07751937984496124,
+        "recall": 0.145985401459854,
+        "average_precision": 0.07418690117872559,
+        "break_even_benefit_per_review_cost_excluding_overhead": 12.9
+      },
+      "worst_percentile_3": {
+        "rows": 2589,
+        "failures": 137,
+        "reviews": 258,
+        "tp": 26,
+        "fp": 232,
+        "fn": 111,
+        "tn": 2220,
+        "precision": 0.10077519379844961,
+        "recall": 0.1897810218978102,
+        "average_precision": 0.07946500087595318,
+        "break_even_benefit_per_review_cost_excluding_overhead": 9.923076923076923
+      },
+      "worst_percentile_4": {
+        "rows": 2589,
+        "failures": 137,
+        "reviews": 258,
+        "tp": 25,
+        "fp": 233,
+        "fn": 112,
+        "tn": 2219,
+        "precision": 0.09689922480620156,
+        "recall": 0.18248175182481752,
+        "average_precision": 0.08053841694435675,
+        "break_even_benefit_per_review_cost_excluding_overhead": 10.32
+      },
+      "archived_logistic": {
+        "rows": 2589,
+        "failures": 137,
+        "reviews": 258,
+        "tp": 31,
+        "fp": 227,
+        "fn": 106,
+        "tn": 2225,
+        "precision": 0.12015503875968993,
+        "recall": 0.22627737226277372,
+        "average_precision": 0.09466466417895207,
+        "break_even_benefit_per_review_cost_excluding_overhead": 8.32258064516129
+      }
+    }
+  },
+  "test_queue_comparison": {
+    "both_flagged": 102,
+    "model_only_failures": 17,
+    "rule_only_failures": 6
+  },
+  "paired_lot_bootstrap": {
+    "seed": 20260916,
+    "replicates": 2000,
+    "test_lots": 36,
+    "statistic": "Logistic recall minus selected-rule recall",
+    "interval_95_percentile": [
+      -0.008264462809917356,
+      0.1716610910962428
+    ],
+    "limitation": "Fixed original test flags; no refitting, reselection or reranking; resampled review counts vary"
+  },
+  "limitations": [
+    "10% is an assumed comparison budget, not measured engineer capacity.",
+    "The test set has already been examined in earlier project audits; this is not a fresh confirmatory holdout.",
+    "Simple measurement rules are proxies, not actual factory specification limits or validated engineer procedures.",
+    "A whole split is not a production arrival batch; this does not validate online dispatch or lead time.",
+    "No review duration, action effectiveness, diagnosis time, cost or intervention outcome is observed."
+  ],
+  "input_sha256": {
+    "data/ml/stack_training.csv": "ff7fdb7dfcf74f5d9a5c25d0188ad864addd21ca72b5a6bb34fd0ef07256cf75",
+    "metadata/ml_task.json": "71318212d024a712a9ba91385b1cb68b1130f4bd8fbd5d8f7b97464c23628f4c",
+    "metadata/baseline_metrics.json": "311762f32edb85a7b481d90856da68dec7be192b00df1583688dcc6e92bdfe46"
+  }
+}

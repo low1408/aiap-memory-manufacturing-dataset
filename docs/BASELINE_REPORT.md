@@ -6,6 +6,12 @@ This is the preserved result from the original training utility, which was remov
 from the cleaned data-only package. Unrounded results remain in
 `metadata/baseline_metrics.json`.
 
+A later [review decision audit](REVIEW_DECISION_AUDIT.md) compares this unchanged
+model with simple measurement rules at equal review capacity. It does not
+establish a robust ML advantage or an economic case for pre-test investigation.
+The unsupported 10:1 error penalty is withdrawn; the results below remain the
+original F1-threshold classification benchmark.
+
 ## Join and split protocol
 
 Join on the unique stack key, using only the selected label from the labels file:
