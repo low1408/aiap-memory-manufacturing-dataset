@@ -1,0 +1,23 @@
+%%{init: {"theme":"base","fontFamily":"DejaVu Sans, sans-serif","themeVariables":{"fontFamily":"DejaVu Sans, sans-serif","fontSize":"17px","lineColor":"#64748b","edgeLabelBackground":"#ffffff"},"themeCSS":".nodeLabel, .edgeLabel { font-family: DejaVu Sans, sans-serif !important; }","flowchart":{"curve":"linear","nodeSpacing":35,"rankSpacing":45,"wrappingWidth":320}}}%%
+flowchart TB
+  accTitle: 1 — Nightly batch scoring
+  accDescr: Validation and shared preprocessing precede qualified model inference. Invalid or unsupported inputs use the existing diagnostic SOP and manual review.
+
+  MES["Nightly MES<br/>snapshot"] --> VALID{"Valid, supported<br/>input snapshot?"}
+  VALID -->|"yes"| FEATURES["Shared feature<br/>preprocessing"]
+  FEATURES --> MODEL["Qualified model<br/>+ saved transformations"]
+  MODEL --> SCORES["Seven initial<br/>fault probabilities"]
+  SCORES --> NEXT(["To 2 · Test selection"])
+  VALID -->|"no"| SOP["Existing diagnostic SOP<br/>and manual review"]
+  SOP --> NEXT
+
+  classDef scoring fill:#dbeafe,stroke:#2563eb,color:#172554,stroke-width:2px;
+  classDef selection fill:#ccfbf1,stroke:#0f766e,color:#134e4a,stroke-width:2px;
+  classDef human fill:#dcfce7,stroke:#15803d,color:#14532d,stroke-width:2px;
+  classDef governance fill:#ede9fe,stroke:#7c3aed,color:#4c1d95,stroke-width:2px;
+  classDef fallback fill:#ffe4e6,stroke:#be123c,color:#881337,stroke-width:2px;
+  classDef portal fill:#f8fafc,stroke:#64748b,color:#334155,stroke-dasharray:5 4;
+
+  class MES,VALID,FEATURES,MODEL,SCORES scoring;
+  class SOP fallback;
+  class NEXT portal;

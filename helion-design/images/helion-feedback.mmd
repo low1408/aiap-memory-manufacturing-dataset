@@ -1,0 +1,33 @@
+%%{init: {"theme":"base","fontFamily":"DejaVu Sans, sans-serif","themeVariables":{"fontFamily":"DejaVu Sans, sans-serif","fontSize":"17px","lineColor":"#64748b","edgeLabelBackground":"#ffffff"},"themeCSS":".nodeLabel, .edgeLabel { font-family: DejaVu Sans, sans-serif !important; }","flowchart":{"curve":"linear","nodeSpacing":35,"rankSpacing":45,"wrappingWidth":320}}}%%
+flowchart TB
+  accTitle: 3 — Audits, monitoring and reviewed improvement
+  accDescr: Independently selected audits produce complete reference labels when conclusive. Diagnostic monitoring supports reviewed training requests. Qualified model releases return to nightly scoring.
+
+  AUDIT["Independent 5%<br/>full-battery sampling"]
+  WORK(["To 2 · Required<br/>audit procedures"])
+  FINDINGS(["From 2 · Completed<br/>qualified audit findings"])
+  LABELS["Complete audited labels<br/>Incomplete audits stay pending"]
+  FEATURES(["From 1 · Versioned<br/>feature snapshots"])
+  SIGNALS(["Batch health + input validity<br/>Diagnostic outcomes + audit status"])
+  MON["Data and model<br/>performance monitoring"]
+  TRAIN["Reviewed candidate request<br/>Offline training + evaluation"]
+  REVIEW["Human review<br/>and release qualification"]
+  RELEASE(["To 1 · Qualified<br/>versioned model"])
+
+  AUDIT --> WORK
+  WORK -. "after audit procedures" .-> FINDINGS
+  FINDINGS --> LABELS --> TRAIN
+  FEATURES --> TRAIN
+  SIGNALS --> MON --> TRAIN
+  TRAIN --> REVIEW --> RELEASE
+
+  classDef scoring fill:#dbeafe,stroke:#2563eb,color:#172554,stroke-width:2px;
+  classDef selection fill:#ccfbf1,stroke:#0f766e,color:#134e4a,stroke-width:2px;
+  classDef human fill:#dcfce7,stroke:#15803d,color:#14532d,stroke-width:2px;
+  classDef governance fill:#ede9fe,stroke:#7c3aed,color:#4c1d95,stroke-width:2px;
+  classDef fallback fill:#ffe4e6,stroke:#be123c,color:#881337,stroke-width:2px;
+  classDef portal fill:#f8fafc,stroke:#64748b,color:#334155,stroke-dasharray:5 4;
+
+  class AUDIT,LABELS,MON,TRAIN governance;
+  class REVIEW human;
+  class WORK,FINDINGS,FEATURES,SIGNALS,RELEASE portal;

@@ -1,0 +1,34 @@
+%%{init: {"theme":"base","fontFamily":"DejaVu Sans, sans-serif","themeVariables":{"fontFamily":"DejaVu Sans, sans-serif","fontSize":"17px","lineColor":"#64748b","edgeLabelBackground":"#ffffff"},"themeCSS":".nodeLabel, .edgeLabel { font-family: DejaVu Sans, sans-serif !important; }","flowchart":{"curve":"linear","nodeSpacing":35,"rankSpacing":45,"wrappingWidth":320}}}%%
+flowchart TB
+  accTitle: 2 — Next-test recommendation and engineer review
+  accDescr: Initial scores, current findings, procedure costs and required evidence support a next-test recommendation. The engineer confirms the test, records its findings and reviews closure. Unsupported cases follow the SOP.
+
+  SCORES(["From 1 · Initial scores<br/>Fixed during investigation"])
+  STATE["Current mechanism states<br/>and qualified findings"]
+  RULES["Procedure catalogue and costs<br/>Prerequisites + audit obligations"]
+  POLICY["Coverage / cost<br/>priority policy"]
+  OPTIONS["Recommended next test<br/>Alternatives + required evidence"]
+  SOP["Existing diagnostic SOP<br/>for unsupported cases"]
+  ENGINEER["Engineer confirms procedure<br/>and reviews completeness"]
+  RESULTS["Run test and record<br/>findings, effort and cost"]
+  MON(["To 3 · Diagnostic outcomes<br/>and complete audit findings"])
+
+  SCORES --> POLICY
+  STATE --> POLICY
+  RULES --> POLICY
+  POLICY --> OPTIONS --> ENGINEER --> RESULTS
+  POLICY -->|"unsupported"| SOP --> ENGINEER
+  RESULTS -. "update supported states" .-> STATE
+  RESULTS --> MON
+
+  classDef scoring fill:#dbeafe,stroke:#2563eb,color:#172554,stroke-width:2px;
+  classDef selection fill:#ccfbf1,stroke:#0f766e,color:#134e4a,stroke-width:2px;
+  classDef human fill:#dcfce7,stroke:#15803d,color:#14532d,stroke-width:2px;
+  classDef governance fill:#ede9fe,stroke:#7c3aed,color:#4c1d95,stroke-width:2px;
+  classDef fallback fill:#ffe4e6,stroke:#be123c,color:#881337,stroke-width:2px;
+  classDef portal fill:#f8fafc,stroke:#64748b,color:#334155,stroke-dasharray:5 4;
+
+  class STATE,RULES,POLICY,OPTIONS,RESULTS selection;
+  class ENGINEER human;
+  class SOP fallback;
+  class SCORES,MON portal;
