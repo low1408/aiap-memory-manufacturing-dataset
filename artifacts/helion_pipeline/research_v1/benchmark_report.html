@@ -1,0 +1,344 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Helion benchmark</title><style>body{font:16px/1.6 system-ui,sans-serif;max-width:1100px;margin:40px auto;padding:0 24px;color:#172033}table{border-collapse:collapse;font-size:13px;display:block;overflow:auto}td,th{padding:8px;border:1px solid #d5dce5;text-align:right}th{background:#eef2f6}img{max-width:100%}h1,h2,h3{line-height:1.2;color:#152846}code{background:#edf1f5;padding:2px 4px}a{color:#1260b3}</style><body><h1>Helion model pipeline and diagnostic benchmark</h1>
+<p><strong>Executed offline research · synthetic data and operating assumptions · retrospective test partition</strong></p>
+<h2>Result and interpretation</h2>
+<p>The full-context policy consumed <strong>$1,994.63 per test case</strong>, compared with <strong>$1,995.55 for the mock incumbent</strong> and <strong>$1,994.63 for the CT-first rules comparator</strong>. Its evidence-complete fraction was <strong>53.5%</strong>, compared with <strong>53.5%</strong> and <strong>53.5%</strong>, respectively. These are bounded-replay outcomes, including unfinished investigations—not measured fab savings or the cost of completing every investigation.</p>
+<p>The full-context policy changes consumed cost by <strong>-0.92 USD</strong> and the complete fraction by <strong>+0.01 percentage points</strong> against the mock baseline. Judge these jointly with diagnostic errors and uncertainty below. No operating winner or production release is selected.</p>
+<p><strong>The full-model and CT-first rules arms have identical aggregate cost, completion, error and nominal-duration outcomes in the base test replay. This benchmark therefore demonstrates no incremental diagnostic value from the model over that simple rules comparator.</strong></p>
+<h2>Evidence and design boundary</h2>
+<ul>
+<li>Supplied cohort: 916 synthetic rejected stacks; 653 train, 126 validation, 137 test. The seven simulator indicators are synthetic reference labels, not procedure findings.</li>
+<li>Test evidence includes six die-crack cases and two cases with coexisting faults. Test data had previously been inspected; this is retrospective evaluation.</li>
+<li>The original acceptance-failure benchmark targets a different decision and remains unchanged. It is not compared numerically with seven-fault prediction.</li>
+<li>MOCK-ENG-001 supplies the invented SOP comparator; SYN-OPS-001 supplies invented staff, dollar rates and report-error assumptions. Neither is validated Helion practice.</li>
+<li>Procedure histories, diagnostic effort, real audit membership and live calendars were not supplied. Newly generated records are explicitly simulated. 40 of 916 cases were independently assigned to the synthetic audit group, fixed across policies and report replications.</li>
+<li>Existing lot/time partitions are retained. Internal tuning uses the frozen expanding-lot folds with at least 21 days between fitting and scoring lot releases. Source chronology details in <code>validation.json</code> distinguish lot-release spacing from observed timestamp gaps; no genuine diagnostic-label availability timestamp exists.</li>
+</ul>
+<h2>1. Does manufacturing context improve fault prediction?</h2>
+<p>The full-context model does not improve either macro average precision or binary log loss over inspection/acceptance alone in these test point estimates. The full-minus-inspection differences are -0.0072 macro AP and +0.0194 binary log loss; higher AP and lower loss are preferred.</p>
+<table>
+<thead>
+<tr>
+  <th>variant</th>
+  <th>average_precision</th>
+  <th>binary_log_loss</th>
+  <th>brier_score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>full</td>
+  <td>0.497</td>
+  <td>0.251</td>
+  <td>0.081</td>
+</tr>
+<tr>
+  <td>inspection</td>
+  <td>0.504</td>
+  <td>0.231</td>
+  <td>0.077</td>
+</tr>
+<tr>
+  <td>manufacturing</td>
+  <td>0.189</td>
+  <td>0.408</td>
+  <td>0.123</td>
+</tr>
+<tr>
+  <td>prevalence</td>
+  <td>0.145</td>
+  <td>0.402</td>
+  <td>0.121</td>
+</tr>
+</tbody>
+</table>
+<p><img src="figures/prediction_comparison.png" alt="Fault prediction comparison" /></p>
+<p>One saved artifact contains alternative logistic pipelines with identical fitting protocols. Each has seven binary heads and training-only imputation, indicators, scaling and encoding. A shared C is chosen within training; no reweighting, oversampling or post-hoc calibration was fitted. Raw sigmoid probabilities are assessed rather than presumed calibrated. Per-label results, support, calibration-bin counts and paired full-minus-inspection bootstrap intervals are in the companion CSVs.</p>
+<p>Acceptance-derived inputs have substantial synthetic shortcuts: interconnect failures equal the TSV-plus-microbump truth count, acceptance gates are functions of fault subsets, and other acceptance readings depend on generated faults. The manufacturing-only comparison removes the nine acceptance predictors. High performance does not establish real-fab discrimination. <code>timing_margin_ps</code>, post-investigation annotations, IDs and simulator internals are prohibited predictors.</p>
+<p><img src="figures/calibration.png" alt="Calibration assessment" /></p>
+<h2>2. Do predictions improve diagnostic selection beyond rules?</h2>
+<table>
+<thead>
+<tr>
+  <th>arm</th>
+  <th>cost</th>
+  <th>pending_cost</th>
+  <th>complete</th>
+  <th>correctly_complete</th>
+  <th>unresolved_count</th>
+  <th>missed_faults</th>
+  <th>false_absences</th>
+  <th>false_positives</th>
+  <th>attempts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>ct_first</td>
+  <td>1994.631</td>
+  <td>747.591</td>
+  <td>0.535</td>
+  <td>0.484</td>
+  <td>1.614</td>
+  <td>0.238</td>
+  <td>0.024</td>
+  <td>0.066</td>
+  <td>3.750</td>
+</tr>
+<tr>
+  <td>full</td>
+  <td>1994.631</td>
+  <td>747.591</td>
+  <td>0.535</td>
+  <td>0.484</td>
+  <td>1.614</td>
+  <td>0.238</td>
+  <td>0.024</td>
+  <td>0.066</td>
+  <td>3.750</td>
+</tr>
+<tr>
+  <td>inspection</td>
+  <td>1994.631</td>
+  <td>747.591</td>
+  <td>0.535</td>
+  <td>0.484</td>
+  <td>1.614</td>
+  <td>0.238</td>
+  <td>0.024</td>
+  <td>0.066</td>
+  <td>3.750</td>
+</tr>
+<tr>
+  <td>manufacturing</td>
+  <td>1994.631</td>
+  <td>747.591</td>
+  <td>0.535</td>
+  <td>0.484</td>
+  <td>1.614</td>
+  <td>0.238</td>
+  <td>0.024</td>
+  <td>0.066</td>
+  <td>3.750</td>
+</tr>
+<tr>
+  <td>mock</td>
+  <td>1995.551</td>
+  <td>747.854</td>
+  <td>0.535</td>
+  <td>0.484</td>
+  <td>1.614</td>
+  <td>0.238</td>
+  <td>0.024</td>
+  <td>0.066</td>
+  <td>3.756</td>
+</tr>
+<tr>
+  <td>prevalence</td>
+  <td>1994.631</td>
+  <td>747.591</td>
+  <td>0.535</td>
+  <td>0.484</td>
+  <td>1.614</td>
+  <td>0.238</td>
+  <td>0.024</td>
+  <td>0.066</td>
+  <td>3.750</td>
+</tr>
+</tbody>
+</table>
+<p>Cost is USD per started case. Complete/correctly-complete columns are fractions; fault and unresolved columns are counts per case. Every case remains in the denominator. Pending cost values currently identifiable unattempted procedures; it is not an estimate of unknown manual review or eventual completion.</p>
+<p>The mock baseline performs triggered branches first. CT-first rules use the same safe procedure catalogue but may advance completeness work. The four heuristic arms use prevalence, inspection-only, full-context or manufacturing-only fault probabilities. They share the same evidence requirements, scope restrictions, report draws, audit assignment and one-attempt limit. This separates a simple rule improvement from predictive value.</p>
+<p>The heuristic uses (1 − inconclusive probability) × predicted unresolved positive coverage / resource cost, with equal importance weights and 60% gross-delamination coverage for CT. It does not fully value negative findings, model expected continuation cost or establish an optimal sequence. Findings update evidence and eligibility; initial fault probabilities do not become automatically updated posteriors.</p>
+<p>The base assumptions explain why changing probabilities may not change the procedure set. CT's delamination contribution is <code>0.90 × 0.60 × p(D) / 120 = 0.0045 × p(D)</code>; acoustic's is <code>0.85 × p(D) / 200 = 0.00425 × p(D)</code>. CT also receives greater void coverage per dollar and any unresolved warpage contribution. Consequently this particular heuristic ranks an eligible, unattempted CT ahead of acoustic. Learned scores can change other ordering without changing the evidence eventually collected. This is a consequence of the exercise's catalogue and heuristic, not a claim that ML can never help a real lab.</p>
+<p><img src="figures/diagnostic_tradeoffs.png" alt="Diagnostic cost and quality trade-offs" /></p>
+<p>The empirical nondominance table also considers unresolved questions, false absences, false positives, incorrect completion and nominal duration. Point-estimate nondominance is not evidence of statistical superiority. Identical procedure sets cost the same in any eligible order. A true delamination finding is useful; omitting required delamination investigation merely to reduce spending is not an equal-completeness comparator.</p>
+<h3>Paired uncertainty against the mock baseline</h3>
+<table>
+<thead>
+<tr>
+  <th>arm</th>
+  <th>metric</th>
+  <th>paired_mean_difference</th>
+  <th>lot_bootstrap_low</th>
+  <th>lot_bootstrap_high</th>
+  <th>mc_standard_error</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>ct_first</td>
+  <td>cost</td>
+  <td>-0.920</td>
+  <td>-3.170</td>
+  <td>0.000</td>
+  <td>0.190</td>
+</tr>
+<tr>
+  <td>ct_first</td>
+  <td>complete</td>
+  <td>0.000</td>
+  <td>0.000</td>
+  <td>0.001</td>
+  <td>0.000</td>
+</tr>
+<tr>
+  <td>ct_first</td>
+  <td>missed_faults</td>
+  <td>-0.000</td>
+  <td>-0.001</td>
+  <td>0.000</td>
+  <td>0.000</td>
+</tr>
+<tr>
+  <td>ct_first</td>
+  <td>incorrectly_complete</td>
+  <td>0.000</td>
+  <td>0.000</td>
+  <td>0.000</td>
+  <td>0.000</td>
+</tr>
+<tr>
+  <td>prevalence</td>
+  <td>cost</td>
+  <td>-0.920</td>
+  <td>-2.821</td>
+  <td>0.000</td>
+  <td>0.190</td>
+</tr>
+<tr>
+  <td>prevalence</td>
+  <td>complete</td>
+  <td>0.000</td>
+  <td>0.000</td>
+  <td>0.000</td>
+  <td>0.000</td>
+</tr>
+<tr>
+  <td>prevalence</td>
+  <td>missed_faults</td>
+  <td>-0.000</td>
+  <td>-0.000</td>
+  <td>0.000</td>
+  <td>0.000</td>
+</tr>
+<tr>
+  <td>prevalence</td>
+  <td>incorrectly_complete</td>
+  <td>0.000</td>
+  <td>0.000</td>
+  <td>0.000</td>
+  <td>0.000</td>
+</tr>
+<tr>
+  <td>inspection</td>
+  <td>cost</td>
+  <td>-0.920</td>
+  <td>-2.908</td>
+  <td>0.000</td>
+  <td>0.190</td>
+</tr>
+<tr>
+  <td>inspection</td>
+  <td>complete</td>
+  <td>0.000</td>
+  <td>0.000</td>
+  <td>0.000</td>
+  <td>0.000</td>
+</tr>
+<tr>
+  <td>inspection</td>
+  <td>missed_faults</td>
+  <td>-0.000</td>
+  <td>-0.000</td>
+  <td>0.000</td>
+  <td>0.000</td>
+</tr>
+<tr>
+  <td>inspection</td>
+  <td>incorrectly_complete</td>
+  <td>0.000</td>
+  <td>0.000</td>
+  <td>0.000</td>
+  <td>0.000</td>
+</tr>
+<tr>
+  <td>full</td>
+  <td>cost</td>
+  <td>-0.920</td>
+  <td>-2.843</td>
+  <td>0.000</td>
+  <td>0.190</td>
+</tr>
+<tr>
+  <td>full</td>
+  <td>complete</td>
+  <td>0.000</td>
+  <td>0.000</td>
+  <td>0.000</td>
+  <td>0.000</td>
+</tr>
+<tr>
+  <td>full</td>
+  <td>missed_faults</td>
+  <td>-0.000</td>
+  <td>-0.000</td>
+  <td>0.000</td>
+  <td>0.000</td>
+</tr>
+<tr>
+  <td>full</td>
+  <td>incorrectly_complete</td>
+  <td>0.000</td>
+  <td>0.000</td>
+  <td>0.000</td>
+  <td>0.000</td>
+</tr>
+<tr>
+  <td>manufacturing</td>
+  <td>cost</td>
+  <td>-0.920</td>
+  <td>-2.800</td>
+  <td>0.000</td>
+  <td>0.190</td>
+</tr>
+<tr>
+  <td>manufacturing</td>
+  <td>complete</td>
+  <td>0.000</td>
+  <td>0.000</td>
+  <td>0.000</td>
+  <td>0.000</td>
+</tr>
+<tr>
+  <td>manufacturing</td>
+  <td>missed_faults</td>
+  <td>-0.000</td>
+  <td>-0.000</td>
+  <td>0.000</td>
+  <td>0.000</td>
+</tr>
+<tr>
+  <td>manufacturing</td>
+  <td>incorrectly_complete</td>
+  <td>0.000</td>
+  <td>0.000</td>
+  <td>0.000</td>
+  <td>0.000</td>
+</tr>
+</tbody>
+</table>
+<p>The 95% percentile intervals use 1,000 paired lot-cluster bootstrap samples. Monte Carlo standard errors describe 100 repeated synthetic report draws on the same cases; they are reported separately. Neither quantifies uncertainty in the invented costs or procedure performance. All-case averages and audit/coexisting slices are supplied; rare slices require particular caution.</p>
+<h3>Unresolved paths and truth errors</h3>
+<p>An inconclusive CT can leave warpage unresolved; electrical isolation can leave DRAM/base questions unresolved; SEM can leave microbump/crack questions unresolved. IR localisation does not resolve a mechanism. Contradictions remain pending review. Independent nondestructive branches may continue, but destructive preparation is not authorised while intact-sample evidence/review remains open. No independent repeat-success draws or free manual resolutions are invented.</p>
+<p>An evidence-complete record may still be wrong because reports have synthetic false-positive and false-negative rates. Evaluation therefore uses hidden truth separately. The recommender never receives truth. Audit battery attempts, supported mechanism evidence and review requirements are distinct; an inconclusive audit is not a complete operational reference.</p>
+<h2>3. Can dispatch improve the existing scheduling example?</h2>
+<p><img src="figures/scheduling.png" alt="Bounded CT scheduling" /></p>
+<p>In Case D, A-first misses B's 10:00 scoped milestone; B-first meets both milestones if conclusive. <strong>Both orders cost $240.</strong> Actual incumbent dispatch is unknown. These two cases demonstrate timing feasibility, not a quarterly turnaround gain. Staff phases, equipment occupancy and sample conflicts are checked, not merely machine availability.</p>
+<p>Case A schedules CT 09:00–09:45 for $120. Case B schedules acoustic 09:00–10:30 and electrical isolation 12:00–16:00; with its prior $120 CT the illustrated cumulative cost is $920. SEM remains pending because the calendar ends at 24 hours. The $2,720 conclusive Case C path is a conditional nominal evidence/cost trace, not a future appointment. A stale calendar prevents new slot promises.</p>
+<h2>Sensitivity and reproducibility</h2>
+<p>All six policies are replayed for all three partitions under base assumptions. Numerical stresses are evaluated on the test partition with paired report draws: staff/equipment rates ×0.75/1.25 (supplies unchanged), q ±0.05, sensitivity −0.05 and specificity −0.02. Scheduling separately tests a 2/4-hour extension of the existing CT outage. These are assumption stresses, not confidence intervals. Correlated report errors and narrower real examination scope remain qualitative limitations; no new distributions were invented.</p>
+<p>Read <code>decision_metrics.csv</code> for base and stress outcomes, <code>replay_cases.parquet</code> for every case/arm/replication summary, and <code>replay_events.jsonl.gz</code> for every base-run recommendation and report. Stress reports are reproducible from recorded seeds and configuration. <code>run_manifest.json</code> records source/code checksums, dependencies and stage status. The single <code>model.joblib</code> must only be loaded from this trusted local run.</p>
+<h2>Operational boundary and next evidence</h2>
+<p>These dollar values measure consumed resource capacity, not entirely avoidable cash. No salaries, equipment depreciation or full system ownership costs are claimed as cash savings. Queue delays are not monetised. Nominal procedure-hour totals are not actual turnaround time; no future roster or whole-cohort arrivals are fabricated.</p>
+<p>No model release is qualified. The remaining evidence is the actual SOP/closure/repeat standard, representative complete audits, qualified diagnostic coverage and performance, observed operating costs, and fresh prospective comparisons. The independent 1-in-20 audit policy remains necessary; approximately 45 cases per quarter gives limited rare-mechanism evidence. Existing metrology sampling is unchanged. A valid recommendation remains to retain the rules if incremental ML value cannot be established.</p>
+</body></html>

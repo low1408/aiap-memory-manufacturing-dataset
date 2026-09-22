@@ -1,63 +1,68 @@
 # Helion diagnostic-selection and scheduling presentation
 
 **Audience:** apprentice team and mentors. **Team:** Group 8, member names to be supplied.  
-**Format:** eight slides, 10 minutes, followed by individual viva questions. This Markdown outline includes speaker notes, not a generated slide deck. The [completed notebook](P1_ml_systems_helion.ipynb) is the detailed source of truth. No model, simulator or scheduler has been implemented for this design. The examples below demonstrate assumptions and arithmetic, without establishing performance or savings.
+**Format:** eight slides, 10 minutes, followed by individual viva questions. This Markdown outline includes speaker notes, not a generated slide deck.
 
-**Scope provenance:** The original [client brief](../problem-statement/helion_semiconductor_client_brief.md) specifies one model and one next-test decision. The user requested shared-resource scheduling on **21 September 2026**. This proposal incorporates that expansion without implying course or client approval. The [mock rules](mock_engineering_inspection_rules.md) and [synthetic operating assumptions](../synthetic-data-assumptions/operation-assumptions/synthetic_operating_assumptions.md), version `SYN-OPS-001`, make the demonstration concrete. They do not supply the missing real SOP or operational evidence.
+**Evidence version:** This revision incorporates the executed offline research run `research_v1`. The [benchmark report](../artifacts/helion_pipeline/research_v1/benchmark_report.md) and [executed pipeline walkthrough](../artifacts/helion_pipeline/research_v1/pipeline_walkthrough.ipynb) supply the measured research results. The [design notebook](P1_ml_systems_helion.ipynb) supplies the original rationale and proposed operating architecture. Separate those proposed capabilities from the implemented offline pipeline throughout the talk.
+
+**Scope provenance:** The original [client brief](../problem-statement/helion_semiconductor_client_brief.md) specifies one model and one next-test decision. The user expanded the work to shared-resource scheduling and an offline benchmark. The [mock rules](mock_engineering_inspection_rules.md), version `MOCK-ENG-001`, and [synthetic operating assumptions](../synthetic-data-assumptions/operation-assumptions/synthetic_operating_assumptions.md), version `SYN-OPS-001`, define the experiment. They do not supply the missing real SOP or operational evidence. Results below use synthetic data and assumed diagnostic performance. No production release or measured fab savings are established.
 
 | Slide | Topic | Duration | Elapsed |
 |---|---|---:|---:|
 | 1 | Objective and decision ownership | 0:45 | 0:45 |
-| 2 | Workflow and mock comparator | 1:00 | 1:45 |
+| 2 | Implemented pipeline and fair comparators | 1:00 | 1:45 |
 | 3 | Evidence and operating assumptions | 1:15 | 3:00 |
-| 4 | Fault predictions, outcomes and dollar costs | 1:30 | 4:30 |
-| 5 | A feasible two-stack schedule | 1:15 | 5:45 |
-| 6 | Evaluation at equal diagnostic completeness | 1:45 | 7:30 |
-| 7 | Local operation, monitoring and fallback | 1:30 | 9:00 |
-| 8 | Trade-offs and evidence needed next | 1:00 | 10:00 |
+| 4 | Fault-prediction findings | 1:30 | 4:30 |
+| 5 | Diagnostic selection versus the baselines | 1:45 | 6:15 |
+| 6 | Bounded scheduling findings | 1:15 | 7:30 |
+| 7 | Proposed operation, monitoring and fallback | 1:30 | 9:00 |
+| 8 | Interpretation and next experiments | 1:00 | 10:00 |
 
 Timings total **600 seconds**, including pauses for calculations and architecture. Speaker notes guide rehearsal. Evidence references need not be spoken. Assign presenters, but everyone should be able to defend each decision. [Assessment format and seven dimensions](../problem-statement/PRESENTATION_RUBRIC_APPRENTICE.md)
 
 ## Slide 1: Diagnostic selection and shared resources
 
-**Time:** 0:00–0:45. **Key message:** Minimise expected completion cost while meeting the same diagnostic requirements.
+**Time:** 0:00–0:45. **Key message:** Evaluate prediction, diagnostic selection and scheduling separately against the business objective.
 
 **On screen**
 
-- Next procedure for each rejected stack
-- Equipment, qualified staff and start time across stacks
-- Completeness, evidence preservation and resource feasibility remain constraints
+- Objective: lower investigation cost and turnaround under the same completeness requirements
+- Does manufacturing context improve fault prediction?
+- Do predictions improve the next-test choice beyond rules?
+- Can dispatch improve the existing scheduling examples?
 - Engineer owns diagnosis and closure. Shift coordinator owns dispatch.
 
 **Speaker notes**
 
-Helion investigates roughly 900 rejected stacks each quarter. We propose helping the engineer choose the next diagnostic procedure, then coordinating shared staff and equipment. The objective is lower expected investigation cost at unchanged diagnostic completeness, with turnaround reported separately. A real coexisting fault is a useful finding even when it adds work. Comparing a complete investigation with a cheaper incomplete one would misstate value. The engineer approves procedures and closure. A coordinator or designated shift lead approves dispatch. These are proposed responsibilities. Our synthetic operating scenario makes decisions calculable, but establishes neither savings nor readiness for production.
+Helion wants the on-duty engineer to choose the next diagnostic procedure while accounting for cost and useful completeness. Our research now tests three links: predicting faults, selecting procedures and scheduling shared resources. Better prediction alone need not change the work required. A real coexisting fault remains useful even when it adds work. The engineer retains closure authority, with a proposed coordinator role for dispatch. The headline finding is that the model predicts some synthetic faults usefully, but adds no demonstrated diagnostic value over CT-first rules in this experiment. Scheduling changes milestone feasibility in the bounded example.
 
 **Evidence:** Volume and objective: [brief](../problem-statement/helion_semiconductor_client_brief.md). Expanded scope: user request, 21 September 2026. Proposed design: [notebook context](P1_ml_systems_helion.ipynb#helion-context). **Rubric:** 1, framing and fit.
 
-## Slide 2: Workflow and mock comparator
+## Slide 2: Implemented pipeline and fair comparators
 
-**Time:** 0:45–1:45. **Key message:** The exercise now has an explicit comparator with independently tracked fault questions.
+**Time:** 0:45–1:45. **Key message:** The same evidence and completeness rules govern every policy.
 
 **On screen**
 
-1. Acceptance rejection and initial observations
-2. Eligible procedure, feasible appointment and scoped findings
-3. Updated mechanism states and engineer review
+**Implemented offline:** validation, training, saved-model scoring, paired diagnostic replay, bounded scheduling and reporting.
 
-**Mock fixed priority:** CT, acoustic, electrical isolation, conditional IR, then SEM.
+| Comparator | Next-procedure choice |
+|---|---|
+| Mock incumbent | Triggered work first, then completeness work, in fixed order |
+| CT-first rules | Consider triggered and completeness work together in CT-first order |
+| Four heuristic arms | Same coverage/cost score with prevalence, inspection, full or manufacturing-only probabilities |
 
-**Mock closure:** all seven mechanisms have supported present/absent findings, with no unresolved contradictions. Otherwise retain partial status.
+**Shared closure:** supported findings for all seven mechanisms, no unresolved contradictions, and any audit obligations satisfied. One attempt per procedure. Unfinished work remains pending.
 
 **Speaker notes**
 
-Acceptance testing has already rejected the stack, which will be scrapped regardless. Diagnostic findings inform process investigation without themselves proving which machine or recipe caused the defect. The real brief describes inspection rules and fixed order but omits the full SOP. Our invented comparator supplies explicit thresholds, eligible-test priority and a conservative all-seven closure rule. Its order is CT, acoustic, electrical isolation, conditional IR and SEM. An electrical trigger creates an obligation, not universal electrical-first precedence. After every report, update only examined mechanisms. A TSV finding leaves microbump unresolved. Preserve required intact-sample evidence before destructive work. A CT negative about gross delamination cannot exclude finer delamination. Actual deployment still requires the real qualified standard.
+Acceptance has already rejected the stack. Diagnostic findings inform later process investigation without proving which machine caused a defect. We implemented six policies with the same costs, report scope and conservative closure standard. The mock performs triggered branches first. CT-first can advance completeness work. The heuristic ranks eligible tests by inconclusive-adjusted predicted unresolved coverage per resource dollar. It is not an optimal continuation planner. Findings change evidence and eligibility while initial probabilities remain fixed. A low probability never confirms absence. A gross-delamination CT negative cannot exclude all delamination, and IR provides localisation only. Open intact-sample obligations or contradictions block destructive SEM. These restrictions let us compare policies without rewarding omitted necessary work.
 
-**Evidence:** [Brief workflow and procedures](../problem-statement/helion_semiconductor_client_brief.md), [mock rules §§2–5](mock_engineering_inspection_rules.md), [workflow walkthrough](workflow_walkthrough.md). **Rubric:** 1, baseline; 2, cost of incomplete diagnosis.
+**Evidence:** [Implemented pipeline and six comparators](../helion_pipeline/README.md), [benchmark §2](../artifacts/helion_pipeline/research_v1/benchmark_report.md#2-do-predictions-improve-diagnostic-selection-beyond-rules), [mock rules §§2–5](mock_engineering_inspection_rules.md). **Rubric:** 1, baseline and task fit; 2, cost of incomplete diagnosis; 3, reproducible pipeline.
 
 ## Slide 3: Evidence and operating assumptions
 
-**Time:** 1:45–3:00. **Key message:** The scenario fills demonstration inputs while the production evidence gaps remain open.
+**Time:** 1:45–3:00. **Key message:** Supplied synthetic labels and invented operating assumptions support a retrospective experiment.
 
 **On screen**
 
@@ -65,95 +70,108 @@ Acceptance testing has already rejected the stack, which will be scrapped regard
 |---|---|
 | 916 rejected stacks and seven synthetic fault labels | 8 technicians and 8 diagnostic engineers |
 | 653 / 126 / 137 train/validation/test rejects | Skills, shift calendars and existing reservations |
-| 21 stacks with coexisting faults | Dollar rates, task phases and test sensitivity/specificity |
+| Test: six die-crack cases and two coexisting-fault cases | Dollar rates, task phases and test sensitivity/specificity |
 
-- Four Yield Engineering system owners come from the brief, separate from invented lab staff
-- Still missing: actual diagnostic history, effort, audit membership and qualified SOP
-- Preserve lot/time splits and missingness reasons. Exclude simulator internals and later annotations.
+**Assumed cost per attempt:** CT $120, acoustic $200, electrical isolation $600, IR $150, SEM $1,800.
 
-**Speaker notes**
-
-The files contain 17,793 stacks, including 916 rejects and 21 rejects with coexisting faults. Their synthetic labels do not establish actual diagnostic performance. Our new scenario adds eight shared technicians and eight diagnostic quality engineers, separate from the brief's four Yield Engineering system owners. It specifies practical capacity, skills, a one-day roster and existing reservations. Headcount alone does not guarantee qualified staff for a particular appointment. Neither the roster nor invented outcome rates replace missing operating history. Preserve the existing lot and time splits. Exclude post-investigation annotations, simulator internals and the synthetic timing-margin shortcut. Retain reasons for missing measurements. Untested diagnostic labels stay unknown rather than becoming negatives. Independent full-battery audits remain protected, regardless of model priority or queue pressure. Their membership and complete findings must be collected for real evaluation.
-
-**Evidence:** [README](../README.md), [notebook evidence](P1_ml_systems_helion.ipynb#helion-evidence), [operating assumptions §§1–5](../synthetic-data-assumptions/operation-assumptions/synthetic_operating_assumptions.md). **Rubric:** 3, data and pipeline reasoning.
-
-## Slide 4: Fault predictions, outcomes and dollar costs
-
-**Time:** 3:00–4:30. **Key message:** A fault probability informs the decision, while test performance and resource costs determine its consequences.
-
-**On screen**
-
-| Procedure | Synthetic resource cost per attempt |
-|---|---:|
-| X-ray / CT | $120 |
-| Acoustic microscopy | $200 |
-| Electrical isolation | $600 |
-| Thermal / IR | $150 |
-| Cross-section + SEM | $1,800 |
-
-- One regularised multilabel logistic candidate predicts seven initial fault probabilities
-- Cost = technician labour + engineer labour + occupied equipment + supplies
-- Illustrative acoustic example: 70% fault prior, 58.225% positive report, 15% inconclusive
-- Decision target: immediate cost plus expected remaining cost, among feasible adequate paths
+- Some permitted acceptance readings directly encode synthetic fault information
+- Still missing: real diagnostic histories, audit findings, qualified SOP and operating costs
 
 **Speaker notes**
 
-Regularised logistic regression remains our initial candidate because it is simple to inspect. Its seven probabilities can coexist and do not sum to one. Staff availability affects feasible actions rather than changing the underlying fault merely because a shift is busy. The synthetic cost model charges resource consumption. Acoustic microscopy costs thirty-five dollars of technician time, fifty-five of engineer time, ninety of equipment and twenty of supplies, totalling two hundred dollars. These allocations are not equivalent to cash savings. Outcome assumptions are separate: with a seventy-percent delamination prior, ninety-seven-percent sensitivity, ninety-eight-percent specificity conditional on a conclusive examination, and fifteen-percent inconclusiveness, the positive-report probability is 58.225 percent. Reports can be wrong. None of these numbers came from training. The earlier coverage-per-cost score remains an unvalidated heuristic. In walkthrough Case B, the mock rules already choose acoustic first, so the same recommendation shows no incremental ML benefit. A fuller method would compare expected remaining paths, including useful negative evidence. No such planner is implemented, and initial fault scores do not automatically update after findings.
+We retained the 653, 126 and 137 rejected-stack partitions with lot/time separation. All training targets come from supplied synthetic truth. Preprocessing fits training data only. IDs, later annotations, simulator internals and timing margin are excluded. Even so, permitted acceptance readings contain shortcuts: the detected-interconnect count equals the generated TSV-plus-microbump fault count. The manufacturing-only comparison exposes dependence on those inputs. Test data was already inspected, so findings are retrospective. Six crack cases and two coexisting cases limit conclusions. Staff, dollar rates and report-error rates are assumptions. Costs charge technician and engineer labour, equipment occupancy and supplies. They represent consumed resources, not wholly avoidable cash. Forty cases received an independent synthetic audit assignment, fixed across policies. Real independent complete audits remain missing.
 
-**Evidence:** [Operating assumptions §§3 and 5, including formulas](../synthetic-data-assumptions/operation-assumptions/synthetic_operating_assumptions.md), [numeric JSON](../synthetic-data-assumptions/operation-assumptions/synthetic_operating_assumptions.json), [workflow walkthrough](workflow_walkthrough.md), [notebook policy](P1_ml_systems_helion.ipynb#helion-policy). **Rubric:** 1, target and fit; 2, cost; 6, model limitations.
+**Evidence:** [Benchmark evidence boundary](../artifacts/helion_pipeline/research_v1/benchmark_report.md#evidence-and-design-boundary), [data validation](../artifacts/helion_pipeline/research_v1/validation.json), [operating assumptions §§1–5](../synthetic-data-assumptions/operation-assumptions/synthetic_operating_assumptions.md). **Rubric:** 3, data and leakage; 2, dollar-cost interpretation.
 
-## Slide 5: A feasible two-stack schedule
+## Slide 4: Fault-prediction findings
 
-**Time:** 4:30–5:45. **Key message:** Availability and deadlines can change the next appointment without changing fault probabilities.
+**Time:** 3:00–4:30. **Key message:** Manufacturing context adds no demonstrated predictive benefit over inspection/acceptance alone.
 
 **On screen**
 
-**Synthetic snapshot:** 08:00 origin. CT, TECH-01 and QE-01 unavailable until 09:00.
+**Retrospective test cohort: 137 rejected stacks.** Seven independent binary logistic heads produce fault probabilities that need not sum to one.
 
-| Case and question milestone | CT appointment | Cost |
-|---|---|---:|
-| B: warpage question by 10:00 | 09:00–09:45 | $120 |
-| A: underfill question by 11:00 | 09:45–10:30 | $120 |
+| Input comparison | Macro average precision ↑ | Mean binary log loss ↓ |
+|---|---:|---:|
+| Constant training prevalence | 0.145 | 0.402 |
+| Inspection/acceptance | **0.504** | **0.231** |
+| Full allowed context | 0.497 | 0.251 |
+| Manufacturing/package only | 0.189 | 0.408 |
 
-**Reverse order:** B finishes at 10:30 and misses its milestone. Both orders cost $240.
+**0.497 is macro average precision:** a ranking summary averaged equally across seven faults. It does **not** mean 49.7% of diagnoses are correct.
 
-**Inconclusive B:** retain unresolved status and seek an approved plan. No automatic repeat or complete-closure claim.
+**Full-model weak points:** die crack AP 0.102, delamination 0.232, underfill void 0.281. Synthetic shortcuts limit real-world interpretation.
 
 **Speaker notes**
 
-At eight o'clock, CT and the relevant day-shift staff are already committed until nine. These reservations must stay. Our invented cases have question milestones: warpage for B by ten, underfill for A by eleven. Schedule B from nine to nine forty-five and A until ten thirty. TECH-01 prepares B from nine to nine fifteen and A from nine forty-five to ten. QE-01 interprets B from nine thirty to nine forty-five and A from ten fifteen to ten thirty. The phases do not conflict. Reversing the order misses B's milestone. Both orders consume two hundred forty dollars. This illustrates deadline feasibility, without showing savings or improvement over actual dispatch. If B is inconclusive, warpage remains unresolved, the mock SOP requires review, and A's accepted booking remains protected. These milestones concern individual questions, not complete investigation closure.
+We fitted regularised logistic regression with training-only imputation, missingness indicators, scaling and categorical encoding. All learned alternatives used the same training-lot folds and three-value regularisation search. A single saved artifact retains the research alternatives. Each has seven binary heads, so faults may coexist. Average precision summarises precision and recall across ranking thresholds. Macro averaging gives every mechanism equal weight. It differs from precision at a selected threshold and from diagnosis accuracy. Both acceptance-based variants exceed the 0.145 prevalence reference, but full context does not improve the point estimates. The paired 95% interval for full-minus-inspection macro AP spans −0.058 to +0.047, so the small AP difference is uncertain. Full-model Brier score is 0.081 versus inspection's 0.077, with lower preferred. Calibration was assessed without fitting an extra calibrator. Strong electrical prediction and weak rare-fault prediction should not disappear inside one average.
 
-**Evidence:** [Operating assumptions §§3–4](../synthetic-data-assumptions/operation-assumptions/synthetic_operating_assumptions.md), [mock exceptions](mock_engineering_inspection_rules.md#5-exceptions-and-fallback-rules), [workflow scheduling case](workflow_walkthrough.md). **Rubric:** 2, deadline consequences; 7, defence through a worked case.
+**Visual option:** [Prediction comparison](../artifacts/helion_pipeline/research_v1/figures/prediction_comparison.png). Use the table or chart on screen, without duplicating both.
 
-## Slide 6: Evaluation at equal diagnostic completeness
+**Evidence:** [Predictive metrics, test rows](../artifacts/helion_pipeline/research_v1/predictive_metrics.csv), [paired uncertainty](../artifacts/helion_pipeline/research_v1/predictive_paired_comparisons.csv), [calibration figure](../artifacts/helion_pipeline/research_v1/figures/calibration.png), [training record](../artifacts/helion_pipeline/research_v1/training.json). **Rubric:** 1, target and fit; 2, metric meaning; 6, model limitations.
 
-**Time:** 5:45–7:30. **Key message:** Separate selection effects from scheduling effects and count every pending obligation.
+## Slide 5: Diagnostic selection versus the baselines
+
+**Time:** 4:30–6:15. **Key message:** The model adds no demonstrated diagnostic benefit over CT-first rules under these assumptions.
 
 **On screen**
 
-| Comparison | Diagnostic selection | Dispatch |
-|---|---|---|
-| A | Mock rules | Explicit reference dispatch |
-| B | Proposed policy | Same reference dispatch |
-| C | Mock rules | Proposed scheduler |
-| D | Proposed policy | Proposed scheduler |
+**Base test replay: 137 cases × 100 paired report replications per policy.**
 
-- Same cohort, resources, evidence scope and diagnostic quality requirement
-- CT + acoustic + electrical + SEM once each = **$2,720**, in any eligible order
-- IR adds **$150** when required. Inconclusive attempts and follow-up cost extra.
-- Report resource cost, labour/equipment use, turnaround, open cases and missed co-faults
+| Policy | Mean resource dollars consumed/case | Evidence complete | Correctly complete against truth |
+|---|---:|---:|---:|
+| Mock incumbent | $1,995.55 | 53.53% | 48.41% |
+| CT-first rules | $1,994.63 | 53.54% | 48.42% |
+| Full-model heuristic | $1,994.63 | 53.54% | 48.42% |
+
+- Full model and CT-first match on cost, completion, errors and nominal duration in all **13,700 paired runs**
+- Full versus mock: **−$0.92/case**, 95% lot-bootstrap interval **[−$2.84, $0.00]**
+- Full model still has **$747.59/case** of known pending procedures on average
+- Every case counts, including unfinished investigations. These are simulated resource costs, not demonstrated fab savings.
 
 **Speaker notes**
 
-Four comparisons distinguish diagnostic selection from scheduling and their interaction. An explicit mock dispatch can support the demonstration, while real evaluation needs actual incumbent dispatch. The conservative closure rule often requires CT, acoustic, electrical isolation and SEM. Running each once costs 2,720 dollars, irrespective of order. IR adds one hundred fifty dollars when required. Even one complete battery does not guarantee correct or conclusive findings. A true coexisting defect is valuable. The comparison must hold diagnostic adequacy constant, and count unresolved obligations rather than hiding expensive deferred work. Report standard resource costs separately from avoidable expenditure and turnaround. Include system maintenance and coordination effort. Test assumptions about costs, outages and outcome errors, including correlated errors and limited examination scope. Simulated changes describe the assumptions, not proven benefit. Real validation needs independent complete audits, roughly forty-five per quarter, with uncertainty for rare mechanisms. Shared queues require time-block comparisons and carryover handling rather than treating every stack as independent. Shadow operation precedes a qualified controlled pilot. A cost-saving claim requires equal diagnostic quality.
+Policies received the same potential reports for each sample and procedure, with shared audit assignments. A hundred replications vary assumed report outcomes on the same cases. They do not create new independent samples. The full model and CT-first produce identical key outcomes despite different procedure order in 5,796 paired runs. Prevalence and the other model heuristics also match the CT-first aggregate outcomes. Consequently the tiny difference from the mock cannot be credited to ML. Under this catalogue, CT already earns a high coverage-per-dollar score, and changing order often leaves the necessary procedure set unchanged. CT, acoustic, electrical and SEM once each still cost $2,720. Evidence-complete reports can be wrong, which explains the lower correctly-complete rate. Pending dollars cover known unattempted procedures only. Manual review and future resolution remain unpriced. One-attempt limits and blocked destructive work explain much of the unresolved work. The 1,000 paired lot-cluster bootstrap resamples quantify case uncertainty separately from Monte Carlo variation. Cost, report-error and outage stresses test assumptions, without establishing real-world benefit.
 
-**Evidence:** [Operating assumptions §§3, 5–6](../synthetic-data-assumptions/operation-assumptions/synthetic_operating_assumptions.md), [notebook evaluation](P1_ml_systems_helion.ipynb#helion-evaluation), [brief audit fraction](../problem-statement/helion_semiconductor_client_brief.md). **Rubric:** 2, metrics; 3, reference labels; 6, attribution and uncertainty.
+**Visual option:** [Diagnostic cost and quality trade-offs](../artifacts/helion_pipeline/research_v1/figures/diagnostic_tradeoffs.png). Overlapping points reflect identical results, not missing policies.
 
-## Slide 7: Local operation, monitoring and fallback
+**Evidence:** [Decision metrics, base/test rows](../artifacts/helion_pipeline/research_v1/decision_metrics.csv), [paired uncertainty, full/cost row](../artifacts/helion_pipeline/research_v1/decision_uncertainty.csv), [paired equality check](../artifacts/helion_pipeline/research_v1/verification.json), [benchmark interpretation and stresses](../artifacts/helion_pipeline/research_v1/benchmark_report.md). **Rubric:** 2, costs and diagnostic quality; 3, paired evaluation; 6, attribution and uncertainty.
 
-**Time:** 7:30–9:00. **Key message:** Nightly fault scores combine with current findings and resource calendars inside the fab.
+## Slide 6: Bounded scheduling findings
+
+**Time:** 6:15–7:30. **Key message:** Dispatch changes scoped milestone feasibility while the two-test cost stays $240.
 
 **On screen**
+
+**Synthetic Case D:** CT, TECH-01 and QE-01 unavailable until 09:00. Existing commitments remain protected.
+
+| Dispatch | First CT | Second CT | Scoped milestones, if conclusive | Total cost |
+|---|---|---|---|---:|
+| Reference A-first | A 09:00–09:45 | B 09:45–10:30 | B misses 10:00 | $240 |
+| Earliest deadline first | B 09:00–09:45 | A 09:45–10:30 | B meets 10:00, A meets 11:00 | $240 |
+
+Both orders finish the two appointments at 10:30.
+
+- Qualified staff phases, equipment occupancy and specimen exclusivity enforced
+- Inconclusive findings stay unresolved, with independent permitted work continuing
+- Scheduling covers the existing 24-hour fixtures only. Cohort duration totals are nominal, not actual turnaround.
+
+**Speaker notes**
+
+The scheduler uses the existing one-day snapshot, with commitments before nine preserved. B needs its warpage question addressed by ten. A's underfill milestone is eleven. Putting B first meets both milestones if CT gives conclusive evidence. TECH-01 prepares each stack for fifteen minutes, and QE-01 interprets the final fifteen minutes. These phases and equipment reservations do not conflict. A-first misses B's milestone, although both orders cost $240. This demonstrates feasible dispatch against the documented reference, while actual incumbent dispatch remains unknown. An inconclusive B stays unresolved and does not cancel A's accepted booking. In Case B, $920 is spent after CT, acoustic and electrical work, with SEM pending. Case C's $2,720 conclusive path remains a conditional cost trace because the supplied calendar cannot support a future SEM appointment.
+
+**Visual option:** [Executed scheduling comparison](../artifacts/helion_pipeline/research_v1/figures/scheduling.png).
+
+**Evidence:** [Scheduling output](../artifacts/helion_pipeline/research_v1/scheduling.json), [deterministic walkthrough results](../artifacts/helion_pipeline/research_v1/walkthroughs.json), [operating assumptions §§3–4](../synthetic-data-assumptions/operation-assumptions/synthetic_operating_assumptions.md). **Rubric:** 2, time and resource costs; 7, defence through a worked case.
+
+## Slide 7: Proposed operation, monitoring and fallback
+
+**Time:** 7:30–9:00. **Key message:** The offline package tests the design. Fab integration and qualification remain proposed.
+
+**On screen**
+
+**Implemented:** reproducible offline CLI, saved preprocessing/models, simulated evidence, bounded scheduler and reports.  
+**Proposed architecture below:** nightly MES ingestion, local engineer interface, live calendars, monitoring and qualified release.
 
 Offline viewing: [diagram image](images/helion-architecture.png) and [editable Mermaid source](images/helion-architecture.mmd).
 
@@ -195,28 +213,38 @@ flowchart TB
 
 **Speaker notes**
 
-Nightly MES imports supply validated features and initial scores inside the air-gapped fab. Findings and current resource events update procedure eligibility and the local schedule between imports. Staff qualifications apply to individual phases. The one-day synthetic calendar cannot justify a multi-day SEM completion promise, so future reservations need additional availability records. Failed imports use existing diagnostic rules. Stale resources prevent new automated slot promises, with manual coordination preserving commitments. Monitoring separates input drift from outcome deterioration. While audit labels are delayed, queue age, inconclusive frequency and engineer overrides provide warning proxies, not proof of accuracy. Yield Engineering reviews outcomes, lab operations owns calendars, and IT handles ingestion and service alerts. A new tool or supplier triggers qualification review. Independent audits remain protected. Retraining produces a candidate for reviewed release, never an automatic replacement. Versioned features, model, policy and scheduling rules support rollback and reproducible review.
+The diagram remains the proposed fab architecture. Our implementation is an offline CLI with saved preprocessing, recorded seeds, dependencies and checksums. It installs no nightly job, interface or production service. Proposed nightly scoring fits the local environment, while findings and resource events would update eligibility and uncommitted bookings between imports. Failed imports produce no fresh scores. Missing required records or unknown tool/supplier conditions route to rules or manual review, and stale calendars prevent new slot promises. Monitoring would separate input drift from audited outcome deterioration. Queue age, inconclusive frequency and engineer overrides are early proxies while labels arrive. Yield Engineering would own outcome review, lab operations the calendars, and IT ingestion alerts. New tools or suppliers trigger qualification review. Independent audits stay protected. Only qualified, complete audit findings enter the reference-label cohort. Inconclusive or contradictory audits remain incomplete. Only reviewed candidates could replace a qualified model. These operational controls still require real records and prospective testing.
 
-**Evidence:** [Brief constraints](../problem-statement/helion_semiconductor_client_brief.md), [operating calendar](../synthetic-data-assumptions/operation-assumptions/synthetic_operating_assumptions.md#4-a-concrete-availability-snapshot), [notebook operations](P1_ml_systems_helion.ipynb#helion-operations) and [scheduling](P1_ml_systems_helion.ipynb#helion-scheduling). **Rubric:** 4, serving fit; 5, monitoring and feedback.
+**Evidence:** [Implemented boundaries and fallback](../helion_pipeline/README.md), [run manifest](../artifacts/helion_pipeline/research_v1/run_manifest.json), [brief constraints](../problem-statement/helion_semiconductor_client_brief.md), [proposed notebook operations](P1_ml_systems_helion.ipynb#helion-operations). **Rubric:** 4, serving fit and reproducibility; 5, monitoring and feedback.
 
-## Slide 8: Trade-offs and evidence needed next
+## Slide 8: Interpretation and next experiments
 
-**Time:** 9:00–10:00. **Key message:** The design is ready for a transparent scenario review, with empirical qualification still ahead.
+**Time:** 9:00–10:00. **Key message:** Model improvements must earn value beyond rules under a qualified diagnostic standard.
 
 **On screen**
 
-- Retain a simple fault model and explicit decision constraints
-- Review mock SOP, outcome errors and cost sensitivity through worked cases
-- Replace assumptions with approved lab, finance and quality records
-- Collect evidence before shadow evaluation and a controlled pilot
-- Keep incumbent selection if only scheduling demonstrates value
+- Finding: full context adds no demonstrated benefit over inspection prediction or CT-first diagnostic selection
+- Prediction work: inspect weak-fault errors, feature availability and regularisation using training-lot validation
+- Decision work: qualify the real SOP, valid alternative paths, report scope and continuation costs
+- Collect representative complete audits and fresh prospective evidence before a shadow study or controlled pilot
+- Retaining rules remains a valid outcome. No policy is selected for operational release.
 
 **Speaker notes**
 
-The new assumptions support a reviewable exercise without resolving the empirical gaps. We deliberately avoid a complex policy learner before obtaining procedure histories and qualification rules. First review the walkthrough with engineers, including coexisting faults, inconclusive reports, missing data, failed imports and a new supplier. Lab operations validates skills and task phases. Finance validates resource rates. Quality qualifies scope, report interpretation and closure. Replace assumptions before operational evaluation. The four Yield Engineering owners remain distinct from the invented shared diagnostic staff, but both teams would incur support work. If improved scheduling helps and the classifier adds no incremental value, retain the rules with independently justified scheduling. If neither earns its overhead, retain current practice. The team must be able to defend this possibility in the viva.
+Improving the 0.497 macro AP alone would not establish business benefit. Investigate errors for cracks, voids and delamination, then test limited feature or regularisation changes using training-lot validation. Avoid repeated optimisation against this already-inspected test cohort. In parallel, engineers must identify where qualified alternative procedures could change completion cost. Lab operations and finance should replace invented calendars and rates. Quality must confirm report scope, repeat rules and closure. Roughly forty-five stacks per quarter would be selected for full-battery audits, with fewer potentially yielding complete supported labels. Rare-fault evidence will be limited, so pool history carefully and retain a fresh prospective evaluation. Any subsequent shadow study and pilot need qualification first. The experiment supports honest uncertainty and a continued rules-based option, rather than an automatic model release.
 
-**Evidence:** [Workflow walkthrough](workflow_walkthrough.md), [operating assumptions §6](../synthetic-data-assumptions/operation-assumptions/synthetic_operating_assumptions.md#6-how-to-use-and-challenge-the-assumptions), [notebook blueprint](P1_ml_systems_helion.ipynb#helion-blueprint), [rubric](../problem-statement/PRESENTATION_RUBRIC_APPRENTICE.md). **Rubric:** 6, prioritisation; 7, honest defence.
+**Evidence:** [Benchmark limitations and next evidence](../artifacts/helion_pipeline/research_v1/benchmark_report.md#operational-boundary-and-next-evidence), [operating assumptions §6](../synthetic-data-assumptions/operation-assumptions/synthetic_operating_assumptions.md#6-how-to-use-and-challenge-the-assumptions), [brief audit requirement](../problem-statement/helion_semiconductor_client_brief.md), [rubric](../problem-statement/PRESENTATION_RUBRIC_APPRENTICE.md). The proposed improvement experiments have not been run in `research_v1`. **Rubric:** 6, prioritisation; 7, honest defence.
 
 ## Rehearsal and viva handoff
 
-Use the [viva preparation](viva_preparation.md) for individual practice, supplemented by the current [workflow walkthrough](workflow_walkthrough.md) and versioned [operating assumptions](../synthetic-data-assumptions/operation-assumptions/synthetic_operating_assumptions.md). Every presenter should distinguish fault probability, report probability, completeness and feasible scheduling. Recalculate the $200 acoustic cost and the $240 two-stack schedule. Explain why the $2,720 once-each path has unchanged execution cost when reordered, and why discovering a real second fault remains valuable. Practise inconclusive and missing-data branches, a failed nightly import, stale calendars and a new tool/supplier. Member names, personal reflections and actual experiences must come from the team.
+Use the [viva preparation](viva_preparation.md) for design questions and the [executed pipeline walkthrough](../artifacts/helion_pipeline/research_v1/pipeline_walkthrough.ipynb) and [benchmark report](../artifacts/helion_pipeline/research_v1/benchmark_report.md) for current findings. Earlier design documents contain proposals that must not be presented as measured results. The questions below are rehearsal prompts, not the mentors' question bank.
+
+- **Why is 0.497 not “half the diagnoses correct”?** Explain macro average precision, the prevalence reference and per-fault support. Distinguish this from the separate 48.42% correctly-complete simulated investigation rate.
+- **Why can good prediction add no selection value?** Explain how mandatory evidence and the catalogue can preserve the procedure set despite changed order. The CT-first comparison isolates this in the current experiment.
+- **Is −$0.92 a demonstrated ML saving?** CT-first achieves the same result. The paired uncertainty includes zero, and consumed dollars exclude unresolved future work. All cases remain in the denominator.
+- **Why is a second true fault useful?** It supplies additional evidence for process investigation. Comparing policies requires the same completeness standard, so omitting it is not a fair saving.
+- **What do 100 replications establish?** Variation under assumed report outcomes for the same cases. Lot-bootstrap uncertainty, Monte Carlo variation and assumption stresses answer different questions.
+- **What does the scheduler establish?** Two feasible CT appointments and conditional milestone improvement for $240. It does not establish full-cohort turnaround or a future SEM slot.
+- **What would change the recommendation?** Qualified alternative diagnostic paths, representative audit outcomes and fresh evidence of incremental cost/quality value beyond the rules.
+
+Retain the [workflow walkthrough](workflow_walkthrough.md) for inconclusive, contradictory, coexisting-fault and missing-data branches. Practise failed imports, stale calendars, incomplete audits and new tool/supplier conditions. Recalculate the $200 acoustic cost, $920 spent before pending SEM, and the $2,720 conclusive path using the [operating assumptions](../synthetic-data-assumptions/operation-assumptions/synthetic_operating_assumptions.md). These rehearsal notes are outside the eight-slide timing. Member names, personal reflections and actual experiences must come from the team.

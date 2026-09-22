@@ -1,0 +1,285 @@
+% Helion research_v1 presentation. Compile with pdfLaTeX or `make`.
+% All tables, the schedule and the architecture remain editable in LaTeX.
+% Define \presenternotes before inputting this file to show notes at right.
+\documentclass[aspectratio=169,11pt]{beamer}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{booktabs,tabularx,array}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage{pgfpages}
+
+\definecolor{Navy}{HTML}{172D45}
+\definecolor{Teal}{HTML}{087F8C}
+\definecolor{Muted}{HTML}{506175}
+\definecolor{Amber}{HTML}{A65420}
+\definecolor{Pale}{HTML}{EEF6F6}
+\definecolor{Rule}{HTML}{D8E1E8}
+\setbeamercolor{normal text}{fg=Navy,bg=white}
+\setbeamercolor{structure}{fg=Teal}
+\setbeamercolor{frametitle}{fg=Navy,bg=white}
+\setbeamercolor{alerted text}{fg=Amber}
+\setbeamercolor{footline}{fg=Muted,bg=white}
+\setbeamerfont{normal text}{size=\small}
+\setbeamerfont{frametitle}{size=\LARGE,series=\bfseries}
+\setbeamersize{text margin left=8mm,text margin right=8mm}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\color{Teal}\small\textbullet}
+\setbeamertemplate{frametitle}{%
+  \vspace{3mm}\insertframetitle\par\vspace{1.4mm}%
+  {\color{Teal}\rule{\textwidth}{0.65pt}}\vspace{-1mm}}
+\setbeamertemplate{footline}{%
+  \hspace{8mm}\scriptsize Helion / Group 8\hfill
+  \scriptsize Synthetic research\hfill
+  \insertframenumber\,/\,\inserttotalframenumber\hspace{8mm}\vspace{3mm}}
+\setbeamertemplate{note page}{%
+  \vspace{5mm}\noindent%
+  \begin{minipage}{\textwidth}
+    {\large\bfseries\color{Navy}Presenter notes}\par\medskip
+    {\fontsize{9}{11}\selectfont\insertnote}
+  \end{minipage}}
+\ifdefined\presenternotes
+  \setbeameroption{show notes on second screen=right}
+  \hypersetup{draft}
+\else
+  \setbeameroption{hide notes}
+\fi
+\hypersetup{pdftitle={Helion: Diagnostic Selection and Scheduling},
+  pdfauthor={Group 8},pdfsubject={Offline synthetic research, research v1},
+  colorlinks=true,urlcolor=Teal,linkcolor=Navy}
+
+\newcommand{\lead}[1]{{\large\bfseries #1}\par\medskip}
+\newcommand{\source}[1]{\vfill{\fontsize{6.6}{8}\selectfont\color{Muted}Source: #1\par}}
+\newcommand{\smalltext}[1]{{\fontsize{9}{11.4}\selectfont #1\par}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\renewcommand{\arraystretch}{1.22}
+\input{speaker_notes.tex}
+
+\title{Helion: Diagnostic Selection and Scheduling}
+\author{Group 8}
+\date{21 September 2026}
+
+\begin{document}
+
+% 1. 0:00--0:45. The opening also carries the objective; no extra cover.
+\begin{frame}[t]{Helion: the next diagnostic decision}
+  \lead{Which procedure should the engineer run next?}
+  Lower investigation cost and turnaround, subject to the same
+  diagnostic completeness and safety requirements.
+
+  \vspace{4mm}
+  \begin{enumerate}
+    \setlength{\itemsep}{2mm}
+    \item Does manufacturing context improve \textbf{fault prediction}?
+    \item Do predictions improve \textbf{diagnostic selection} beyond rules?
+    \item Can dispatch improve the existing \textbf{scheduling examples}?
+  \end{enumerate}
+  \vspace{3mm}
+  \smalltext{The engineer owns diagnosis and closure. A proposed shift coordinator owns dispatch. Coexisting faults remain separate diagnostic obligations.}
+  \source{Client brief; expanded user scope; research\_v1 benchmark.}
+  \note{\SlideOneNotes}
+\end{frame}
+
+% 2. 0:45--1:45.
+\begin{frame}[t]{The experiment and its comparators}
+  \smalltext{\textbf{Offline pipeline:} validate, train, score, replay, schedule and report.}
+  \vspace{2mm}
+  \begin{tabularx}{\textwidth}{@{}p{3.3cm}Y@{}}
+    \toprule
+    \textbf{Policy} & \textbf{Next-procedure choice} \\
+    \midrule
+    Mock incumbent & Triggered work first, then remaining completeness work \\
+    CT-first rules & Consider triggered and completeness work together \\
+    Four heuristics & Coverage/cost with prevalence or one of three models \\
+    \bottomrule
+  \end{tabularx}\par
+  \vspace{3mm}
+  \smalltext{\textbf{Shared standard:} supported findings for all seven mechanisms,
+  no unresolved contradictions and satisfied audit obligations.}
+  \vspace{1.5mm}
+  \smalltext{One attempt per procedure. Unfinished work stays pending.
+  A low model probability cannot establish absence.
+  Unresolved intact-sample work blocks destructive SEM.}
+  \source{Pipeline README; MOCK-ENG-001; benchmark \S2. Same costs, report scope and paired report draws.}
+  \note{\SlideTwoNotes}
+\end{frame}
+
+% 3. 1:45--3:00.
+\begin{frame}[t]{Data and operating assumptions}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.49\textwidth}
+      {\large\bfseries Supplied synthetic data}\par\medskip
+      \textbf{916} rejected stacks, seven fault labels\par\smallskip
+      \textbf{653 / 126 / 137}\par
+      training / validation / test\par\smallskip
+      Test: \textbf{6} die-crack cases and\par
+      \textbf{2} cases with coexisting faults
+    \end{column}
+    \begin{column}{0.46\textwidth}
+      {\large\bfseries Assumed operations}\par\medskip
+      8 technicians and 8 diagnostic engineers\par\smallskip
+      Skills, one-day calendars and reservations\par\smallskip
+      Dollar rates, task phases and procedure error rates
+    \end{column}
+  \end{columns}
+  \vspace{4mm}
+  \smalltext{\textbf{Resource dollars per attempt:}\quad CT \$120\quad acoustic \$200\quad
+    electrical \$600\quad IR \$150\quad SEM \$1,800}
+  \vspace{2mm}
+  \smalltext{\alert{Some allowed acceptance readings directly encode generated faults.}
+    The already-inspected test cohort provides retrospective evidence.}
+  \vspace{1.5mm}
+  \smalltext{Still needed: real procedure histories, qualified SOP, complete audit findings and observed costs.}
+  \source{Validation record; benchmark evidence boundary; SYN-OPS-001. Staff and costs are invented assumptions.}
+  \note{\SlideThreeNotes}
+\end{frame}
+
+% 4. 3:00--4:30.
+\begin{frame}[t]{Fault prediction on the test cohort}
+  \smalltext{137 retrospective test cases. Seven binary logistic heads allow coexisting faults.}
+  \vspace{2mm}
+  {\small\begin{tabularx}{\textwidth}{@{}Yrr@{}}
+    \toprule
+    \textbf{Input comparison} & \textbf{Macro AP $\uparrow$} & \textbf{Log loss $\downarrow$} \\
+    \midrule
+    Constant training prevalence & 0.145 & 0.402 \\
+    Inspection/acceptance & \textbf{0.504} & \textbf{0.231} \\
+    Full allowed context & 0.497 & 0.251 \\
+    Manufacturing/package only & 0.189 & 0.408 \\
+    \bottomrule
+  \end{tabularx}}\par
+  \vspace{3mm}
+  \smalltext{\textbf{0.497 is macro average precision:} a ranking summary averaged
+    equally across seven faults. It does not mean 49.7\% of diagnoses are correct.}
+  \vspace{2mm}
+  \smalltext{Full-minus-inspection AP: $-0.007$; paired 95\% interval
+    $[-0.058,\,+0.047]$. The small AP difference is uncertain.}
+  \source{predictive\_metrics.csv and predictive\_paired\_comparisons.csv, test rows. Synthetic shortcuts limit generalisation.}
+  \note{\SlideFourNotes}
+\end{frame}
+
+% 5. 4:30--6:15.
+\begin{frame}[t]{ML matches CT-first diagnostic outcomes}
+  \smalltext{Base test replay: 137 cases $\times$ 100 paired report replications per policy.}
+  \vspace{2mm}
+  {\fontsize{9.5}{12}\selectfont
+  \begin{tabularx}{\textwidth}{@{}Yrrr@{}}
+    \toprule
+    \textbf{Policy} & \shortstack[r]{\textbf{Consumed}\\\textbf{USD/case}} &
+      \shortstack[r]{\textbf{Evidence}\\\textbf{complete}} &
+      \shortstack[r]{\textbf{Correctly}\\\textbf{complete}} \\
+    \midrule
+    Mock incumbent & \$1,995.55 & 53.53\% & 48.41\% \\
+    CT-first rules & \$1,994.63 & 53.54\% & 48.42\% \\
+    Full-model heuristic & \$1,994.63 & 53.54\% & 48.42\% \\
+    \bottomrule
+  \end{tabularx}}\par
+  \vspace{2.5mm}
+  \smalltext{\textbf{Full model = CT-first} on cost, completion, errors and nominal
+    duration in all \textbf{13,700 paired runs}.}
+  \vspace{2mm}
+  \smalltext{Full minus mock: \textbf{$-$\$0.92/case}; 95\% lot-bootstrap interval
+    \textbf{[$-$\$2.84, \$0.00]}. CT-first captures the same result.}
+  \vspace{2mm}
+  \smalltext{\alert{Every case counts, including unfinished investigations.}
+    Full model: \$747.59/case in known pending procedures.
+    Unknown review continuation remains unpriced.}
+  \source{decision\_metrics.csv; decision\_uncertainty.csv; verification.json. Synthetic resource costs, not fab savings.}
+  \note{\SlideFiveNotes}
+\end{frame}
+
+% 6. 6:15--7:30. Editable timing diagram of the existing Case D fixture.
+\begin{frame}[t]{Dispatch changes which milestone is met}
+  \smalltext{Case D: resources unavailable before 09:00.
+    B's warpage milestone is 10:00; A's underfill milestone is 11:00.}
+  \vspace{2mm}
+  \begin{center}
+  \begin{tikzpicture}[x=3.9cm,y=1cm,>=Stealth,font=\small]
+    % The horizontal axis shows hours since 09:00.
+    \draw[Rule] (0,0) -- (2,0);
+    \foreach \x/\lab in {0/09:00,0.75/09:45,1/10:00,1.5/10:30,2/11:00}{
+      \draw[Rule] (\x,0) -- (\x,-0.10);
+      \node[font=\scriptsize,anchor=south] at (\x,0.06) {\lab};
+    }
+    \node[anchor=east,align=right,font=\small] at (-0.08,-0.57) {Reference\\A first};
+    \node[anchor=east,align=right,font=\small] at (-0.08,-1.55) {Earliest deadline\\B first};
+    \fill[Pale] (0,-0.87) rectangle (0.75,-0.27);
+    \draw[Teal] (0,-0.87) rectangle (0.75,-0.27);
+    \fill[Teal] (0.75,-0.87) rectangle (1.5,-0.27);
+    \node at (0.375,-0.57) {A};
+    \node[text=white] at (1.125,-0.57) {B};
+    \fill[Teal] (0,-1.85) rectangle (0.75,-1.25);
+    \fill[Pale] (0.75,-1.85) rectangle (1.5,-1.25);
+    \draw[Teal] (0.75,-1.85) rectangle (1.5,-1.25);
+    \node[text=white] at (0.375,-1.55) {B};
+    \node at (1.125,-1.55) {A};
+    \draw[Amber,dashed,thick] (1,-0.05) -- (1,-2.0);
+    \node[anchor=west,text=Amber,font=\scriptsize] at (1.55,-0.57) {B is late};
+    \node[anchor=west,text=Teal,align=left,font=\scriptsize] at (1.55,-1.55) {Both on time\\if conclusive};
+  \end{tikzpicture}
+  \end{center}
+  \vspace{-1mm}
+  \smalltext{\textbf{Both orders cost \$240 and finish at 10:30.}
+    Staff phases, equipment and specimen exclusivity remain feasible.}
+  \vspace{2mm}
+  \smalltext{Inconclusive findings stay unresolved. Scheduling covers the existing
+    24-hour fixtures only; cohort hours are nominal procedure totals.}
+  \source{scheduling.json; SYN-OPS-001 Case D. Scoped milestones depend on conclusive findings. Actual dispatch is unknown.}
+  \note{\SlideSixNotes}
+\end{frame}
+
+% 7. 7:30--9:00. Compact, editable version of the design architecture.
+\begin{frame}[t]{Proposed fab operation and feedback}
+  \smalltext{\textbf{Offline prototype implemented.} Diagram: proposed fab integration and qualification.}
+  \vspace{2mm}
+  \begin{center}
+  \begin{tikzpicture}[>=Stealth,
+    flow/.style={->,thick,draw=Teal},
+    group/.style={draw=Rule,fill=white,align=left,inner sep=7pt,
+      text width=5.45cm,minimum height=1.24cm,font=\fontsize{9}{11}\selectfont},
+    lab/.style={font=\fontsize{7}{8}\selectfont,fill=white,inner sep=2pt,text=Muted}]
+    \node[group] (nightly) at (0,0) {\textbf{Nightly fault scoring}\\MES validation, versioned features\\Initial fault probabilities};
+    \node[group] (policy) at (7.3,0) {\textbf{Diagnostic selection}\\Scoped findings and case state\\Eligible procedures and costs};
+    \node[group] (offline) at (0,-2.0) {\textbf{Offline qualification}\\Complete labels; train and evaluate\\Reviewed, versioned model release};
+    \node[group] (schedule) at (7.3,-2.0) {\textbf{Scheduling and execution}\\Resources and protected audits\\Engineer/coordinator approval};
+    \draw[flow] (nightly.east) -- node[lab,above] {scores} (policy.west);
+    \draw[flow] ([xshift=-10mm]policy.south) -- node[lab,left] {eligible work} ([xshift=-10mm]schedule.north);
+    \draw[flow] ([xshift=17mm]schedule.north) -- node[lab,right] {findings} ([xshift=17mm]policy.south);
+    \draw[flow] (schedule.west) -- node[lab,above,align=center] {records\\and audits} (offline.east);
+    \draw[flow] ([xshift=-16mm]offline.north) -- node[lab,right] {qualified model} ([xshift=-16mm]nightly.south);
+    \draw[flow] ([xshift=14mm]nightly.south) -- node[lab,right] {features} ([xshift=14mm]offline.north);
+  \end{tikzpicture}
+  \end{center}
+  \vspace{-1mm}
+  \smalltext{\textbf{Monitor:} batch health, input drift, audited errors, queue age,
+    inconclusives and overrides.}
+  \vspace{1.2mm}
+  \smalltext{\textbf{Fallback:} rules/manual review for failed imports, unqualified
+    contexts or stale calendars. Incomplete audits remain incomplete.}
+  \source{Design blueprint and architecture; pipeline README. Yield Engineering owns outcomes, lab operations calendars, IT ingestion.}
+  \note{\SlideSevenNotes}
+\end{frame}
+
+% 8. 9:00--10:00.
+\begin{frame}[t]{What the evidence supports next}
+  \lead{No incremental ML diagnostic value demonstrated\newline
+    over CT-first rules under these assumptions.}
+  \vspace{1mm}
+  \begin{description}
+    \setlength{\itemsep}{2.4mm}
+    \item[Prediction] Investigate weak-fault errors, available features and
+      regularisation using training-lot validation.
+    \item[Decision] Qualify the real SOP, useful alternative paths,
+      examination scope and continuation costs.
+    \item[Evidence] Replace operational assumptions and collect representative
+      complete audits plus fresh prospective evidence.
+  \end{description}
+  \vspace{3mm}
+  \smalltext{\textbf{Retaining rules remains valid.} Any shadow study or controlled pilot
+    needs qualification. No policy is selected for operational release.}
+  \source{Benchmark limitations and next evidence; client brief audit requirement. Improvement experiments are proposed.}
+  \note{\SlideEightNotes}
+\end{frame}
+
+\end{document}

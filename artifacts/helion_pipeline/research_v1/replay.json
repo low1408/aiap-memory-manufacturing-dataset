@@ -1,0 +1,18 @@
+{
+  "replications": 100,
+  "case_arm_runs": {
+    "base": 549600,
+    "rate_0.75": 82200,
+    "rate_1.25": 82200,
+    "q_minus_0.05": 82200,
+    "q_plus_0.05": 82200,
+    "sensitivity_minus_0.05": 82200,
+    "specificity_minus_0.02": 82200
+  },
+  "audit_cases": 40,
+  "audit_assignment_fixed_across_arms_and_replications": true,
+  "events": "Base scenario stores every decision/report; stress cases store complete summaries and reproducible seed/config.",
+  "nominal_time_is_not_turnaround": true,
+  "unknown_review_cost": null,
+  "wall_seconds": 289.16623817899745
+}

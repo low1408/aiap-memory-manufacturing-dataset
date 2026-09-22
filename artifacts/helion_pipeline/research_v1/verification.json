@@ -1,0 +1,20 @@
+{
+  "tests_passed": 50,
+  "test_command": "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 MPLCONFIGDIR=/tmp/helion-mpl python -m pytest -q",
+  "original_files_unchanged": 56,
+  "notebook_valid": true,
+  "notebook_code_cells_executed": 7,
+  "notebook_execution": "local IPython process; Jupyter kernel sockets unavailable in sandbox",
+  "local_links_checked": 7,
+  "base_plus_stress_case_arm_records": 1042800,
+  "all_pipeline_stages_complete": true,
+  "full_vs_ct_first_test_pairs": 13700,
+  "identical_on_key_cost_and_quality_metrics": true,
+  "different_procedure_orders": 5796,
+  "figures_visually_reviewed": [
+    "prediction_comparison.png",
+    "calibration.png",
+    "scheduling.png",
+    "diagnostic_tradeoffs.png"
+  ]
+}

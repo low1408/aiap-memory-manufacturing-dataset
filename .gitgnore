@@ -3,3 +3,6 @@ BYO_PROBLEM.pdf
 EXAMPLE_SCENARIOS.pdf
 
 .gitignore
+
+
+docs/helion-design/

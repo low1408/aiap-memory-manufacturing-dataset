@@ -1,0 +1,681 @@
+{
+  "origin": "2026-09-21T08:00:00+08:00",
+  "horizon_hours": 24,
+  "basis": "existing_separate_paper_scenarios_not_observed_dispatch_or_cohort_turnaround",
+  "base": {
+    "A": {
+      "bookings": [
+        {
+          "case_id": "A",
+          "procedure": "XRAY",
+          "start": 1.0,
+          "end": 1.75,
+          "equipment": "CT",
+          "staff": [
+            {
+              "id": "TECH-01",
+              "role": "technician",
+              "skill": "XRAY",
+              "start": 1.0,
+              "end": 1.25
+            },
+            {
+              "id": "QE-01",
+              "role": "quality_engineer",
+              "skill": "XRAY",
+              "start": 1.5,
+              "end": 1.75
+            }
+          ],
+          "deadline": null,
+          "status": "confirmed"
+        }
+      ],
+      "planned_resource_cost": 120.0
+    },
+    "B": {
+      "bookings": [
+        {
+          "case_id": "B",
+          "procedure": "ACOUSTIC",
+          "start": 1.0,
+          "end": 2.5,
+          "equipment": "ACOUSTIC",
+          "staff": [
+            {
+              "id": "TECH-01",
+              "role": "technician",
+              "skill": "ACOUSTIC",
+              "start": 1.0,
+              "end": 1.5
+            },
+            {
+              "id": "QE-01",
+              "role": "quality_engineer",
+              "skill": "ACOUSTIC",
+              "start": 2.0,
+              "end": 2.5
+            }
+          ],
+          "deadline": null,
+          "status": "confirmed"
+        },
+        {
+          "case_id": "B",
+          "procedure": "ELECTRICAL",
+          "start": 4.0,
+          "end": 8.0,
+          "equipment": "ELECTRICAL",
+          "staff": [
+            {
+              "id": "TECH-01",
+              "role": "technician",
+              "skill": "ELECTRICAL",
+              "start": 4.0,
+              "end": 4.5
+            },
+            {
+              "id": "QE-01",
+              "role": "quality_engineer",
+              "skill": "ELECTRICAL",
+              "start": 5.5,
+              "end": 8.0
+            }
+          ],
+          "deadline": null,
+          "status": "confirmed"
+        }
+      ],
+      "prior_spent_cost": 120,
+      "planned_resource_cost": 800.0,
+      "SEM": {
+        "status": "blocked",
+        "reason": "future_calendar_required",
+        "pending_procedure": "SEM"
+      }
+    },
+    "D_reference": {
+      "bookings": [
+        {
+          "case_id": "A",
+          "procedure": "XRAY",
+          "start": 1.0,
+          "end": 1.75,
+          "equipment": "CT",
+          "staff": [
+            {
+              "id": "TECH-01",
+              "role": "technician",
+              "skill": "XRAY",
+              "start": 1.0,
+              "end": 1.25
+            },
+            {
+              "id": "QE-01",
+              "role": "quality_engineer",
+              "skill": "XRAY",
+              "start": 1.5,
+              "end": 1.75
+            }
+          ],
+          "deadline": 3,
+          "status": "confirmed"
+        },
+        {
+          "case_id": "B",
+          "procedure": "XRAY",
+          "start": 1.75,
+          "end": 2.5,
+          "equipment": "CT",
+          "staff": [
+            {
+              "id": "TECH-01",
+              "role": "technician",
+              "skill": "XRAY",
+              "start": 1.75,
+              "end": 2.0
+            },
+            {
+              "id": "QE-01",
+              "role": "quality_engineer",
+              "skill": "XRAY",
+              "start": 2.25,
+              "end": 2.5
+            }
+          ],
+          "deadline": 2,
+          "status": "confirmed"
+        }
+      ],
+      "planned_resource_cost": 240.0,
+      "milestones_missed_if_conclusive": 1,
+      "unbooked": 0,
+      "milestone_basis": "scoped_evidence_if_conclusive_not_full_investigation_closure",
+      "mean_wait_hours": 1.375,
+      "latest_report_hours": 2.5
+    },
+    "D_earliest_deadline": {
+      "bookings": [
+        {
+          "case_id": "B",
+          "procedure": "XRAY",
+          "start": 1.0,
+          "end": 1.75,
+          "equipment": "CT",
+          "staff": [
+            {
+              "id": "TECH-01",
+              "role": "technician",
+              "skill": "XRAY",
+              "start": 1.0,
+              "end": 1.25
+            },
+            {
+              "id": "QE-01",
+              "role": "quality_engineer",
+              "skill": "XRAY",
+              "start": 1.5,
+              "end": 1.75
+            }
+          ],
+          "deadline": 2,
+          "status": "confirmed"
+        },
+        {
+          "case_id": "A",
+          "procedure": "XRAY",
+          "start": 1.75,
+          "end": 2.5,
+          "equipment": "CT",
+          "staff": [
+            {
+              "id": "TECH-01",
+              "role": "technician",
+              "skill": "XRAY",
+              "start": 1.75,
+              "end": 2.0
+            },
+            {
+              "id": "QE-01",
+              "role": "quality_engineer",
+              "skill": "XRAY",
+              "start": 2.25,
+              "end": 2.5
+            }
+          ],
+          "deadline": 3,
+          "status": "confirmed"
+        }
+      ],
+      "planned_resource_cost": 240.0,
+      "milestones_missed_if_conclusive": 0,
+      "unbooked": 0,
+      "milestone_basis": "scoped_evidence_if_conclusive_not_full_investigation_closure",
+      "mean_wait_hours": 1.375,
+      "latest_report_hours": 2.5
+    },
+    "C": {
+      "status": "conditional_cost_trace_only",
+      "resource_cost_if_qualified_conclusive_path": 2720,
+      "SEM_status": "future_calendar_required",
+      "completion_time": null
+    }
+  },
+  "outage_stress": {
+    "CT_extra_2h": {
+      "assumption": "Extend the existing CT reservation with 2 hours of unavailability from hour 1; no calendar extension.",
+      "scenarios": {
+        "A": {
+          "bookings": [
+            {
+              "case_id": "A",
+              "procedure": "XRAY",
+              "start": 3.0,
+              "end": 3.75,
+              "equipment": "CT",
+              "staff": [
+                {
+                  "id": "TECH-01",
+                  "role": "technician",
+                  "skill": "XRAY",
+                  "start": 3.0,
+                  "end": 3.25
+                },
+                {
+                  "id": "QE-01",
+                  "role": "quality_engineer",
+                  "skill": "XRAY",
+                  "start": 3.5,
+                  "end": 3.75
+                }
+              ],
+              "deadline": null,
+              "status": "confirmed"
+            }
+          ],
+          "planned_resource_cost": 120.0
+        },
+        "B": {
+          "bookings": [
+            {
+              "case_id": "B",
+              "procedure": "ACOUSTIC",
+              "start": 1.0,
+              "end": 2.5,
+              "equipment": "ACOUSTIC",
+              "staff": [
+                {
+                  "id": "TECH-01",
+                  "role": "technician",
+                  "skill": "ACOUSTIC",
+                  "start": 1.0,
+                  "end": 1.5
+                },
+                {
+                  "id": "QE-01",
+                  "role": "quality_engineer",
+                  "skill": "ACOUSTIC",
+                  "start": 2.0,
+                  "end": 2.5
+                }
+              ],
+              "deadline": null,
+              "status": "confirmed"
+            },
+            {
+              "case_id": "B",
+              "procedure": "ELECTRICAL",
+              "start": 4.0,
+              "end": 8.0,
+              "equipment": "ELECTRICAL",
+              "staff": [
+                {
+                  "id": "TECH-01",
+                  "role": "technician",
+                  "skill": "ELECTRICAL",
+                  "start": 4.0,
+                  "end": 4.5
+                },
+                {
+                  "id": "QE-01",
+                  "role": "quality_engineer",
+                  "skill": "ELECTRICAL",
+                  "start": 5.5,
+                  "end": 8.0
+                }
+              ],
+              "deadline": null,
+              "status": "confirmed"
+            }
+          ],
+          "prior_spent_cost": 120,
+          "planned_resource_cost": 800.0,
+          "SEM": {
+            "status": "blocked",
+            "reason": "future_calendar_required",
+            "pending_procedure": "SEM"
+          }
+        },
+        "D_reference": {
+          "bookings": [
+            {
+              "case_id": "A",
+              "procedure": "XRAY",
+              "start": 3.0,
+              "end": 3.75,
+              "equipment": "CT",
+              "staff": [
+                {
+                  "id": "TECH-01",
+                  "role": "technician",
+                  "skill": "XRAY",
+                  "start": 3.0,
+                  "end": 3.25
+                },
+                {
+                  "id": "QE-01",
+                  "role": "quality_engineer",
+                  "skill": "XRAY",
+                  "start": 3.5,
+                  "end": 3.75
+                }
+              ],
+              "deadline": 3,
+              "status": "confirmed"
+            },
+            {
+              "case_id": "B",
+              "procedure": "XRAY",
+              "start": 3.75,
+              "end": 4.5,
+              "equipment": "CT",
+              "staff": [
+                {
+                  "id": "TECH-01",
+                  "role": "technician",
+                  "skill": "XRAY",
+                  "start": 3.75,
+                  "end": 4.0
+                },
+                {
+                  "id": "QE-01",
+                  "role": "quality_engineer",
+                  "skill": "XRAY",
+                  "start": 4.25,
+                  "end": 4.5
+                }
+              ],
+              "deadline": 2,
+              "status": "confirmed"
+            }
+          ],
+          "planned_resource_cost": 240.0,
+          "milestones_missed_if_conclusive": 2,
+          "unbooked": 0,
+          "milestone_basis": "scoped_evidence_if_conclusive_not_full_investigation_closure",
+          "mean_wait_hours": 3.375,
+          "latest_report_hours": 4.5
+        },
+        "D_earliest_deadline": {
+          "bookings": [
+            {
+              "case_id": "B",
+              "procedure": "XRAY",
+              "start": 3.0,
+              "end": 3.75,
+              "equipment": "CT",
+              "staff": [
+                {
+                  "id": "TECH-01",
+                  "role": "technician",
+                  "skill": "XRAY",
+                  "start": 3.0,
+                  "end": 3.25
+                },
+                {
+                  "id": "QE-01",
+                  "role": "quality_engineer",
+                  "skill": "XRAY",
+                  "start": 3.5,
+                  "end": 3.75
+                }
+              ],
+              "deadline": 2,
+              "status": "confirmed"
+            },
+            {
+              "case_id": "A",
+              "procedure": "XRAY",
+              "start": 3.75,
+              "end": 4.5,
+              "equipment": "CT",
+              "staff": [
+                {
+                  "id": "TECH-01",
+                  "role": "technician",
+                  "skill": "XRAY",
+                  "start": 3.75,
+                  "end": 4.0
+                },
+                {
+                  "id": "QE-01",
+                  "role": "quality_engineer",
+                  "skill": "XRAY",
+                  "start": 4.25,
+                  "end": 4.5
+                }
+              ],
+              "deadline": 3,
+              "status": "confirmed"
+            }
+          ],
+          "planned_resource_cost": 240.0,
+          "milestones_missed_if_conclusive": 2,
+          "unbooked": 0,
+          "milestone_basis": "scoped_evidence_if_conclusive_not_full_investigation_closure",
+          "mean_wait_hours": 3.375,
+          "latest_report_hours": 4.5
+        },
+        "C": {
+          "status": "conditional_cost_trace_only",
+          "resource_cost_if_qualified_conclusive_path": 2720,
+          "SEM_status": "future_calendar_required",
+          "completion_time": null
+        }
+      }
+    },
+    "CT_extra_4h": {
+      "assumption": "Extend the existing CT reservation with 4 hours of unavailability from hour 1; no calendar extension.",
+      "scenarios": {
+        "A": {
+          "bookings": [
+            {
+              "case_id": "A",
+              "procedure": "XRAY",
+              "start": 5.0,
+              "end": 5.75,
+              "equipment": "CT",
+              "staff": [
+                {
+                  "id": "TECH-01",
+                  "role": "technician",
+                  "skill": "XRAY",
+                  "start": 5.0,
+                  "end": 5.25
+                },
+                {
+                  "id": "QE-01",
+                  "role": "quality_engineer",
+                  "skill": "XRAY",
+                  "start": 5.5,
+                  "end": 5.75
+                }
+              ],
+              "deadline": null,
+              "status": "confirmed"
+            }
+          ],
+          "planned_resource_cost": 120.0
+        },
+        "B": {
+          "bookings": [
+            {
+              "case_id": "B",
+              "procedure": "ACOUSTIC",
+              "start": 1.0,
+              "end": 2.5,
+              "equipment": "ACOUSTIC",
+              "staff": [
+                {
+                  "id": "TECH-01",
+                  "role": "technician",
+                  "skill": "ACOUSTIC",
+                  "start": 1.0,
+                  "end": 1.5
+                },
+                {
+                  "id": "QE-01",
+                  "role": "quality_engineer",
+                  "skill": "ACOUSTIC",
+                  "start": 2.0,
+                  "end": 2.5
+                }
+              ],
+              "deadline": null,
+              "status": "confirmed"
+            },
+            {
+              "case_id": "B",
+              "procedure": "ELECTRICAL",
+              "start": 4.0,
+              "end": 8.0,
+              "equipment": "ELECTRICAL",
+              "staff": [
+                {
+                  "id": "TECH-01",
+                  "role": "technician",
+                  "skill": "ELECTRICAL",
+                  "start": 4.0,
+                  "end": 4.5
+                },
+                {
+                  "id": "QE-01",
+                  "role": "quality_engineer",
+                  "skill": "ELECTRICAL",
+                  "start": 5.5,
+                  "end": 8.0
+                }
+              ],
+              "deadline": null,
+              "status": "confirmed"
+            }
+          ],
+          "prior_spent_cost": 120,
+          "planned_resource_cost": 800.0,
+          "SEM": {
+            "status": "blocked",
+            "reason": "future_calendar_required",
+            "pending_procedure": "SEM"
+          }
+        },
+        "D_reference": {
+          "bookings": [
+            {
+              "case_id": "A",
+              "procedure": "XRAY",
+              "start": 5.0,
+              "end": 5.75,
+              "equipment": "CT",
+              "staff": [
+                {
+                  "id": "TECH-01",
+                  "role": "technician",
+                  "skill": "XRAY",
+                  "start": 5.0,
+                  "end": 5.25
+                },
+                {
+                  "id": "QE-01",
+                  "role": "quality_engineer",
+                  "skill": "XRAY",
+                  "start": 5.5,
+                  "end": 5.75
+                }
+              ],
+              "deadline": 3,
+              "status": "confirmed"
+            },
+            {
+              "case_id": "B",
+              "procedure": "XRAY",
+              "start": 5.75,
+              "end": 6.5,
+              "equipment": "CT",
+              "staff": [
+                {
+                  "id": "TECH-01",
+                  "role": "technician",
+                  "skill": "XRAY",
+                  "start": 5.75,
+                  "end": 6.0
+                },
+                {
+                  "id": "QE-01",
+                  "role": "quality_engineer",
+                  "skill": "XRAY",
+                  "start": 6.25,
+                  "end": 6.5
+                }
+              ],
+              "deadline": 2,
+              "status": "confirmed"
+            }
+          ],
+          "planned_resource_cost": 240.0,
+          "milestones_missed_if_conclusive": 2,
+          "unbooked": 0,
+          "milestone_basis": "scoped_evidence_if_conclusive_not_full_investigation_closure",
+          "mean_wait_hours": 5.375,
+          "latest_report_hours": 6.5
+        },
+        "D_earliest_deadline": {
+          "bookings": [
+            {
+              "case_id": "B",
+              "procedure": "XRAY",
+              "start": 5.0,
+              "end": 5.75,
+              "equipment": "CT",
+              "staff": [
+                {
+                  "id": "TECH-01",
+                  "role": "technician",
+                  "skill": "XRAY",
+                  "start": 5.0,
+                  "end": 5.25
+                },
+                {
+                  "id": "QE-01",
+                  "role": "quality_engineer",
+                  "skill": "XRAY",
+                  "start": 5.5,
+                  "end": 5.75
+                }
+              ],
+              "deadline": 2,
+              "status": "confirmed"
+            },
+            {
+              "case_id": "A",
+              "procedure": "XRAY",
+              "start": 5.75,
+              "end": 6.5,
+              "equipment": "CT",
+              "staff": [
+                {
+                  "id": "TECH-01",
+                  "role": "technician",
+                  "skill": "XRAY",
+                  "start": 5.75,
+                  "end": 6.0
+                },
+                {
+                  "id": "QE-01",
+                  "role": "quality_engineer",
+                  "skill": "XRAY",
+                  "start": 6.25,
+                  "end": 6.5
+                }
+              ],
+              "deadline": 3,
+              "status": "confirmed"
+            }
+          ],
+          "planned_resource_cost": 240.0,
+          "milestones_missed_if_conclusive": 2,
+          "unbooked": 0,
+          "milestone_basis": "scoped_evidence_if_conclusive_not_full_investigation_closure",
+          "mean_wait_hours": 5.375,
+          "latest_report_hours": 6.5
+        },
+        "C": {
+          "status": "conditional_cost_trace_only",
+          "resource_cost_if_qualified_conclusive_path": 2720,
+          "SEM_status": "future_calendar_required",
+          "completion_time": null
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "stale_calendar": {
+      "status": "manual_review",
+      "reason": "stale_calendar"
+    },
+    "beyond_horizon": {
+      "status": "blocked",
+      "reason": "no_qualified_slot_within_calendar"
+    },
+    "inconclusive_result": "retain spent cost and unresolved evidence; no repeat is authorised; preserve other confirmed bookings"
+  }
+}

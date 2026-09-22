@@ -1,0 +1,2898 @@
+{
+  "A": {
+    "summary": {
+      "stack_id": "CASE-A",
+      "policy": "mock",
+      "replication": 0,
+      "audit": false,
+      "spent_cost": 120.0,
+      "labor_cost": 45.0,
+      "equipment_cost": 60.0,
+      "consumables_cost": 15.0,
+      "technician_hours": 0.25,
+      "engineer_hours": 0.25,
+      "equipment_hours": 0.75,
+      "nominal_hours": 0.75,
+      "complete": false,
+      "evidence_complete": false,
+      "mechanism_evidence_complete": false,
+      "correctly_complete": false,
+      "audit_complete": false,
+      "false_absences": 0,
+      "false_positives": 0,
+      "missed_faults": 0,
+      "missed_coexisting_faults": 0,
+      "coexisting_fault_case": false,
+      "truth_fault_count": 1,
+      "incorrectly_complete": 0,
+      "unresolved_count": 5,
+      "unresolved_mechanisms": [
+        "dram_electrical",
+        "tsv_open_short",
+        "microbump_open_bridge",
+        "die_crack",
+        "delamination"
+      ],
+      "initial_spent_cost": 0.0,
+      "equipment_hours_by_resource": {
+        "CT": 0.75
+      },
+      "pending_cost": 2600.0,
+      "pending_cost_basis": "unattempted_known_procedure_obligations_not_cost_to_completion",
+      "pending_procedures": [
+        "ACOUSTIC",
+        "ELECTRICAL",
+        "SEM"
+      ],
+      "blocked_procedures": [
+        {
+          "procedure": "SEM",
+          "questions": [
+            "microbump_open_bridge",
+            "die_crack",
+            "tsv_open_short"
+          ],
+          "trigger_rules": [
+            "R08_completeness"
+          ],
+          "cost": 1800.0,
+          "blocked_reasons": [
+            "unresolved_intact_sample_evidence:delamination,dram_electrical",
+            "required_nondestructive_procedures_pending:ACOUSTIC,ELECTRICAL"
+          ]
+        }
+      ],
+      "review_pending": false,
+      "review_flags": [],
+      "contradictions": [],
+      "attempts": 1,
+      "inconclusive_attempts": 0,
+      "repeated_attempts": 0,
+      "engineer_overrides": null,
+      "override_status": "not_observed_in_synthetic_replay",
+      "attempted_procedures": [
+        "XRAY"
+      ],
+      "final_states": {
+        "dram_electrical": "untested",
+        "tsv_open_short": "untested",
+        "microbump_open_bridge": "untested",
+        "die_crack": "untested",
+        "warpage": "confirmed_present",
+        "underfill_void": "confirmed_absent",
+        "delamination": "untested"
+      },
+      "supporting_evidence": {
+        "dram_electrical": [],
+        "tsv_open_short": [],
+        "microbump_open_bridge": [],
+        "die_crack": [],
+        "warpage": [
+          {
+            "procedure": "XRAY",
+            "mechanism": "warpage",
+            "result": "present",
+            "scope": "whole_sample_assumption",
+            "negative_can_support_absence": true
+          }
+        ],
+        "underfill_void": [
+          {
+            "procedure": "XRAY",
+            "mechanism": "underfill_void",
+            "result": "absent",
+            "scope": "whole_sample_assumption",
+            "negative_can_support_absence": true
+          }
+        ],
+        "delamination": [
+          {
+            "procedure": "XRAY",
+            "mechanism": "delamination",
+            "result": "absent",
+            "scope": "gross_subtype_only",
+            "negative_can_support_absence": false
+          }
+        ]
+      },
+      "initial_recommendation": "XRAY",
+      "terminal_recommendation": {
+        "procedure": "ACOUSTIC",
+        "policy": "mock",
+        "effective_policy": "mock",
+        "fallback": null,
+        "reason": "completeness_fixed_order",
+        "selected": {
+          "procedure": "ACOUSTIC",
+          "questions": [
+            "delamination"
+          ],
+          "trigger_rules": [],
+          "cost": 200.0,
+          "blocked_reasons": [],
+          "score": 0.0
+        },
+        "eligible": [
+          {
+            "procedure": "ACOUSTIC",
+            "questions": [
+              "delamination"
+            ],
+            "trigger_rules": [],
+            "cost": 200.0,
+            "blocked_reasons": [],
+            "score": 0.0
+          },
+          {
+            "procedure": "ELECTRICAL",
+            "questions": [
+              "dram_electrical",
+              "tsv_open_short"
+            ],
+            "trigger_rules": [],
+            "cost": 600.0,
+            "blocked_reasons": [],
+            "score": 0.0
+          }
+        ],
+        "blocked": [
+          {
+            "procedure": "SEM",
+            "questions": [
+              "microbump_open_bridge",
+              "die_crack",
+              "tsv_open_short"
+            ],
+            "trigger_rules": [
+              "R08_completeness"
+            ],
+            "cost": 1800.0,
+            "blocked_reasons": [
+              "unresolved_intact_sample_evidence:delamination,dram_electrical",
+              "required_nondestructive_procedures_pending:ACOUSTIC,ELECTRICAL"
+            ]
+          }
+        ],
+        "unresolved_mechanisms": [
+          "dram_electrical",
+          "tsv_open_short",
+          "microbump_open_bridge",
+          "die_crack",
+          "delamination"
+        ],
+        "rules": {
+          "fired": [
+            "R01"
+          ],
+          "not_evaluable": [],
+          "triggered_procedures": {
+            "XRAY": [],
+            "ACOUSTIC": [],
+            "ELECTRICAL": [],
+            "IR": [],
+            "SEM": [
+              "R08_completeness"
+            ]
+          }
+        },
+        "score_interpretation": "positive_unresolved_coverage_per_resource_dollar_not_completion_probability"
+      },
+      "not_evaluable_rules": [],
+      "ending": "bounded_trace_with_pending_work",
+      "time_basis": "sum_of_nominal_procedure_envelopes_not_actual_turnaround",
+      "manual_review_cost": null
+    },
+    "events": [
+      {
+        "stack_id": "CASE-A",
+        "policy": "mock",
+        "replication": 0,
+        "step": 1,
+        "procedure": "XRAY",
+        "recommendation": {
+          "procedure": "XRAY",
+          "policy": "mock",
+          "effective_policy": "mock",
+          "fallback": null,
+          "reason": "triggered_branch",
+          "selected": {
+            "procedure": "XRAY",
+            "questions": [
+              "warpage",
+              "underfill_void",
+              "delamination"
+            ],
+            "trigger_rules": [
+              "R01"
+            ],
+            "cost": 120.0,
+            "blocked_reasons": [],
+            "score": 0.0
+          },
+          "eligible": [
+            {
+              "procedure": "XRAY",
+              "questions": [
+                "warpage",
+                "underfill_void",
+                "delamination"
+              ],
+              "trigger_rules": [
+                "R01"
+              ],
+              "cost": 120.0,
+              "blocked_reasons": [],
+              "score": 0.0
+            },
+            {
+              "procedure": "ACOUSTIC",
+              "questions": [
+                "delamination",
+                "underfill_void"
+              ],
+              "trigger_rules": [],
+              "cost": 200.0,
+              "blocked_reasons": [],
+              "score": 0.0
+            },
+            {
+              "procedure": "ELECTRICAL",
+              "questions": [
+                "dram_electrical",
+                "tsv_open_short"
+              ],
+              "trigger_rules": [],
+              "cost": 600.0,
+              "blocked_reasons": [],
+              "score": 0.0
+            }
+          ],
+          "blocked": [
+            {
+              "procedure": "SEM",
+              "questions": [
+                "microbump_open_bridge",
+                "die_crack",
+                "tsv_open_short"
+              ],
+              "trigger_rules": [
+                "R08_completeness"
+              ],
+              "cost": 1800.0,
+              "blocked_reasons": [
+                "unresolved_intact_sample_evidence:warpage,underfill_void,delamination,dram_electrical",
+                "required_nondestructive_procedures_pending:XRAY,ACOUSTIC,ELECTRICAL"
+              ]
+            }
+          ],
+          "unresolved_mechanisms": [
+            "dram_electrical",
+            "tsv_open_short",
+            "microbump_open_bridge",
+            "die_crack",
+            "warpage",
+            "underfill_void",
+            "delamination"
+          ],
+          "rules": {
+            "fired": [
+              "R01"
+            ],
+            "not_evaluable": [],
+            "triggered_procedures": {
+              "XRAY": [
+                "R01"
+              ],
+              "ACOUSTIC": [],
+              "ELECTRICAL": [],
+              "IR": [],
+              "SEM": [
+                "R08_completeness"
+              ]
+            }
+          },
+          "score_interpretation": "positive_unresolved_coverage_per_resource_dollar_not_completion_probability"
+        },
+        "report": {
+          "procedure": "XRAY",
+          "status": "conclusive",
+          "findings": [
+            {
+              "mechanism": "warpage",
+              "result": "present",
+              "scope": "whole_sample_assumption",
+              "negative_can_support_absence": true
+            },
+            {
+              "mechanism": "underfill_void",
+              "result": "absent",
+              "scope": "whole_sample_assumption",
+              "negative_can_support_absence": true
+            },
+            {
+              "mechanism": "delamination",
+              "result": "absent",
+              "scope": "gross_subtype_only",
+              "negative_can_support_absence": false
+            }
+          ]
+        },
+        "resources": {
+          "spent_cost": 120.0,
+          "labor_cost": 45.0,
+          "equipment_cost": 60.0,
+          "consumables_cost": 15.0,
+          "technician_hours": 0.25,
+          "engineer_hours": 0.25,
+          "equipment_hours": 0.75,
+          "equipment_hours_by_resource": {
+            "CT": 0.75
+          },
+          "nominal_hours": 0.75
+        },
+        "cumulative_cost": 120.0,
+        "states_before": {
+          "dram_electrical": "untested",
+          "tsv_open_short": "untested",
+          "microbump_open_bridge": "untested",
+          "die_crack": "untested",
+          "warpage": "untested",
+          "underfill_void": "untested",
+          "delamination": "untested"
+        },
+        "states_after": {
+          "dram_electrical": "untested",
+          "tsv_open_short": "untested",
+          "microbump_open_bridge": "untested",
+          "die_crack": "untested",
+          "warpage": "confirmed_present",
+          "underfill_void": "confirmed_absent",
+          "delamination": "untested"
+        },
+        "unresolved_mechanisms": [
+          "dram_electrical",
+          "tsv_open_short",
+          "microbump_open_bridge",
+          "die_crack",
+          "delamination"
+        ],
+        "review_flags": []
+      }
+    ],
+    "boundary": "first_CT_attempt_only"
+  },
+  "A_negative": {
+    "summary": {
+      "stack_id": "CASE-A-NEGATIVE",
+      "policy": "mock",
+      "replication": 0,
+      "audit": false,
+      "spent_cost": 120.0,
+      "labor_cost": 45.0,
+      "equipment_cost": 60.0,
+      "consumables_cost": 15.0,
+      "technician_hours": 0.25,
+      "engineer_hours": 0.25,
+      "equipment_hours": 0.75,
+      "nominal_hours": 0.75,
+      "complete": false,
+      "evidence_complete": false,
+      "mechanism_evidence_complete": false,
+      "correctly_complete": false,
+      "audit_complete": false,
+      "false_absences": 0,
+      "false_positives": 0,
+      "missed_faults": 0,
+      "missed_coexisting_faults": 0,
+      "coexisting_fault_case": false,
+      "truth_fault_count": 0,
+      "incorrectly_complete": 0,
+      "unresolved_count": 5,
+      "unresolved_mechanisms": [
+        "dram_electrical",
+        "tsv_open_short",
+        "microbump_open_bridge",
+        "die_crack",
+        "delamination"
+      ],
+      "initial_spent_cost": 0.0,
+      "equipment_hours_by_resource": {
+        "CT": 0.75
+      },
+      "pending_cost": 2600.0,
+      "pending_cost_basis": "unattempted_known_procedure_obligations_not_cost_to_completion",
+      "pending_procedures": [
+        "ACOUSTIC",
+        "ELECTRICAL",
+        "SEM"
+      ],
+      "blocked_procedures": [
+        {
+          "procedure": "SEM",
+          "questions": [
+            "microbump_open_bridge",
+            "die_crack",
+            "tsv_open_short"
+          ],
+          "trigger_rules": [
+            "R08_completeness"
+          ],
+          "cost": 1800.0,
+          "blocked_reasons": [
+            "unresolved_intact_sample_evidence:delamination,dram_electrical",
+            "required_nondestructive_procedures_pending:ACOUSTIC,ELECTRICAL"
+          ]
+        }
+      ],
+      "review_pending": false,
+      "review_flags": [],
+      "contradictions": [],
+      "attempts": 1,
+      "inconclusive_attempts": 0,
+      "repeated_attempts": 0,
+      "engineer_overrides": null,
+      "override_status": "not_observed_in_synthetic_replay",
+      "attempted_procedures": [
+        "XRAY"
+      ],
+      "final_states": {
+        "dram_electrical": "untested",
+        "tsv_open_short": "untested",
+        "microbump_open_bridge": "untested",
+        "die_crack": "untested",
+        "warpage": "confirmed_absent",
+        "underfill_void": "confirmed_absent",
+        "delamination": "untested"
+      },
+      "supporting_evidence": {
+        "dram_electrical": [],
+        "tsv_open_short": [],
+        "microbump_open_bridge": [],
+        "die_crack": [],
+        "warpage": [
+          {
+            "procedure": "XRAY",
+            "mechanism": "warpage",
+            "result": "absent",
+            "scope": "whole_sample_assumption",
+            "negative_can_support_absence": true
+          }
+        ],
+        "underfill_void": [
+          {
+            "procedure": "XRAY",
+            "mechanism": "underfill_void",
+            "result": "absent",
+            "scope": "whole_sample_assumption",
+            "negative_can_support_absence": true
+          }
+        ],
+        "delamination": [
+          {
+            "procedure": "XRAY",
+            "mechanism": "delamination",
+            "result": "absent",
+            "scope": "gross_subtype_only",
+            "negative_can_support_absence": false
+          }
+        ]
+      },
+      "initial_recommendation": "XRAY",
+      "terminal_recommendation": {
+        "procedure": "ACOUSTIC",
+        "policy": "mock",
+        "effective_policy": "mock",
+        "fallback": null,
+        "reason": "completeness_fixed_order",
+        "selected": {
+          "procedure": "ACOUSTIC",
+          "questions": [
+            "delamination"
+          ],
+          "trigger_rules": [],
+          "cost": 200.0,
+          "blocked_reasons": [],
+          "score": 0.0
+        },
+        "eligible": [
+          {
+            "procedure": "ACOUSTIC",
+            "questions": [
+              "delamination"
+            ],
+            "trigger_rules": [],
+            "cost": 200.0,
+            "blocked_reasons": [],
+            "score": 0.0
+          },
+          {
+            "procedure": "ELECTRICAL",
+            "questions": [
+              "dram_electrical",
+              "tsv_open_short"
+            ],
+            "trigger_rules": [],
+            "cost": 600.0,
+            "blocked_reasons": [],
+            "score": 0.0
+          }
+        ],
+        "blocked": [
+          {
+            "procedure": "SEM",
+            "questions": [
+              "microbump_open_bridge",
+              "die_crack",
+              "tsv_open_short"
+            ],
+            "trigger_rules": [
+              "R08_completeness"
+            ],
+            "cost": 1800.0,
+            "blocked_reasons": [
+              "unresolved_intact_sample_evidence:delamination,dram_electrical",
+              "required_nondestructive_procedures_pending:ACOUSTIC,ELECTRICAL"
+            ]
+          }
+        ],
+        "unresolved_mechanisms": [
+          "dram_electrical",
+          "tsv_open_short",
+          "microbump_open_bridge",
+          "die_crack",
+          "delamination"
+        ],
+        "rules": {
+          "fired": [
+            "R01"
+          ],
+          "not_evaluable": [],
+          "triggered_procedures": {
+            "XRAY": [],
+            "ACOUSTIC": [],
+            "ELECTRICAL": [],
+            "IR": [],
+            "SEM": [
+              "R08_completeness"
+            ]
+          }
+        },
+        "score_interpretation": "positive_unresolved_coverage_per_resource_dollar_not_completion_probability"
+      },
+      "not_evaluable_rules": [],
+      "ending": "bounded_trace_with_pending_work",
+      "time_basis": "sum_of_nominal_procedure_envelopes_not_actual_turnaround",
+      "manual_review_cost": null
+    },
+    "events": [
+      {
+        "stack_id": "CASE-A-NEGATIVE",
+        "policy": "mock",
+        "replication": 0,
+        "step": 1,
+        "procedure": "XRAY",
+        "recommendation": {
+          "procedure": "XRAY",
+          "policy": "mock",
+          "effective_policy": "mock",
+          "fallback": null,
+          "reason": "triggered_branch",
+          "selected": {
+            "procedure": "XRAY",
+            "questions": [
+              "warpage",
+              "underfill_void",
+              "delamination"
+            ],
+            "trigger_rules": [
+              "R01"
+            ],
+            "cost": 120.0,
+            "blocked_reasons": [],
+            "score": 0.0
+          },
+          "eligible": [
+            {
+              "procedure": "XRAY",
+              "questions": [
+                "warpage",
+                "underfill_void",
+                "delamination"
+              ],
+              "trigger_rules": [
+                "R01"
+              ],
+              "cost": 120.0,
+              "blocked_reasons": [],
+              "score": 0.0
+            },
+            {
+              "procedure": "ACOUSTIC",
+              "questions": [
+                "delamination",
+                "underfill_void"
+              ],
+              "trigger_rules": [],
+              "cost": 200.0,
+              "blocked_reasons": [],
+              "score": 0.0
+            },
+            {
+              "procedure": "ELECTRICAL",
+              "questions": [
+                "dram_electrical",
+                "tsv_open_short"
+              ],
+              "trigger_rules": [],
+              "cost": 600.0,
+              "blocked_reasons": [],
+              "score": 0.0
+            }
+          ],
+          "blocked": [
+            {
+              "procedure": "SEM",
+              "questions": [
+                "microbump_open_bridge",
+                "die_crack",
+                "tsv_open_short"
+              ],
+              "trigger_rules": [
+                "R08_completeness"
+              ],
+              "cost": 1800.0,
+              "blocked_reasons": [
+                "unresolved_intact_sample_evidence:warpage,underfill_void,delamination,dram_electrical",
+                "required_nondestructive_procedures_pending:XRAY,ACOUSTIC,ELECTRICAL"
+              ]
+            }
+          ],
+          "unresolved_mechanisms": [
+            "dram_electrical",
+            "tsv_open_short",
+            "microbump_open_bridge",
+            "die_crack",
+            "warpage",
+            "underfill_void",
+            "delamination"
+          ],
+          "rules": {
+            "fired": [
+              "R01"
+            ],
+            "not_evaluable": [],
+            "triggered_procedures": {
+              "XRAY": [
+                "R01"
+              ],
+              "ACOUSTIC": [],
+              "ELECTRICAL": [],
+              "IR": [],
+              "SEM": [
+                "R08_completeness"
+              ]
+            }
+          },
+          "score_interpretation": "positive_unresolved_coverage_per_resource_dollar_not_completion_probability"
+        },
+        "report": {
+          "procedure": "XRAY",
+          "status": "conclusive",
+          "findings": [
+            {
+              "mechanism": "warpage",
+              "result": "absent",
+              "scope": "whole_sample_assumption",
+              "negative_can_support_absence": true
+            },
+            {
+              "mechanism": "underfill_void",
+              "result": "absent",
+              "scope": "whole_sample_assumption",
+              "negative_can_support_absence": true
+            },
+            {
+              "mechanism": "delamination",
+              "result": "absent",
+              "scope": "gross_subtype_only",
+              "negative_can_support_absence": false
+            }
+          ]
+        },
+        "resources": {
+          "spent_cost": 120.0,
+          "labor_cost": 45.0,
+          "equipment_cost": 60.0,
+          "consumables_cost": 15.0,
+          "technician_hours": 0.25,
+          "engineer_hours": 0.25,
+          "equipment_hours": 0.75,
+          "equipment_hours_by_resource": {
+            "CT": 0.75
+          },
+          "nominal_hours": 0.75
+        },
+        "cumulative_cost": 120.0,
+        "states_before": {
+          "dram_electrical": "untested",
+          "tsv_open_short": "untested",
+          "microbump_open_bridge": "untested",
+          "die_crack": "untested",
+          "warpage": "untested",
+          "underfill_void": "untested",
+          "delamination": "untested"
+        },
+        "states_after": {
+          "dram_electrical": "untested",
+          "tsv_open_short": "untested",
+          "microbump_open_bridge": "untested",
+          "die_crack": "untested",
+          "warpage": "confirmed_absent",
+          "underfill_void": "confirmed_absent",
+          "delamination": "untested"
+        },
+        "unresolved_mechanisms": [
+          "dram_electrical",
+          "tsv_open_short",
+          "microbump_open_bridge",
+          "die_crack",
+          "delamination"
+        ],
+        "review_flags": []
+      }
+    ],
+    "boundary": "first_CT_negative_gross_D_does_not_exclude_D"
+  },
+  "A_inconclusive": {
+    "summary": {
+      "stack_id": "CASE-A-INCONCLUSIVE",
+      "policy": "mock",
+      "replication": 0,
+      "audit": false,
+      "spent_cost": 120.0,
+      "labor_cost": 45.0,
+      "equipment_cost": 60.0,
+      "consumables_cost": 15.0,
+      "technician_hours": 0.25,
+      "engineer_hours": 0.25,
+      "equipment_hours": 0.75,
+      "nominal_hours": 0.75,
+      "complete": false,
+      "evidence_complete": false,
+      "mechanism_evidence_complete": false,
+      "correctly_complete": false,
+      "audit_complete": false,
+      "false_absences": 0,
+      "false_positives": 0,
+      "missed_faults": 1,
+      "missed_coexisting_faults": 0,
+      "coexisting_fault_case": false,
+      "truth_fault_count": 1,
+      "incorrectly_complete": 0,
+      "unresolved_count": 7,
+      "unresolved_mechanisms": [
+        "dram_electrical",
+        "tsv_open_short",
+        "microbump_open_bridge",
+        "die_crack",
+        "warpage",
+        "underfill_void",
+        "delamination"
+      ],
+      "initial_spent_cost": 0.0,
+      "equipment_hours_by_resource": {
+        "CT": 0.75
+      },
+      "pending_cost": 2600.0,
+      "pending_cost_basis": "unattempted_known_procedure_obligations_not_cost_to_completion",
+      "pending_procedures": [
+        "ACOUSTIC",
+        "ELECTRICAL",
+        "SEM"
+      ],
+      "blocked_procedures": [
+        {
+          "procedure": "SEM",
+          "questions": [
+            "microbump_open_bridge",
+            "die_crack",
+            "tsv_open_short"
+          ],
+          "trigger_rules": [
+            "R08_completeness"
+          ],
+          "cost": 1800.0,
+          "blocked_reasons": [
+            "unresolved_intact_sample_evidence:warpage,underfill_void,delamination,dram_electrical",
+            "required_nondestructive_procedures_pending:ACOUSTIC,ELECTRICAL"
+          ]
+        }
+      ],
+      "review_pending": false,
+      "review_flags": [],
+      "contradictions": [],
+      "attempts": 1,
+      "inconclusive_attempts": 1,
+      "repeated_attempts": 0,
+      "engineer_overrides": null,
+      "override_status": "not_observed_in_synthetic_replay",
+      "attempted_procedures": [
+        "XRAY"
+      ],
+      "final_states": {
+        "dram_electrical": "untested",
+        "tsv_open_short": "untested",
+        "microbump_open_bridge": "untested",
+        "die_crack": "untested",
+        "warpage": "inconclusive",
+        "underfill_void": "inconclusive",
+        "delamination": "inconclusive"
+      },
+      "supporting_evidence": {
+        "dram_electrical": [],
+        "tsv_open_short": [],
+        "microbump_open_bridge": [],
+        "die_crack": [],
+        "warpage": [
+          {
+            "procedure": "XRAY",
+            "mechanism": "warpage",
+            "result": "inconclusive",
+            "scope": "whole_sample_assumption",
+            "negative_can_support_absence": true
+          }
+        ],
+        "underfill_void": [
+          {
+            "procedure": "XRAY",
+            "mechanism": "underfill_void",
+            "result": "inconclusive",
+            "scope": "whole_sample_assumption",
+            "negative_can_support_absence": true
+          }
+        ],
+        "delamination": [
+          {
+            "procedure": "XRAY",
+            "mechanism": "delamination",
+            "result": "inconclusive",
+            "scope": "gross_subtype_only",
+            "negative_can_support_absence": false
+          }
+        ]
+      },
+      "initial_recommendation": "XRAY",
+      "terminal_recommendation": {
+        "procedure": "ACOUSTIC",
+        "policy": "mock",
+        "effective_policy": "mock",
+        "fallback": null,
+        "reason": "completeness_fixed_order",
+        "selected": {
+          "procedure": "ACOUSTIC",
+          "questions": [
+            "delamination",
+            "underfill_void"
+          ],
+          "trigger_rules": [],
+          "cost": 200.0,
+          "blocked_reasons": [],
+          "score": 0.0
+        },
+        "eligible": [
+          {
+            "procedure": "ACOUSTIC",
+            "questions": [
+              "delamination",
+              "underfill_void"
+            ],
+            "trigger_rules": [],
+            "cost": 200.0,
+            "blocked_reasons": [],
+            "score": 0.0
+          },
+          {
+            "procedure": "ELECTRICAL",
+            "questions": [
+              "dram_electrical",
+              "tsv_open_short"
+            ],
+            "trigger_rules": [],
+            "cost": 600.0,
+            "blocked_reasons": [],
+            "score": 0.0
+          }
+        ],
+        "blocked": [
+          {
+            "procedure": "SEM",
+            "questions": [
+              "microbump_open_bridge",
+              "die_crack",
+              "tsv_open_short"
+            ],
+            "trigger_rules": [
+              "R08_completeness"
+            ],
+            "cost": 1800.0,
+            "blocked_reasons": [
+              "unresolved_intact_sample_evidence:warpage,underfill_void,delamination,dram_electrical",
+              "required_nondestructive_procedures_pending:ACOUSTIC,ELECTRICAL"
+            ]
+          }
+        ],
+        "unresolved_mechanisms": [
+          "dram_electrical",
+          "tsv_open_short",
+          "microbump_open_bridge",
+          "die_crack",
+          "warpage",
+          "underfill_void",
+          "delamination"
+        ],
+        "rules": {
+          "fired": [
+            "R01"
+          ],
+          "not_evaluable": [],
+          "triggered_procedures": {
+            "XRAY": [
+              "R01"
+            ],
+            "ACOUSTIC": [],
+            "ELECTRICAL": [],
+            "IR": [],
+            "SEM": [
+              "R08_completeness"
+            ]
+          }
+        },
+        "score_interpretation": "positive_unresolved_coverage_per_resource_dollar_not_completion_probability"
+      },
+      "not_evaluable_rules": [],
+      "ending": "bounded_trace_with_pending_work",
+      "time_basis": "sum_of_nominal_procedure_envelopes_not_actual_turnaround",
+      "manual_review_cost": null
+    },
+    "events": [
+      {
+        "stack_id": "CASE-A-INCONCLUSIVE",
+        "policy": "mock",
+        "replication": 0,
+        "step": 1,
+        "procedure": "XRAY",
+        "recommendation": {
+          "procedure": "XRAY",
+          "policy": "mock",
+          "effective_policy": "mock",
+          "fallback": null,
+          "reason": "triggered_branch",
+          "selected": {
+            "procedure": "XRAY",
+            "questions": [
+              "warpage",
+              "underfill_void",
+              "delamination"
+            ],
+            "trigger_rules": [
+              "R01"
+            ],
+            "cost": 120.0,
+            "blocked_reasons": [],
+            "score": 0.0
+          },
+          "eligible": [
+            {
+              "procedure": "XRAY",
+              "questions": [
+                "warpage",
+                "underfill_void",
+                "delamination"
+              ],
+              "trigger_rules": [
+                "R01"
+              ],
+              "cost": 120.0,
+              "blocked_reasons": [],
+              "score": 0.0
+            },
+            {
+              "procedure": "ACOUSTIC",
+              "questions": [
+                "delamination",
+                "underfill_void"
+              ],
+              "trigger_rules": [],
+              "cost": 200.0,
+              "blocked_reasons": [],
+              "score": 0.0
+            },
+            {
+              "procedure": "ELECTRICAL",
+              "questions": [
+                "dram_electrical",
+                "tsv_open_short"
+              ],
+              "trigger_rules": [],
+              "cost": 600.0,
+              "blocked_reasons": [],
+              "score": 0.0
+            }
+          ],
+          "blocked": [
+            {
+              "procedure": "SEM",
+              "questions": [
+                "microbump_open_bridge",
+                "die_crack",
+                "tsv_open_short"
+              ],
+              "trigger_rules": [
+                "R08_completeness"
+              ],
+              "cost": 1800.0,
+              "blocked_reasons": [
+                "unresolved_intact_sample_evidence:warpage,underfill_void,delamination,dram_electrical",
+                "required_nondestructive_procedures_pending:XRAY,ACOUSTIC,ELECTRICAL"
+              ]
+            }
+          ],
+          "unresolved_mechanisms": [
+            "dram_electrical",
+            "tsv_open_short",
+            "microbump_open_bridge",
+            "die_crack",
+            "warpage",
+            "underfill_void",
+            "delamination"
+          ],
+          "rules": {
+            "fired": [
+              "R01"
+            ],
+            "not_evaluable": [],
+            "triggered_procedures": {
+              "XRAY": [
+                "R01"
+              ],
+              "ACOUSTIC": [],
+              "ELECTRICAL": [],
+              "IR": [],
+              "SEM": [
+                "R08_completeness"
+              ]
+            }
+          },
+          "score_interpretation": "positive_unresolved_coverage_per_resource_dollar_not_completion_probability"
+        },
+        "report": {
+          "procedure": "XRAY",
+          "status": "inconclusive",
+          "findings": [
+            {
+              "mechanism": "warpage",
+              "result": "inconclusive",
+              "scope": "whole_sample_assumption",
+              "negative_can_support_absence": true
+            },
+            {
+              "mechanism": "underfill_void",
+              "result": "inconclusive",
+              "scope": "whole_sample_assumption",
+              "negative_can_support_absence": true
+            },
+            {
+              "mechanism": "delamination",
+              "result": "inconclusive",
+              "scope": "gross_subtype_only",
+              "negative_can_support_absence": false
+            }
+          ]
+        },
+        "resources": {
+          "spent_cost": 120.0,
+          "labor_cost": 45.0,
+          "equipment_cost": 60.0,
+          "consumables_cost": 15.0,
+          "technician_hours": 0.25,
+          "engineer_hours": 0.25,
+          "equipment_hours": 0.75,
+          "equipment_hours_by_resource": {
+            "CT": 0.75
+          },
+          "nominal_hours": 0.75
+        },
+        "cumulative_cost": 120.0,
+        "states_before": {
+          "dram_electrical": "untested",
+          "tsv_open_short": "untested",
+          "microbump_open_bridge": "untested",
+          "die_crack": "untested",
+          "warpage": "untested",
+          "underfill_void": "untested",
+          "delamination": "untested"
+        },
+        "states_after": {
+          "dram_electrical": "untested",
+          "tsv_open_short": "untested",
+          "microbump_open_bridge": "untested",
+          "die_crack": "untested",
+          "warpage": "inconclusive",
+          "underfill_void": "inconclusive",
+          "delamination": "inconclusive"
+        },
+        "unresolved_mechanisms": [
+          "dram_electrical",
+          "tsv_open_short",
+          "microbump_open_bridge",
+          "die_crack",
+          "warpage",
+          "underfill_void",
+          "delamination"
+        ],
+        "review_flags": []
+      }
+    ],
+    "boundary": "first_CT_inconclusive_same_cost_evidence_unresolved"
+  },
+  "B": {
+    "summary": {
+      "stack_id": "CASE-B",
+      "policy": "mock",
+      "replication": 0,
+      "audit": false,
+      "spent_cost": 920.0,
+      "labor_cost": 445.0,
+      "equipment_cost": 410.0,
+      "consumables_cost": 65.0,
+      "technician_hours": 1.25,
+      "engineer_hours": 3.25,
+      "equipment_hours": 6.25,
+      "nominal_hours": 6.25,
+      "complete": false,
+      "evidence_complete": false,
+      "mechanism_evidence_complete": false,
+      "correctly_complete": false,
+      "audit_complete": false,
+      "false_absences": 0,
+      "false_positives": 0,
+      "missed_faults": 1,
+      "missed_coexisting_faults": 1,
+      "coexisting_fault_case": true,
+      "truth_fault_count": 3,
+      "incorrectly_complete": 0,
+      "unresolved_count": 2,
+      "unresolved_mechanisms": [
+        "microbump_open_bridge",
+        "die_crack"
+      ],
+      "initial_spent_cost": 120.0,
+      "equipment_hours_by_resource": {
+        "CT": 0.75,
+        "ACOUSTIC": 1.5,
+        "ELECTRICAL": 4.0
+      },
+      "pending_cost": 1800.0,
+      "pending_cost_basis": "unattempted_known_procedure_obligations_not_cost_to_completion",
+      "pending_procedures": [
+        "SEM"
+      ],
+      "blocked_procedures": [],
+      "review_pending": false,
+      "review_flags": [],
+      "contradictions": [],
+      "attempts": 3,
+      "inconclusive_attempts": 0,
+      "repeated_attempts": 0,
+      "engineer_overrides": null,
+      "override_status": "not_observed_in_synthetic_replay",
+      "attempted_procedures": [
+        "XRAY",
+        "ACOUSTIC",
+        "ELECTRICAL"
+      ],
+      "final_states": {
+        "dram_electrical": "confirmed_absent",
+        "tsv_open_short": "confirmed_present",
+        "microbump_open_bridge": "untested",
+        "die_crack": "untested",
+        "warpage": "confirmed_absent",
+        "underfill_void": "confirmed_absent",
+        "delamination": "confirmed_present"
+      },
+      "supporting_evidence": {
+        "dram_electrical": [
+          {
+            "procedure": "ELECTRICAL",
+            "mechanism": "dram_electrical",
+            "result": "absent",
+            "scope": "whole_sample_assumption",
+            "negative_can_support_absence": true
+          }
+        ],
+        "tsv_open_short": [
+          {
+            "procedure": "ELECTRICAL",
+            "mechanism": "tsv_open_short",
+            "result": "present",
+            "scope": "whole_sample_assumption",
+            "negative_can_support_absence": true
+          }
+        ],
+        "microbump_open_bridge": [],
+        "die_crack": [],
+        "warpage": [
+          {
+            "procedure": "XRAY",
+            "mechanism": "warpage",
+            "result": "absent",
+            "scope": "whole_sample_assumption",
+            "negative_can_support_absence": true
+          }
+        ],
+        "underfill_void": [
+          {
+            "procedure": "XRAY",
+            "mechanism": "underfill_void",
+            "result": "absent",
+            "scope": "whole_sample_assumption",
+            "negative_can_support_absence": true
+          },
+          {
+            "procedure": "ACOUSTIC",
+            "mechanism": "underfill_void",
+            "result": "absent",
+            "scope": "whole_sample_assumption",
+            "negative_can_support_absence": true
+          }
+        ],
+        "delamination": [
+          {
+            "procedure": "XRAY",
+            "mechanism": "delamination",
+            "result": "absent",
+            "scope": "gross_subtype_only",
+            "negative_can_support_absence": false
+          },
+          {
+            "procedure": "ACOUSTIC",
+            "mechanism": "delamination",
+            "result": "present",
+            "scope": "whole_sample_assumption",
+            "negative_can_support_absence": true
+          }
+        ]
+      },
+      "initial_recommendation": "ACOUSTIC",
+      "terminal_recommendation": {
+        "procedure": "SEM",
+        "policy": "mock",
+        "effective_policy": "mock",
+        "fallback": null,
+        "reason": "triggered_branch",
+        "selected": {
+          "procedure": "SEM",
+          "questions": [
+            "microbump_open_bridge",
+            "die_crack"
+          ],
+          "trigger_rules": [
+            "R08_completeness"
+          ],
+          "cost": 1800.0,
+          "blocked_reasons": [],
+          "score": 0.0
+        },
+        "eligible": [
+          {
+            "procedure": "SEM",
+            "questions": [
+              "microbump_open_bridge",
+              "die_crack"
+            ],
+            "trigger_rules": [
+              "R08_completeness"
+            ],
+            "cost": 1800.0,
+            "blocked_reasons": [],
+            "score": 0.0
+          }
+        ],
+        "blocked": [],
+        "unresolved_mechanisms": [
+          "microbump_open_bridge",
+          "die_crack"
+        ],
+        "rules": {
+          "fired": [
+            "R03",
+            "R04",
+            "R05"
+          ],
+          "not_evaluable": [],
+          "triggered_procedures": {
+            "XRAY": [],
+            "ACOUSTIC": [],
+            "ELECTRICAL": [],
+            "IR": [],
+            "SEM": [
+              "R08_completeness"
+            ]
+          }
+        },
+        "score_interpretation": "positive_unresolved_coverage_per_resource_dollar_not_completion_probability"
+      },
+      "not_evaluable_rules": [],
+      "ending": "bounded_trace_with_pending_work",
+      "time_basis": "sum_of_nominal_procedure_envelopes_not_actual_turnaround",
+      "manual_review_cost": null
+    },
+    "events": [
+      {
+        "stack_id": "CASE-B",
+        "policy": "mock",
+        "replication": 0,
+        "step": 1,
+        "procedure": "ACOUSTIC",
+        "recommendation": {
+          "procedure": "ACOUSTIC",
+          "policy": "mock",
+          "effective_policy": "mock",
+          "fallback": null,
+          "reason": "triggered_branch",
+          "selected": {
+            "procedure": "ACOUSTIC",
+            "questions": [
+              "delamination"
+            ],
+            "trigger_rules": [
+              "R03"
+            ],
+            "cost": 200.0,
+            "blocked_reasons": [],
+            "score": 0.0
+          },
+          "eligible": [
+            {
+              "procedure": "ACOUSTIC",
+              "questions": [
+                "delamination"
+              ],
+              "trigger_rules": [
+                "R03"
+              ],
+              "cost": 200.0,
+              "blocked_reasons": [],
+              "score": 0.0
+            },
+            {
+              "procedure": "ELECTRICAL",
+              "questions": [
+                "dram_electrical",
+                "tsv_open_short"
+              ],
+              "trigger_rules": [
+                "R04",
+                "R05"
+              ],
+              "cost": 600.0,
+              "blocked_reasons": [],
+              "score": 0.0
+            }
+          ],
+          "blocked": [
+            {
+              "procedure": "SEM",
+              "questions": [
+                "microbump_open_bridge",
+                "die_crack",
+                "tsv_open_short"
+              ],
+              "trigger_rules": [
+                "R08_completeness"
+              ],
+              "cost": 1800.0,
+              "blocked_reasons": [
+                "unresolved_intact_sample_evidence:delamination,dram_electrical",
+                "required_nondestructive_procedures_pending:ACOUSTIC,ELECTRICAL"
+              ]
+            }
+          ],
+          "unresolved_mechanisms": [
+            "dram_electrical",
+            "tsv_open_short",
+            "microbump_open_bridge",
+            "die_crack",
+            "delamination"
+          ],
+          "rules": {
+            "fired": [
+              "R03",
+              "R04",
+              "R05"
+            ],
+            "not_evaluable": [],
+            "triggered_procedures": {
+              "XRAY": [],
+              "ACOUSTIC": [
+                "R03"
+              ],
+              "ELECTRICAL": [
+                "R04",
+                "R05"
+              ],
+              "IR": [],
+              "SEM": [
+                "R08_completeness"
+              ]
+            }
+          },
+          "score_interpretation": "positive_unresolved_coverage_per_resource_dollar_not_completion_probability"
+        },
+        "report": {
+          "procedure": "ACOUSTIC",
+          "status": "conclusive",
+          "findings": [
+            {
+              "mechanism": "delamination",
+              "result": "present",
+              "scope": "whole_sample_assumption",
+              "negative_can_support_absence": true
+            },
+            {
+              "mechanism": "underfill_void",
+              "result": "absent",
+              "scope": "whole_sample_assumption",
+              "negative_can_support_absence": true
+            }
+          ]
+        },
+        "resources": {
+          "spent_cost": 200.0,
+          "labor_cost": 90.0,
+          "equipment_cost": 90.0,
+          "consumables_cost": 20.0,
+          "technician_hours": 0.5,
+          "engineer_hours": 0.5,
+          "equipment_hours": 1.5,
+          "equipment_hours_by_resource": {
+            "ACOUSTIC": 1.5
+          },
+          "nominal_hours": 1.5
+        },
+        "cumulative_cost": 320.0,
+        "states_before": {
+          "dram_electrical": "untested",
+          "tsv_open_short": "untested",
+          "microbump_open_bridge": "untested",
+          "die_crack": "untested",
+          "warpage": "confirmed_absent",
+          "underfill_void": "confirmed_absent",
+          "delamination": "untested"
+        },
+        "states_after": {
+          "dram_electrical": "untested",
+          "tsv_open_short": "untested",
+          "microbump_open_bridge": "untested",
+          "die_crack": "untested",
+          "warpage": "confirmed_absent",
+          "underfill_void": "confirmed_absent",
+          "delamination": "confirmed_present"
+        },
+        "unresolved_mechanisms": [
+          "dram_electrical",
+          "tsv_open_short",
+          "microbump_open_bridge",
+          "die_crack"
+        ],
+        "review_flags": []
+      },
+      {
+        "stack_id": "CASE-B",
+        "policy": "mock",
+        "replication": 0,
+        "step": 2,
+        "procedure": "ELECTRICAL",
+        "recommendation": {
+          "procedure": "ELECTRICAL",
+          "policy": "mock",
+          "effective_policy": "mock",
+          "fallback": null,
+          "reason": "triggered_branch",
+          "selected": {
+            "procedure": "ELECTRICAL",
+            "questions": [
+              "dram_electrical",
+              "tsv_open_short"
+            ],
+            "trigger_rules": [
+              "R04",
+              "R05"
+            ],
+            "cost": 600.0,
+            "blocked_reasons": [],
+            "score": 0.0
+          },
+          "eligible": [
+            {
+              "procedure": "ELECTRICAL",
+              "questions": [
+                "dram_electrical",
+                "tsv_open_short"
+              ],
+              "trigger_rules": [
+                "R04",
+                "R05"
+              ],
+              "cost": 600.0,
+              "blocked_reasons": [],
+              "score": 0.0
+            }
+          ],
+          "blocked": [
+            {
+              "procedure": "SEM",
+              "questions": [
+                "microbump_open_bridge",
+                "die_crack",
+                "tsv_open_short"
+              ],
+              "trigger_rules": [
+                "R08_completeness"
+              ],
+              "cost": 1800.0,
+              "blocked_reasons": [
+                "unresolved_intact_sample_evidence:dram_electrical",
+                "required_nondestructive_procedures_pending:ELECTRICAL"
+              ]
+            }
+          ],
+          "unresolved_mechanisms": [
+            "dram_electrical",
+            "tsv_open_short",
+            "microbump_open_bridge",
+            "die_crack"
+          ],
+          "rules": {
+            "fired": [
+              "R03",
+              "R04",
+              "R05"
+            ],
+            "not_evaluable": [],
+            "triggered_procedures": {
+              "XRAY": [],
+              "ACOUSTIC": [],
+              "ELECTRICAL": [
+                "R04",
+                "R05"
+              ],
+              "IR": [],
+              "SEM": [
+                "R08_completeness"
+              ]
+            }
+          },
+          "score_interpretation": "positive_unresolved_coverage_per_resource_dollar_not_completion_probability"
+        },
+        "report": {
+          "procedure": "ELECTRICAL",
+          "status": "conclusive",
+          "findings": [
+            {
+              "mechanism": "dram_electrical",
+              "result": "absent",
+              "scope": "whole_sample_assumption",
+              "negative_can_support_absence": true
+            },
+            {
+              "mechanism": "tsv_open_short",
+              "result": "present",
+              "scope": "whole_sample_assumption",
+              "negative_can_support_absence": true
+            }
+          ]
+        },
+        "resources": {
+          "spent_cost": 600.0,
+          "labor_cost": 310.0,
+          "equipment_cost": 260.0,
+          "consumables_cost": 30.0,
+          "technician_hours": 0.5,
+          "engineer_hours": 2.5,
+          "equipment_hours": 4.0,
+          "equipment_hours_by_resource": {
+            "ELECTRICAL": 4
+          },
+          "nominal_hours": 4.0
+        },
+        "cumulative_cost": 920.0,
+        "states_before": {
+          "dram_electrical": "untested",
+          "tsv_open_short": "untested",
+          "microbump_open_bridge": "untested",
+          "die_crack": "untested",
+          "warpage": "confirmed_absent",
+          "underfill_void": "confirmed_absent",
+          "delamination": "confirmed_present"
+        },
+        "states_after": {
+          "dram_electrical": "confirmed_absent",
+          "tsv_open_short": "confirmed_present",
+          "microbump_open_bridge": "untested",
+          "die_crack": "untested",
+          "warpage": "confirmed_absent",
+          "underfill_void": "confirmed_absent",
+          "delamination": "confirmed_present"
+        },
+        "unresolved_mechanisms": [
+          "microbump_open_bridge",
+          "die_crack"
+        ],
+        "review_flags": []
+      }
+    ],
+    "boundary": "prior_CT_plus_two_new_attempts_SEM_pending"
+  },
+  "C": {
+    "summary": {
+      "stack_id": "CASE-C",
+      "policy": "mock",
+      "replication": 0,
+      "audit": false,
+      "spent_cost": 2720.0,
+      "labor_cost": 1195.0,
+      "equipment_cost": 1160.0,
+      "consumables_cost": 365.0,
+      "technician_hours": 7.25,
+      "engineer_hours": 6.25,
+      "equipment_hours": 15.25,
+      "nominal_hours": 54.25,
+      "complete": true,
+      "evidence_complete": true,
+      "mechanism_evidence_complete": true,
+      "correctly_complete": true,
+      "audit_complete": false,
+      "false_absences": 0,
+      "false_positives": 0,
+      "missed_faults": 0,
+      "missed_coexisting_faults": 0,
+      "coexisting_fault_case": true,
+      "truth_fault_count": 3,
+      "incorrectly_complete": 0,
+      "unresolved_count": 0,
+      "unresolved_mechanisms": [],
+      "initial_spent_cost": 120.0,
+      "equipment_hours_by_resource": {
+        "CT": 0.75,
+        "ACOUSTIC": 1.5,
+        "ELECTRICAL": 4.0,
+        "PREP": 6.0,
+        "SEM": 3.0
+      },
+      "pending_cost": 0.0,
+      "pending_cost_basis": "unattempted_known_procedure_obligations_not_cost_to_completion",
+      "pending_procedures": [],
+      "blocked_procedures": [],
+      "review_pending": false,
+      "review_flags": [],
+      "contradictions": [],
+      "attempts": 4,
+      "inconclusive_attempts": 0,
+      "repeated_attempts": 0,
+      "engineer_overrides": null,
+      "override_status": "not_observed_in_synthetic_replay",
+      "attempted_procedures": [
+        "XRAY",
+        "ACOUSTIC",
+        "ELECTRICAL",
+        "SEM"
+      ],
+      "final_states": {
+        "dram_electrical": "confirmed_absent",
+        "tsv_open_short": "confirmed_present",
+        "microbump_open_bridge": "confirmed_present",
+        "die_crack": "confirmed_absent",
+        "warpage": "confirmed_absent",
+        "underfill_void": "confirmed_absent",
+        "delamination": "confirmed_present"
+      },
+      "supporting_evidence": {
+        "dram_electrical": [
+          {
+            "procedure": "ELECTRICAL",
+            "mechanism": "dram_electrical",
+            "result": "absent",
+            "scope": "whole_sample_assumption",
+            "negative_can_support_absence": true
+          }
+        ],
+        "tsv_open_short": [
+          {
+            "procedure": "ELECTRICAL",
+            "mechanism": "tsv_open_short",
+            "result": "present",
+            "scope": "whole_sample_assumption",
+            "negative_can_support_absence": true
+          },
+          {
+            "procedure": "SEM",
+            "mechanism": "tsv_open_short",
+            "result": "present",
+            "scope": "whole_sample_assumption_requires_qualification",
+            "negative_can_support_absence": true
+          }
+        ],
+        "microbump_open_bridge": [
+          {
+            "procedure": "SEM",
+            "mechanism": "microbump_open_bridge",
+            "result": "present",
+            "scope": "whole_sample_assumption_requires_qualification",
+            "negative_can_support_absence": true
+          }
+        ],
+        "die_crack": [
+          {
+            "procedure": "SEM",
+            "mechanism": "die_crack",
+            "result": "absent",
+            "scope": "whole_sample_assumption_requires_qualification",
+            "negative_can_support_absence": true
+          }
+        ],
+        "warpage": [
+          {
+            "procedure": "XRAY",
+            "mechanism": "warpage",
+            "result": "absent",
+            "scope": "whole_sample_assumption",
+            "negative_can_support_absence": true
+          }
+        ],
+        "underfill_void": [
+          {
+            "procedure": "XRAY",
+            "mechanism": "underfill_void",
+            "result": "absent",
+            "scope": "whole_sample_assumption",
+            "negative_can_support_absence": true
+          },
+          {
+            "procedure": "ACOUSTIC",
+            "mechanism": "underfill_void",
+            "result": "absent",
+            "scope": "whole_sample_assumption",
+            "negative_can_support_absence": true
+          }
+        ],
+        "delamination": [
+          {
+            "procedure": "XRAY",
+            "mechanism": "delamination",
+            "result": "absent",
+            "scope": "gross_subtype_only",
+            "negative_can_support_absence": false
+          },
+          {
+            "procedure": "ACOUSTIC",
+            "mechanism": "delamination",
+            "result": "present",
+            "scope": "whole_sample_assumption",
+            "negative_can_support_absence": true
+          }
+        ]
+      },
+      "initial_recommendation": "ACOUSTIC",
+      "terminal_recommendation": {
+        "procedure": null,
+        "policy": "mock",
+        "effective_policy": "mock",
+        "fallback": null,
+        "reason": "no_eligible_procedure",
+        "selected": null,
+        "eligible": [],
+        "blocked": [],
+        "unresolved_mechanisms": [],
+        "rules": {
+          "fired": [
+            "R03",
+            "R04",
+            "R05"
+          ],
+          "not_evaluable": [],
+          "triggered_procedures": {
+            "XRAY": [],
+            "ACOUSTIC": [],
+            "ELECTRICAL": [],
+            "IR": [],
+            "SEM": []
+          }
+        },
+        "score_interpretation": "positive_unresolved_coverage_per_resource_dollar_not_completion_probability"
+      },
+      "not_evaluable_rules": [],
+      "ending": "evidence_complete_pending_engineer_review",
+      "time_basis": "sum_of_nominal_procedure_envelopes_not_actual_turnaround",
+      "manual_review_cost": null
+    },
+    "events": [
+      {
+        "stack_id": "CASE-C",
+        "policy": "mock",
+        "replication": 0,
+        "step": 1,
+        "procedure": "ACOUSTIC",
+        "recommendation": {
+          "procedure": "ACOUSTIC",
+          "policy": "mock",
+          "effective_policy": "mock",
+          "fallback": null,
+          "reason": "triggered_branch",
+          "selected": {
+            "procedure": "ACOUSTIC",
+            "questions": [
+              "delamination"
+            ],
+            "trigger_rules": [
+              "R03"
+            ],
+            "cost": 200.0,
+            "blocked_reasons": [],
+            "score": 0.0
+          },
+          "eligible": [
+            {
+              "procedure": "ACOUSTIC",
+              "questions": [
+                "delamination"
+              ],
+              "trigger_rules": [
+                "R03"
+              ],
+              "cost": 200.0,
+              "blocked_reasons": [],
+              "score": 0.0
+            },
+            {
+              "procedure": "ELECTRICAL",
+              "questions": [
+                "dram_electrical",
+                "tsv_open_short"
+              ],
+              "trigger_rules": [
+                "R04",
+                "R05"
+              ],
+              "cost": 600.0,
+              "blocked_reasons": [],
+              "score": 0.0
+            }
+          ],
+          "blocked": [
+            {
+              "procedure": "SEM",
+              "questions": [
+                "microbump_open_bridge",
+                "die_crack",
+                "tsv_open_short"
+              ],
+              "trigger_rules": [
+                "R08_completeness"
+              ],
+              "cost": 1800.0,
+              "blocked_reasons": [
+                "unresolved_intact_sample_evidence:delamination,dram_electrical",
+                "required_nondestructive_procedures_pending:ACOUSTIC,ELECTRICAL"
+              ]
+            }
+          ],
+          "unresolved_mechanisms": [
+            "dram_electrical",
+            "tsv_open_short",
+            "microbump_open_bridge",
+            "die_crack",
+            "delamination"
+          ],
+          "rules": {
+            "fired": [
+              "R03",
+              "R04",
+              "R05"
+            ],
+            "not_evaluable": [],
+            "triggered_procedures": {
+              "XRAY": [],
+              "ACOUSTIC": [
+                "R03"
+              ],
+              "ELECTRICAL": [
+                "R04",
+                "R05"
+              ],
+              "IR": [],
+              "SEM": [
+                "R08_completeness"
+              ]
+            }
+          },
+          "score_interpretation": "positive_unresolved_coverage_per_resource_dollar_not_completion_probability"
+        },
+        "report": {
+          "procedure": "ACOUSTIC",
+          "status": "conclusive",
+          "findings": [
+            {
+              "mechanism": "delamination",
+              "result": "present",
+              "scope": "whole_sample_assumption",
+              "negative_can_support_absence": true
+            },
+            {
+              "mechanism": "underfill_void",
+              "result": "absent",
+              "scope": "whole_sample_assumption",
+              "negative_can_support_absence": true
+            }
+          ]
+        },
+        "resources": {
+          "spent_cost": 200.0,
+          "labor_cost": 90.0,
+          "equipment_cost": 90.0,
+          "consumables_cost": 20.0,
+          "technician_hours": 0.5,
+          "engineer_hours": 0.5,
+          "equipment_hours": 1.5,
+          "equipment_hours_by_resource": {
+            "ACOUSTIC": 1.5
+          },
+          "nominal_hours": 1.5
+        },
+        "cumulative_cost": 320.0,
+        "states_before": {
+          "dram_electrical": "untested",
+          "tsv_open_short": "untested",
+          "microbump_open_bridge": "untested",
+          "die_crack": "untested",
+          "warpage": "confirmed_absent",
+          "underfill_void": "confirmed_absent",
+          "delamination": "untested"
+        },
+        "states_after": {
+          "dram_electrical": "untested",
+          "tsv_open_short": "untested",
+          "microbump_open_bridge": "untested",
+          "die_crack": "untested",
+          "warpage": "confirmed_absent",
+          "underfill_void": "confirmed_absent",
+          "delamination": "confirmed_present"
+        },
+        "unresolved_mechanisms": [
+          "dram_electrical",
+          "tsv_open_short",
+          "microbump_open_bridge",
+          "die_crack"
+        ],
+        "review_flags": []
+      },
+      {
+        "stack_id": "CASE-C",
+        "policy": "mock",
+        "replication": 0,
+        "step": 2,
+        "procedure": "ELECTRICAL",
+        "recommendation": {
+          "procedure": "ELECTRICAL",
+          "policy": "mock",
+          "effective_policy": "mock",
+          "fallback": null,
+          "reason": "triggered_branch",
+          "selected": {
+            "procedure": "ELECTRICAL",
+            "questions": [
+              "dram_electrical",
+              "tsv_open_short"
+            ],
+            "trigger_rules": [
+              "R04",
+              "R05"
+            ],
+            "cost": 600.0,
+            "blocked_reasons": [],
+            "score": 0.0
+          },
+          "eligible": [
+            {
+              "procedure": "ELECTRICAL",
+              "questions": [
+                "dram_electrical",
+                "tsv_open_short"
+              ],
+              "trigger_rules": [
+                "R04",
+                "R05"
+              ],
+              "cost": 600.0,
+              "blocked_reasons": [],
+              "score": 0.0
+            }
+          ],
+          "blocked": [
+            {
+              "procedure": "SEM",
+              "questions": [
+                "microbump_open_bridge",
+                "die_crack",
+                "tsv_open_short"
+              ],
+              "trigger_rules": [
+                "R08_completeness"
+              ],
+              "cost": 1800.0,
+              "blocked_reasons": [
+                "unresolved_intact_sample_evidence:dram_electrical",
+                "required_nondestructive_procedures_pending:ELECTRICAL"
+              ]
+            }
+          ],
+          "unresolved_mechanisms": [
+            "dram_electrical",
+            "tsv_open_short",
+            "microbump_open_bridge",
+            "die_crack"
+          ],
+          "rules": {
+            "fired": [
+              "R03",
+              "R04",
+              "R05"
+            ],
+            "not_evaluable": [],
+            "triggered_procedures": {
+              "XRAY": [],
+              "ACOUSTIC": [],
+              "ELECTRICAL": [
+                "R04",
+                "R05"
+              ],
+              "IR": [],
+              "SEM": [
+                "R08_completeness"
+              ]
+            }
+          },
+          "score_interpretation": "positive_unresolved_coverage_per_resource_dollar_not_completion_probability"
+        },
+        "report": {
+          "procedure": "ELECTRICAL",
+          "status": "conclusive",
+          "findings": [
+            {
+              "mechanism": "dram_electrical",
+              "result": "absent",
+              "scope": "whole_sample_assumption",
+              "negative_can_support_absence": true
+            },
+            {
+              "mechanism": "tsv_open_short",
+              "result": "present",
+              "scope": "whole_sample_assumption",
+              "negative_can_support_absence": true
+            }
+          ]
+        },
+        "resources": {
+          "spent_cost": 600.0,
+          "labor_cost": 310.0,
+          "equipment_cost": 260.0,
+          "consumables_cost": 30.0,
+          "technician_hours": 0.5,
+          "engineer_hours": 2.5,
+          "equipment_hours": 4.0,
+          "equipment_hours_by_resource": {
+            "ELECTRICAL": 4
+          },
+          "nominal_hours": 4.0
+        },
+        "cumulative_cost": 920.0,
+        "states_before": {
+          "dram_electrical": "untested",
+          "tsv_open_short": "untested",
+          "microbump_open_bridge": "untested",
+          "die_crack": "untested",
+          "warpage": "confirmed_absent",
+          "underfill_void": "confirmed_absent",
+          "delamination": "confirmed_present"
+        },
+        "states_after": {
+          "dram_electrical": "confirmed_absent",
+          "tsv_open_short": "confirmed_present",
+          "microbump_open_bridge": "untested",
+          "die_crack": "untested",
+          "warpage": "confirmed_absent",
+          "underfill_void": "confirmed_absent",
+          "delamination": "confirmed_present"
+        },
+        "unresolved_mechanisms": [
+          "microbump_open_bridge",
+          "die_crack"
+        ],
+        "review_flags": []
+      },
+      {
+        "stack_id": "CASE-C",
+        "policy": "mock",
+        "replication": 0,
+        "step": 3,
+        "procedure": "SEM",
+        "recommendation": {
+          "procedure": "SEM",
+          "policy": "mock",
+          "effective_policy": "mock",
+          "fallback": null,
+          "reason": "triggered_branch",
+          "selected": {
+            "procedure": "SEM",
+            "questions": [
+              "microbump_open_bridge",
+              "die_crack"
+            ],
+            "trigger_rules": [
+              "R08_completeness"
+            ],
+            "cost": 1800.0,
+            "blocked_reasons": [],
+            "score": 0.0
+          },
+          "eligible": [
+            {
+              "procedure": "SEM",
+              "questions": [
+                "microbump_open_bridge",
+                "die_crack"
+              ],
+              "trigger_rules": [
+                "R08_completeness"
+              ],
+              "cost": 1800.0,
+              "blocked_reasons": [],
+              "score": 0.0
+            }
+          ],
+          "blocked": [],
+          "unresolved_mechanisms": [
+            "microbump_open_bridge",
+            "die_crack"
+          ],
+          "rules": {
+            "fired": [
+              "R03",
+              "R04",
+              "R05"
+            ],
+            "not_evaluable": [],
+            "triggered_procedures": {
+              "XRAY": [],
+              "ACOUSTIC": [],
+              "ELECTRICAL": [],
+              "IR": [],
+              "SEM": [
+                "R08_completeness"
+              ]
+            }
+          },
+          "score_interpretation": "positive_unresolved_coverage_per_resource_dollar_not_completion_probability"
+        },
+        "report": {
+          "procedure": "SEM",
+          "status": "conclusive",
+          "findings": [
+            {
+              "mechanism": "microbump_open_bridge",
+              "result": "present",
+              "scope": "whole_sample_assumption_requires_qualification",
+              "negative_can_support_absence": true
+            },
+            {
+              "mechanism": "die_crack",
+              "result": "absent",
+              "scope": "whole_sample_assumption_requires_qualification",
+              "negative_can_support_absence": true
+            },
+            {
+              "mechanism": "tsv_open_short",
+              "result": "present",
+              "scope": "whole_sample_assumption_requires_qualification",
+              "negative_can_support_absence": true
+            }
+          ]
+        },
+        "resources": {
+          "spent_cost": 1800.0,
+          "labor_cost": 750.0,
+          "equipment_cost": 750.0,
+          "consumables_cost": 300.0,
+          "technician_hours": 6.0,
+          "engineer_hours": 3.0,
+          "equipment_hours": 9.0,
+          "equipment_hours_by_resource": {
+            "PREP": 6,
+            "SEM": 3
+          },
+          "nominal_hours": 48.0
+        },
+        "cumulative_cost": 2720.0,
+        "states_before": {
+          "dram_electrical": "confirmed_absent",
+          "tsv_open_short": "confirmed_present",
+          "microbump_open_bridge": "untested",
+          "die_crack": "untested",
+          "warpage": "confirmed_absent",
+          "underfill_void": "confirmed_absent",
+          "delamination": "confirmed_present"
+        },
+        "states_after": {
+          "dram_electrical": "confirmed_absent",
+          "tsv_open_short": "confirmed_present",
+          "microbump_open_bridge": "confirmed_present",
+          "die_crack": "confirmed_absent",
+          "warpage": "confirmed_absent",
+          "underfill_void": "confirmed_absent",
+          "delamination": "confirmed_present"
+        },
+        "unresolved_mechanisms": [],
+        "review_flags": []
+      }
+    ],
+    "boundary": "conditional_nominal_SEM_no_calendar_claim"
+  },
+  "C_inconclusive": {
+    "summary": {
+      "stack_id": "CASE-C-INCONCLUSIVE",
+      "policy": "mock",
+      "replication": 0,
+      "audit": false,
+      "spent_cost": 2720.0,
+      "labor_cost": 1195.0,
+      "equipment_cost": 1160.0,
+      "consumables_cost": 365.0,
+      "technician_hours": 7.25,
+      "engineer_hours": 6.25,
+      "equipment_hours": 15.25,
+      "nominal_hours": 54.25,
+      "complete": false,
+      "evidence_complete": false,
+      "mechanism_evidence_complete": false,
+      "correctly_complete": false,
+      "audit_complete": false,
+      "false_absences": 0,
+      "false_positives": 0,
+      "missed_faults": 1,
+      "missed_coexisting_faults": 1,
+      "coexisting_fault_case": true,
+      "truth_fault_count": 3,
+      "incorrectly_complete": 0,
+      "unresolved_count": 2,
+      "unresolved_mechanisms": [
+        "microbump_open_bridge",
+        "die_crack"
+      ],
+      "initial_spent_cost": 120.0,
+      "equipment_hours_by_resource": {
+        "CT": 0.75,
+        "ACOUSTIC": 1.5,
+        "ELECTRICAL": 4.0,
+        "PREP": 6.0,
+        "SEM": 3.0
+      },
+      "pending_cost": 0.0,
+      "pending_cost_basis": "unattempted_known_procedure_obligations_not_cost_to_completion",
+      "pending_procedures": [],
+      "blocked_procedures": [],
+      "review_pending": true,
+      "review_flags": [],
+      "contradictions": [],
+      "attempts": 4,
+      "inconclusive_attempts": 1,
+      "repeated_attempts": 0,
+      "engineer_overrides": null,
+      "override_status": "not_observed_in_synthetic_replay",
+      "attempted_procedures": [
+        "XRAY",
+        "ACOUSTIC",
+        "ELECTRICAL",
+        "SEM"
+      ],
+      "final_states": {
+        "dram_electrical": "confirmed_absent",
+        "tsv_open_short": "confirmed_present",
+        "microbump_open_bridge": "inconclusive",
+        "die_crack": "inconclusive",
+        "warpage": "confirmed_absent",
+        "underfill_void": "confirmed_absent",
+        "delamination": "confirmed_present"
+      },
+      "supporting_evidence": {
+        "dram_electrical": [
+          {
+            "procedure": "ELECTRICAL",
+            "mechanism": "dram_electrical",
+            "result": "absent",
+            "scope": "whole_sample_assumption",
+            "negative_can_support_absence": true
+          }
+        ],
+        "tsv_open_short": [
+          {
+            "procedure": "ELECTRICAL",
+            "mechanism": "tsv_open_short",
+            "result": "present",
+            "scope": "whole_sample_assumption",
+            "negative_can_support_absence": true
+          },
+          {
+            "procedure": "SEM",
+            "mechanism": "tsv_open_short",
+            "result": "inconclusive",
+            "scope": "whole_sample_assumption_requires_qualification",
+            "negative_can_support_absence": true
+          }
+        ],
+        "microbump_open_bridge": [
+          {
+            "procedure": "SEM",
+            "mechanism": "microbump_open_bridge",
+            "result": "inconclusive",
+            "scope": "whole_sample_assumption_requires_qualification",
+            "negative_can_support_absence": true
+          }
+        ],
+        "die_crack": [
+          {
+            "procedure": "SEM",
+            "mechanism": "die_crack",
+            "result": "inconclusive",
+            "scope": "whole_sample_assumption_requires_qualification",
+            "negative_can_support_absence": true
+          }
+        ],
+        "warpage": [
+          {
+            "procedure": "XRAY",
+            "mechanism": "warpage",
+            "result": "absent",
+            "scope": "whole_sample_assumption",
+            "negative_can_support_absence": true
+          }
+        ],
+        "underfill_void": [
+          {
+            "procedure": "XRAY",
+            "mechanism": "underfill_void",
+            "result": "absent",
+            "scope": "whole_sample_assumption",
+            "negative_can_support_absence": true
+          },
+          {
+            "procedure": "ACOUSTIC",
+            "mechanism": "underfill_void",
+            "result": "absent",
+            "scope": "whole_sample_assumption",
+            "negative_can_support_absence": true
+          }
+        ],
+        "delamination": [
+          {
+            "procedure": "XRAY",
+            "mechanism": "delamination",
+            "result": "absent",
+            "scope": "gross_subtype_only",
+            "negative_can_support_absence": false
+          },
+          {
+            "procedure": "ACOUSTIC",
+            "mechanism": "delamination",
+            "result": "present",
+            "scope": "whole_sample_assumption",
+            "negative_can_support_absence": true
+          }
+        ]
+      },
+      "initial_recommendation": "ACOUSTIC",
+      "terminal_recommendation": {
+        "procedure": null,
+        "policy": "mock",
+        "effective_policy": "mock",
+        "fallback": null,
+        "reason": "no_eligible_procedure",
+        "selected": null,
+        "eligible": [],
+        "blocked": [],
+        "unresolved_mechanisms": [
+          "microbump_open_bridge",
+          "die_crack"
+        ],
+        "rules": {
+          "fired": [
+            "R03",
+            "R04",
+            "R05"
+          ],
+          "not_evaluable": [],
+          "triggered_procedures": {
+            "XRAY": [],
+            "ACOUSTIC": [],
+            "ELECTRICAL": [],
+            "IR": [],
+            "SEM": [
+              "R08_completeness"
+            ]
+          }
+        },
+        "score_interpretation": "positive_unresolved_coverage_per_resource_dollar_not_completion_probability"
+      },
+      "not_evaluable_rules": [],
+      "ending": "partial_unresolved_review_required",
+      "time_basis": "sum_of_nominal_procedure_envelopes_not_actual_turnaround",
+      "manual_review_cost": null
+    },
+    "events": [
+      {
+        "stack_id": "CASE-C-INCONCLUSIVE",
+        "policy": "mock",
+        "replication": 0,
+        "step": 1,
+        "procedure": "ACOUSTIC",
+        "recommendation": {
+          "procedure": "ACOUSTIC",
+          "policy": "mock",
+          "effective_policy": "mock",
+          "fallback": null,
+          "reason": "triggered_branch",
+          "selected": {
+            "procedure": "ACOUSTIC",
+            "questions": [
+              "delamination"
+            ],
+            "trigger_rules": [
+              "R03"
+            ],
+            "cost": 200.0,
+            "blocked_reasons": [],
+            "score": 0.0
+          },
+          "eligible": [
+            {
+              "procedure": "ACOUSTIC",
+              "questions": [
+                "delamination"
+              ],
+              "trigger_rules": [
+                "R03"
+              ],
+              "cost": 200.0,
+              "blocked_reasons": [],
+              "score": 0.0
+            },
+            {
+              "procedure": "ELECTRICAL",
+              "questions": [
+                "dram_electrical",
+                "tsv_open_short"
+              ],
+              "trigger_rules": [
+                "R04",
+                "R05"
+              ],
+              "cost": 600.0,
+              "blocked_reasons": [],
+              "score": 0.0
+            }
+          ],
+          "blocked": [
+            {
+              "procedure": "SEM",
+              "questions": [
+                "microbump_open_bridge",
+                "die_crack",
+                "tsv_open_short"
+              ],
+              "trigger_rules": [
+                "R08_completeness"
+              ],
+              "cost": 1800.0,
+              "blocked_reasons": [
+                "unresolved_intact_sample_evidence:delamination,dram_electrical",
+                "required_nondestructive_procedures_pending:ACOUSTIC,ELECTRICAL"
+              ]
+            }
+          ],
+          "unresolved_mechanisms": [
+            "dram_electrical",
+            "tsv_open_short",
+            "microbump_open_bridge",
+            "die_crack",
+            "delamination"
+          ],
+          "rules": {
+            "fired": [
+              "R03",
+              "R04",
+              "R05"
+            ],
+            "not_evaluable": [],
+            "triggered_procedures": {
+              "XRAY": [],
+              "ACOUSTIC": [
+                "R03"
+              ],
+              "ELECTRICAL": [
+                "R04",
+                "R05"
+              ],
+              "IR": [],
+              "SEM": [
+                "R08_completeness"
+              ]
+            }
+          },
+          "score_interpretation": "positive_unresolved_coverage_per_resource_dollar_not_completion_probability"
+        },
+        "report": {
+          "procedure": "ACOUSTIC",
+          "status": "conclusive",
+          "findings": [
+            {
+              "mechanism": "delamination",
+              "result": "present",
+              "scope": "whole_sample_assumption",
+              "negative_can_support_absence": true
+            },
+            {
+              "mechanism": "underfill_void",
+              "result": "absent",
+              "scope": "whole_sample_assumption",
+              "negative_can_support_absence": true
+            }
+          ]
+        },
+        "resources": {
+          "spent_cost": 200.0,
+          "labor_cost": 90.0,
+          "equipment_cost": 90.0,
+          "consumables_cost": 20.0,
+          "technician_hours": 0.5,
+          "engineer_hours": 0.5,
+          "equipment_hours": 1.5,
+          "equipment_hours_by_resource": {
+            "ACOUSTIC": 1.5
+          },
+          "nominal_hours": 1.5
+        },
+        "cumulative_cost": 320.0,
+        "states_before": {
+          "dram_electrical": "untested",
+          "tsv_open_short": "untested",
+          "microbump_open_bridge": "untested",
+          "die_crack": "untested",
+          "warpage": "confirmed_absent",
+          "underfill_void": "confirmed_absent",
+          "delamination": "untested"
+        },
+        "states_after": {
+          "dram_electrical": "untested",
+          "tsv_open_short": "untested",
+          "microbump_open_bridge": "untested",
+          "die_crack": "untested",
+          "warpage": "confirmed_absent",
+          "underfill_void": "confirmed_absent",
+          "delamination": "confirmed_present"
+        },
+        "unresolved_mechanisms": [
+          "dram_electrical",
+          "tsv_open_short",
+          "microbump_open_bridge",
+          "die_crack"
+        ],
+        "review_flags": []
+      },
+      {
+        "stack_id": "CASE-C-INCONCLUSIVE",
+        "policy": "mock",
+        "replication": 0,
+        "step": 2,
+        "procedure": "ELECTRICAL",
+        "recommendation": {
+          "procedure": "ELECTRICAL",
+          "policy": "mock",
+          "effective_policy": "mock",
+          "fallback": null,
+          "reason": "triggered_branch",
+          "selected": {
+            "procedure": "ELECTRICAL",
+            "questions": [
+              "dram_electrical",
+              "tsv_open_short"
+            ],
+            "trigger_rules": [
+              "R04",
+              "R05"
+            ],
+            "cost": 600.0,
+            "blocked_reasons": [],
+            "score": 0.0
+          },
+          "eligible": [
+            {
+              "procedure": "ELECTRICAL",
+              "questions": [
+                "dram_electrical",
+                "tsv_open_short"
+              ],
+              "trigger_rules": [
+                "R04",
+                "R05"
+              ],
+              "cost": 600.0,
+              "blocked_reasons": [],
+              "score": 0.0
+            }
+          ],
+          "blocked": [
+            {
+              "procedure": "SEM",
+              "questions": [
+                "microbump_open_bridge",
+                "die_crack",
+                "tsv_open_short"
+              ],
+              "trigger_rules": [
+                "R08_completeness"
+              ],
+              "cost": 1800.0,
+              "blocked_reasons": [
+                "unresolved_intact_sample_evidence:dram_electrical",
+                "required_nondestructive_procedures_pending:ELECTRICAL"
+              ]
+            }
+          ],
+          "unresolved_mechanisms": [
+            "dram_electrical",
+            "tsv_open_short",
+            "microbump_open_bridge",
+            "die_crack"
+          ],
+          "rules": {
+            "fired": [
+              "R03",
+              "R04",
+              "R05"
+            ],
+            "not_evaluable": [],
+            "triggered_procedures": {
+              "XRAY": [],
+              "ACOUSTIC": [],
+              "ELECTRICAL": [
+                "R04",
+                "R05"
+              ],
+              "IR": [],
+              "SEM": [
+                "R08_completeness"
+              ]
+            }
+          },
+          "score_interpretation": "positive_unresolved_coverage_per_resource_dollar_not_completion_probability"
+        },
+        "report": {
+          "procedure": "ELECTRICAL",
+          "status": "conclusive",
+          "findings": [
+            {
+              "mechanism": "dram_electrical",
+              "result": "absent",
+              "scope": "whole_sample_assumption",
+              "negative_can_support_absence": true
+            },
+            {
+              "mechanism": "tsv_open_short",
+              "result": "present",
+              "scope": "whole_sample_assumption",
+              "negative_can_support_absence": true
+            }
+          ]
+        },
+        "resources": {
+          "spent_cost": 600.0,
+          "labor_cost": 310.0,
+          "equipment_cost": 260.0,
+          "consumables_cost": 30.0,
+          "technician_hours": 0.5,
+          "engineer_hours": 2.5,
+          "equipment_hours": 4.0,
+          "equipment_hours_by_resource": {
+            "ELECTRICAL": 4
+          },
+          "nominal_hours": 4.0
+        },
+        "cumulative_cost": 920.0,
+        "states_before": {
+          "dram_electrical": "untested",
+          "tsv_open_short": "untested",
+          "microbump_open_bridge": "untested",
+          "die_crack": "untested",
+          "warpage": "confirmed_absent",
+          "underfill_void": "confirmed_absent",
+          "delamination": "confirmed_present"
+        },
+        "states_after": {
+          "dram_electrical": "confirmed_absent",
+          "tsv_open_short": "confirmed_present",
+          "microbump_open_bridge": "untested",
+          "die_crack": "untested",
+          "warpage": "confirmed_absent",
+          "underfill_void": "confirmed_absent",
+          "delamination": "confirmed_present"
+        },
+        "unresolved_mechanisms": [
+          "microbump_open_bridge",
+          "die_crack"
+        ],
+        "review_flags": []
+      },
+      {
+        "stack_id": "CASE-C-INCONCLUSIVE",
+        "policy": "mock",
+        "replication": 0,
+        "step": 3,
+        "procedure": "SEM",
+        "recommendation": {
+          "procedure": "SEM",
+          "policy": "mock",
+          "effective_policy": "mock",
+          "fallback": null,
+          "reason": "triggered_branch",
+          "selected": {
+            "procedure": "SEM",
+            "questions": [
+              "microbump_open_bridge",
+              "die_crack"
+            ],
+            "trigger_rules": [
+              "R08_completeness"
+            ],
+            "cost": 1800.0,
+            "blocked_reasons": [],
+            "score": 0.0
+          },
+          "eligible": [
+            {
+              "procedure": "SEM",
+              "questions": [
+                "microbump_open_bridge",
+                "die_crack"
+              ],
+              "trigger_rules": [
+                "R08_completeness"
+              ],
+              "cost": 1800.0,
+              "blocked_reasons": [],
+              "score": 0.0
+            }
+          ],
+          "blocked": [],
+          "unresolved_mechanisms": [
+            "microbump_open_bridge",
+            "die_crack"
+          ],
+          "rules": {
+            "fired": [
+              "R03",
+              "R04",
+              "R05"
+            ],
+            "not_evaluable": [],
+            "triggered_procedures": {
+              "XRAY": [],
+              "ACOUSTIC": [],
+              "ELECTRICAL": [],
+              "IR": [],
+              "SEM": [
+                "R08_completeness"
+              ]
+            }
+          },
+          "score_interpretation": "positive_unresolved_coverage_per_resource_dollar_not_completion_probability"
+        },
+        "report": {
+          "procedure": "SEM",
+          "status": "inconclusive",
+          "findings": [
+            {
+              "mechanism": "microbump_open_bridge",
+              "result": "inconclusive",
+              "scope": "whole_sample_assumption_requires_qualification",
+              "negative_can_support_absence": true
+            },
+            {
+              "mechanism": "die_crack",
+              "result": "inconclusive",
+              "scope": "whole_sample_assumption_requires_qualification",
+              "negative_can_support_absence": true
+            },
+            {
+              "mechanism": "tsv_open_short",
+              "result": "inconclusive",
+              "scope": "whole_sample_assumption_requires_qualification",
+              "negative_can_support_absence": true
+            }
+          ]
+        },
+        "resources": {
+          "spent_cost": 1800.0,
+          "labor_cost": 750.0,
+          "equipment_cost": 750.0,
+          "consumables_cost": 300.0,
+          "technician_hours": 6.0,
+          "engineer_hours": 3.0,
+          "equipment_hours": 9.0,
+          "equipment_hours_by_resource": {
+            "PREP": 6,
+            "SEM": 3
+          },
+          "nominal_hours": 48.0
+        },
+        "cumulative_cost": 2720.0,
+        "states_before": {
+          "dram_electrical": "confirmed_absent",
+          "tsv_open_short": "confirmed_present",
+          "microbump_open_bridge": "untested",
+          "die_crack": "untested",
+          "warpage": "confirmed_absent",
+          "underfill_void": "confirmed_absent",
+          "delamination": "confirmed_present"
+        },
+        "states_after": {
+          "dram_electrical": "confirmed_absent",
+          "tsv_open_short": "confirmed_present",
+          "microbump_open_bridge": "inconclusive",
+          "die_crack": "inconclusive",
+          "warpage": "confirmed_absent",
+          "underfill_void": "confirmed_absent",
+          "delamination": "confirmed_present"
+        },
+        "unresolved_mechanisms": [
+          "microbump_open_bridge",
+          "die_crack"
+        ],
+        "review_flags": []
+      }
+    ],
+    "boundary": "SEM_spent_without_complete_evidence"
+  },
+  "D_cost": {
+    "two_CT_attempts": 240.0,
+    "boundary": "scheduler_checks_appointments_separately"
+  }
+}

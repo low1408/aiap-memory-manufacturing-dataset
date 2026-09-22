@@ -1,0 +1,247 @@
+{
+  "all_source_stacks": 17793,
+  "chronology": [
+    {
+      "acceptance_label_to_next_feature_days": 20.5625,
+      "following": "validation",
+      "lot_release_gap_days": 21.5,
+      "previous": "train"
+    },
+    {
+      "acceptance_label_to_next_feature_days": 20.57638888888889,
+      "following": "test",
+      "lot_release_gap_days": 21.5,
+      "previous": "validation"
+    }
+  ],
+  "coexisting_fault_cases": {
+    "test": 2,
+    "train": 17,
+    "validation": 2
+  },
+  "embargo_interpretation": "The supplied 21-day embargo is a lot-release rule, not a 21-day acceptance-label-to-next-feature gap.",
+  "evidence_boundary": "Acceptance label time equals initial test time; it does not establish a delayed diagnostic-label chronology. Several acceptance fields are synthetic truth-derived readings. No procedure history or audit flag is supplied.",
+  "feature_groups": {
+    "full": [
+      "stack_layer_count",
+      "assembly_tool_id",
+      "stack_height_um",
+      "inter_die_gap_mean_um",
+      "max_alignment_offset_um",
+      "cumulative_die_shift_um",
+      "emc_viscosity_pa_s",
+      "molding_pressure_mpa",
+      "molding_vacuum_absolute_kpa",
+      "reflow_peak_temperature_c",
+      "time_above_liquidus_sec",
+      "heating_rate_c_sec",
+      "cure_temperature_c",
+      "cure_duration_min",
+      "underfill_void_pct",
+      "delamination_area_pct",
+      "package_warpage_um",
+      "stacks_since_tool_service",
+      "core_thickness_mean_um",
+      "core_thickness_std_um",
+      "core_warpage_max_um",
+      "core_ttv_mean_um",
+      "core_leakage_mean_ua",
+      "core_repair_count_sum",
+      "core_particle_count_sum",
+      "core_tsv_resistance_mean_mohm",
+      "core_tsv_resistance_max_mohm",
+      "core_bump_coplanarity_max_um",
+      "n_source_wafers",
+      "n_dies_with_detailed_metrology",
+      "sampled_core_tsv_void_mean_pct",
+      "sampled_core_cd_mean_nm",
+      "base_leakage_current_ua",
+      "base_die_thickness_um",
+      "stack_assembly_pass",
+      "electrical_test_pass",
+      "uncorrected_error_count",
+      "ecc_corrected_errors",
+      "detected_interconnect_failures",
+      "max_pass_data_rate_gbps",
+      "measured_bandwidth_gb_s",
+      "power_consumption_w",
+      "thermal_resistance_c_w"
+    ],
+    "inspection": [
+      "stack_layer_count",
+      "underfill_void_pct",
+      "delamination_area_pct",
+      "package_warpage_um",
+      "sampled_core_tsv_void_mean_pct",
+      "n_dies_with_detailed_metrology",
+      "stack_assembly_pass",
+      "electrical_test_pass",
+      "uncorrected_error_count",
+      "ecc_corrected_errors",
+      "detected_interconnect_failures",
+      "max_pass_data_rate_gbps",
+      "measured_bandwidth_gb_s",
+      "power_consumption_w",
+      "thermal_resistance_c_w"
+    ],
+    "manufacturing": [
+      "stack_layer_count",
+      "assembly_tool_id",
+      "stack_height_um",
+      "inter_die_gap_mean_um",
+      "max_alignment_offset_um",
+      "cumulative_die_shift_um",
+      "emc_viscosity_pa_s",
+      "molding_pressure_mpa",
+      "molding_vacuum_absolute_kpa",
+      "reflow_peak_temperature_c",
+      "time_above_liquidus_sec",
+      "heating_rate_c_sec",
+      "cure_temperature_c",
+      "cure_duration_min",
+      "underfill_void_pct",
+      "delamination_area_pct",
+      "package_warpage_um",
+      "stacks_since_tool_service",
+      "core_thickness_mean_um",
+      "core_thickness_std_um",
+      "core_warpage_max_um",
+      "core_ttv_mean_um",
+      "core_leakage_mean_ua",
+      "core_repair_count_sum",
+      "core_particle_count_sum",
+      "core_tsv_resistance_mean_mohm",
+      "core_tsv_resistance_max_mohm",
+      "core_bump_coplanarity_max_um",
+      "n_source_wafers",
+      "n_dies_with_detailed_metrology",
+      "sampled_core_tsv_void_mean_pct",
+      "sampled_core_cd_mean_nm",
+      "base_leakage_current_ua",
+      "base_die_thickness_um"
+    ]
+  },
+  "label_columns": [
+    "fault_dram_electrical",
+    "fault_tsv_open_short",
+    "fault_microbump_open_bridge",
+    "fault_die_crack",
+    "fault_warpage",
+    "fault_underfill_void",
+    "fault_delamination"
+  ],
+  "mechanisms": [
+    "dram_electrical",
+    "tsv_open_short",
+    "microbump_open_bridge",
+    "die_crack",
+    "warpage",
+    "underfill_void",
+    "delamination"
+  ],
+  "missing_feature_counts": {
+    "sampled_core_cd_mean_nm": 57,
+    "sampled_core_tsv_void_mean_pct": 57
+  },
+  "passed": true,
+  "prepared_checksums": {
+    "cases.parquet": "a5622bea505d1ea37a9883c447adbcedbbef61e0d778b702feb7866fc945a323",
+    "labels.parquet": "8d6446bdef42cd1b9e246d4b80b1ca5e5317462a5357358bb58940bff51a69dc"
+  },
+  "qualification": "Retrospective supplied synthetic context only; supplier identity and actual diagnostic-result timestamps are absent.",
+  "rejected_stacks": 916,
+  "schema_version": "helion-diagnostic-data-v1",
+  "source_checksums": {
+    "data/assembly/die_disposition.csv": "ddae7b0d6683d071d5f7ebbbde8193348595d4ab0d6702fb743cce2168ce7827",
+    "data/assembly/electrical_test.csv": "35b5a8d5f350cfc4851b0fd87306f1d0dc73f59bbe5d9d4d17fd21a2c88888e0",
+    "data/assembly/reliability_test.csv": "c94de9738d3b7d2c3694f5cddc54f721cc187129539e5620c91fd4be85ef3f3b",
+    "data/assembly/stack_assembly.csv": "827eec23774ce512c4bac7e83d888f0e0244b7da2f41ebf69046e2414c7b7fd0",
+    "data/assembly/stack_membership.csv": "f15a41c6dbf60d8e2f5f0db7b359f31ded7a5f30798e83011be68ce123429958",
+    "data/manufacturing/base_die.csv": "e824c3355459edb6f08822a5242e964de2c53226fc16abf83e66a8294a8cabde",
+    "data/manufacturing/die_metrology.csv": "c6a3c8d58926308701ff4210391aa6375dbc16aa709045f470e5885eafb6b6dc",
+    "data/manufacturing/lots.csv": "5a0cc99bc11297d2eb1630df2c2e78adbf11ade277a5343bf1c93f0f7001264f",
+    "data/manufacturing/recipes.csv": "e66097476db3bc7ef99e941d28e60504a75dea38e6a5de7eabef3305dc46c9d0",
+    "data/manufacturing/sensor_trace.csv": "9f1ce11bdc11123965b0a8e5c3a9e0d343ee6e9982bb077f33bff469afee6cdc",
+    "data/manufacturing/tsv_inspection.csv": "8421971f1936317e9741bdac7971ab2d5dafd888406797352bdbf07535762e87",
+    "data/manufacturing/wafer_process.csv": "4e288f17866d75a635e65e10789d87f833d7621b6791861a62e0743e1524d18f",
+    "data/manufacturing/wafers.csv": "da13f630375c640bd0e32fdf0091f45eb867285a719e4afe65d3d69db156d9e2",
+    "data/ml/ml_stack_features.csv": "fef2de93d158a657f15a519c5cfaf904ff6dcb31eaa414558d8086bc22cfbead",
+    "data/ml/ml_stack_labels.csv": "20a80810b2c48b13f9b164d95a562c96cde0081189f43eaa0d5b88d7403e36e5",
+    "data/ml/stack_training.csv": "ff7fdb7dfcf74f5d9a5c25d0188ad864addd21ca72b5a6bb34fd0ef07256cf75",
+    "data/simulation_truth/simulation_truth_die.csv": "36dd5958b20b9b5a93a98b5a78481e3da2ba9f8d45f951b5afb93ca22760b6b7",
+    "data/simulation_truth/simulation_truth_stack.csv": "989184a92e3a05a7da921982dc488405553fbdd769293df7180b3012ad10343c",
+    "metadata/manifest.json": "8896e7ed35cb96f6008d1e429227aa1a7f53dceca9fe9ea580bbe3b018f2aa25"
+  },
+  "split_counts": {
+    "test": 137,
+    "train": 653,
+    "validation": 126
+  },
+  "target_support": {
+    "test": {
+      "delamination": 14,
+      "die_crack": 6,
+      "dram_electrical": 18,
+      "microbump_open_bridge": 24,
+      "tsv_open_short": 18,
+      "underfill_void": 24,
+      "warpage": 35
+    },
+    "train": {
+      "delamination": 68,
+      "die_crack": 36,
+      "dram_electrical": 57,
+      "microbump_open_bridge": 94,
+      "tsv_open_short": 76,
+      "underfill_void": 156,
+      "warpage": 184
+    },
+    "validation": {
+      "delamination": 14,
+      "die_crack": 5,
+      "dram_electrical": 22,
+      "microbump_open_bridge": 19,
+      "tsv_open_short": 14,
+      "underfill_void": 26,
+      "warpage": 28
+    }
+  },
+  "training_folds": [
+    {
+      "fit_lots": [
+        1,
+        60
+      ],
+      "fold": 1,
+      "lot_release_gap_days": 21.5,
+      "score_lots": [
+        103,
+        124
+      ]
+    },
+    {
+      "fit_lots": [
+        1,
+        82
+      ],
+      "fold": 2,
+      "lot_release_gap_days": 21.5,
+      "score_lots": [
+        125,
+        146
+      ]
+    },
+    {
+      "fit_lots": [
+        1,
+        104
+      ],
+      "fold": 3,
+      "lot_release_gap_days": 21.5,
+      "score_lots": [
+        147,
+        168
+      ]
+    }
+  ]
+}
