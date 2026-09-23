@@ -20,6 +20,9 @@ MECHANISMS = (
 PROCEDURE_ORDER = ("XRAY", "ACOUSTIC", "ELECTRICAL", "IR", "SEM")
 RESOLVED = frozenset(("confirmed_present", "confirmed_absent"))
 INTACT_MECHANISMS = ("warpage", "underfill_void", "delamination", "dram_electrical")
+PACKAGE_MECHANISMS = frozenset(("warpage", "underfill_void", "delamination"))
+STRUCTURAL_MECHANISMS = frozenset(("warpage", "underfill_void", "delamination", "microbump_open_bridge", "die_crack"))
+ELECTRICAL_MECHANISMS = frozenset(("dram_electrical", "tsv_open_short", "microbump_open_bridge"))
 
 
 def uniform_draw(seed: int, *key: Any) -> float:
@@ -114,6 +117,9 @@ class InvestigationState:
     def unresolved(self) -> list[str]:
         return [m for m in MECHANISMS if self.states[m] not in RESOLVED]
 
+    def attempts_for(self, procedure: str) -> int:
+        return self.attempted.count(procedure)
+
 
 def initial_state(case: dict, audit: bool = False) -> InvestigationState:
     state = InvestigationState(audit=bool(audit))
@@ -136,8 +142,6 @@ def apply_report(state: InvestigationState, report: dict) -> None:
     procedure = report["procedure"]
     if procedure not in PROCEDURE_ORDER:
         raise ValueError(f"Unknown procedure: {procedure}")
-    if procedure in state.attempted:
-        raise ValueError(f"A second {procedure} attempt requires manual review")
     if report.get("status") not in {"conclusive", "inconclusive"}:
         raise ValueError("Report status must be conclusive or inconclusive")
     if procedure == "IR" and report.get("findings"):
@@ -196,73 +200,187 @@ def apply_report(state: InvestigationState, report: dict) -> None:
             state.states[mechanism] = incoming
 
 
-def trigger_rules(case: CaseSnapshot, state: InvestigationState) -> dict:
-    """Evaluate teaching thresholds; missing observations stay not evaluable."""
+def _routine_plan(case: CaseSnapshot, state: InvestigationState) -> dict:
+    """Build MOCK-ENG-002's open concerns without using hidden truth.
+
+    Routine cases resolve indicated concerns and failed acceptance branches. They
+    do not acquire negative evidence for all seven mechanisms. The plan is
+    recomputed after every scoped report so an earlier finding can add a co-fault
+    concern or retire the generic electrical branch.
+    """
     obs = case.observations
     fired: list[str] = []
     unknown: list[str] = []
-    triggers: dict[str, list[str]] = {p: [] for p in PROCEDURE_ORDER}
+    reasons: dict[str, list[str]] = {p: [] for p in PROCEDURE_ORDER}
+    questions: dict[str, set[str]] = {p: set() for p in PROCEDURE_ORDER}
+    open_mechanisms: set[str] = set()
+    retired: list[str] = []
     unresolved = set(state.unresolved)
 
-    def rule(rule_id: str, known: bool, condition: bool, procedure: str, questions: set[str]) -> None:
+    def observed_rule(rule_id: str, known: bool, condition: bool) -> bool:
         if not known:
             unknown.append(rule_id)
         elif condition:
             fired.append(rule_id)
-            if unresolved & questions:
-                triggers[procedure].append(rule_id)
+        return bool(known and condition)
+
+    def require(procedure: str, rule_id: str, mechanisms: set[str] | frozenset[str]) -> None:
+        scoped = unresolved & set(mechanisms)
+        if scoped:
+            open_mechanisms.update(scoped)
+            reasons[procedure].append(rule_id)
+            questions[procedure].update(scoped)
+
+    def attempted(procedure: str) -> bool:
+        return procedure in state.attempted
+
+    def positive(mechanisms: set[str] | frozenset[str]) -> bool:
+        return any(state.states[m] == "confirmed_present" for m in mechanisms)
 
     layer = obs.get("stack_layer_count")
     warpage = obs.get("package_warpage_um")
     known = _finite(layer) and float(layer) in (8, 12) and _finite(warpage)
-    rule("R01", known, bool(known and float(warpage) >= (15 if float(layer) == 8 else 18)), "XRAY", {"warpage"})
+    r01 = observed_rule("R01", known, bool(known and float(warpage) >= (15 if float(layer) == 8 else 18)))
     void = obs.get("underfill_void_pct")
     known = _finite(void)
-    rule("R02", known, bool(known and float(void) >= 0.50), "XRAY", {"underfill_void"})
-    if "R02" in fired and "XRAY" in state.attempted and "underfill_void" in unresolved:
-        triggers["ACOUSTIC"].append("R02_followup")
+    r02 = observed_rule("R02", known, bool(known and float(void) >= 0.50))
     delam = obs.get("delamination_area_pct")
     known = _finite(delam)
-    rule("R03", known, bool(known and float(delam) >= 0.30), "ACOUSTIC", {"delamination"})
+    r03 = observed_rule("R03", known, bool(known and float(delam) >= 0.30))
     interconnect = obs.get("detected_interconnect_failures")
     known = _finite(interconnect)
-    rule("R04", known, bool(known and float(interconnect) >= 1), "ELECTRICAL", {"dram_electrical", "tsv_open_short"})
+    r04 = observed_rule("R04", known, bool(known and float(interconnect) >= 1))
     electrical, errors = obs.get("electrical_test_pass"), obs.get("uncorrected_error_count")
-    # Three-valued OR: an observed positive trigger suffices despite a missing other field.
     condition = (_finite(electrical) and float(electrical) == 0) or (_finite(errors) and float(errors) > 0)
     known = condition or (_finite(electrical) and _finite(errors))
-    rule("R05", known, condition, "ELECTRICAL", {"dram_electrical", "tsv_open_short"})
+    r05 = observed_rule("R05", known, bool(condition and not r04))
     n_measured, tsv = obs.get("n_dies_with_detailed_metrology"), obs.get("sampled_core_tsv_void_mean_pct")
     known = _finite(n_measured) and float(n_measured) > 0 and _finite(tsv)
-    rule("R06", known, bool(known and float(tsv) >= 0.80), "ELECTRICAL", {"tsv_open_short"})
+    r06 = observed_rule("R06", known, bool(known and float(tsv) >= 0.80))
+
+    if r01:
+        require("XRAY", "R01", {"warpage"})
+    if r02:
+        # CT is the initial procedure; acoustic is the qualified follow-up when
+        # CT has already been attempted and the concern remains unresolved.
+        require("ACOUSTIC" if attempted("XRAY") else "XRAY", "R02_followup" if attempted("XRAY") else "R02", {"underfill_void"})
+    if r03:
+        require("ACOUSTIC", "R03", {"delamination"})
+
+    package_positive = positive(PACKAGE_MECHANISMS)
+    initial_package_open = ((r01 and "warpage" in unresolved)
+                            or (r02 and "underfill_void" in unresolved)
+                            or (r03 and "delamination" in unresolved))
+    specific_interconnect = r04 or r06
+    generic_retired = bool(r05 and not specific_interconnect and package_positive)
+    if generic_retired:
+        retired.append("R05_package_explanation")
+    if r04:
+        require("ELECTRICAL", "R04", {"tsv_open_short"})
+    if r06:
+        require("ELECTRICAL", "R06", {"tsv_open_short"})
+    if r05 and not generic_retired:
+        require("ELECTRICAL", "R05", {"dram_electrical", "tsv_open_short"})
+
     electrical_inconclusive = any(r["procedure"] == "ELECTRICAL" and r["status"] == "inconclusive" for r in state.reports)
     if electrical_inconclusive and not state.localisation:
         fired.append("R07")
-        triggers["IR"].append("R07")
-    if unresolved & {"microbump_open_bridge", "die_crack", "tsv_open_short"}:
-        # Eligibility enforces the prior nondestructive evidence requirement.
-        triggers["SEM"].append("R08_completeness")
-    return {"fired": fired, "not_evaluable": unknown, "triggered_procedures": triggers}
+        reasons["IR"].append("R07")
+
+    # R09: a specific interconnect signature remains a microbump differential
+    # after electrical examination; a confirmed TSV also opens this safeguard.
+    if (r04 and attempted("ELECTRICAL")) or state.states["tsv_open_short"] == "confirmed_present":
+        fired.append("R09")
+        require("SEM", "R09", {"microbump_open_bridge"})
+
+    assembly_failed = _finite(obs.get("stack_assembly_pass")) and float(obs["stack_assembly_pass"]) == 0
+    initial_package_signal = r01 or r02 or r03
+    structural_positive = positive(STRUCTURAL_MECHANISMS)
+    if assembly_failed and not structural_positive and not initial_package_open:
+        fired.append("R08")
+        # Broad escalation is sequential. CT can reveal W/V/gross-D; acoustic
+        # addresses fine D/V; SEM is reserved for a still-unexplained branch.
+        if not attempted("XRAY"):
+            require("XRAY", "R08", PACKAGE_MECHANISMS)
+        elif not attempted("ACOUSTIC"):
+            require("ACOUSTIC", "R08_followup", {"underfill_void", "delamination"})
+        else:
+            fired.append("R10")
+            require("SEM", "R10", {"microbump_open_bridge", "die_crack"})
+
+    # A triggered package concern remains open even when a separate structural
+    # result explains the assembly branch; independently fired questions must
+    # still be resolved.
+    if initial_package_signal:
+        if r01:
+            open_mechanisms.update(unresolved & {"warpage"})
+        if r02:
+            open_mechanisms.update(unresolved & {"underfill_void"})
+        if r03:
+            open_mechanisms.update(unresolved & {"delamination"})
+
+    electrical_failed = bool(r05)
+    if r04:
+        electrical_explained = positive({"tsv_open_short", "microbump_open_bridge"})
+    elif electrical_failed and not generic_retired:
+        electrical_explained = positive(ELECTRICAL_MECHANISMS)
+    else:
+        electrical_explained = True
+    assembly_explained = not assembly_failed or structural_positive
+
+    unexplained = []
+    # Do not label a branch unexplained while a required procedure is still
+    # available. This flag describes terminal escalation after the standard path.
+    if assembly_failed and not assembly_explained and attempted("XRAY") and attempted("ACOUSTIC") and attempted("SEM"):
+        unexplained.append("assembly")
+    if electrical_failed and not generic_retired and not electrical_explained and attempted("ELECTRICAL"):
+        # A specific differential may still be resolved by SEM.
+        if not r04 or attempted("SEM"):
+            unexplained.append("electrical")
+
+    return {
+        "fired": list(dict.fromkeys(fired)), "not_evaluable": list(dict.fromkeys(unknown)),
+        "triggered_procedures": reasons, "questions_by_procedure": questions,
+        "open_mechanisms": sorted(open_mechanisms), "retired_rules": retired,
+        "unexplained_branches": unexplained,
+        "branch_explanations": {"assembly": assembly_explained, "electrical": electrical_explained},
+    }
 
 
-def _useful_questions(state: InvestigationState, procedure: dict) -> list[str]:
-    return [r["mechanism"] for r in procedure["binary_outcomes"] if r["mechanism"] in state.unresolved]
+def trigger_rules(case: CaseSnapshot, state: InvestigationState) -> dict:
+    """Expose MOCK-ENG-002 rule state; missing observations stay unknown."""
+    return _routine_plan(case, state)
+
+
+def _attempt_limit(procedure: str, ops: dict) -> int:
+    limits = ops.get("repeat_policy", {}).get("max_attempts_by_procedure", {})
+    return int(limits.get(procedure, 1))
+
+
+def _can_attempt(state: InvestigationState, procedure: str, ops: dict) -> bool:
+    count = state.attempts_for(procedure)
+    if count == 0:
+        return True
+    reports = [r for r in state.reports if r["procedure"] == procedure]
+    return bool(count < _attempt_limit(procedure, ops) and reports[-1]["status"] == "inconclusive")
 
 
 def procedure_candidates(case: CaseSnapshot, state: InvestigationState, ops: dict) -> tuple[list[dict], list[dict], dict]:
     """Return eligible and blocked known obligations, never hidden truth."""
     rules = trigger_rules(case, state)
-    cat = catalogue(ops)
     eligible, blocked = [], []
     desired = []
     for name in PROCEDURE_ORDER:
-        if name in state.attempted:
+        if not _can_attempt(state, name, ops):
             continue
-        questions = _useful_questions(state, cat[name])
-        triggered = rules["triggered_procedures"][name]
-        wanted = state.audit or bool(questions) or bool(triggered)
-        if name == "IR":
-            wanted = state.audit or bool(triggered)
+        questions = ([r["mechanism"] for r in catalogue(ops)[name]["binary_outcomes"] if r["mechanism"] in state.unresolved]
+                     if state.audit else sorted(rules["questions_by_procedure"][name]))
+        triggered = list(rules["triggered_procedures"][name])
+        if state.audit:
+            previously_conclusive = any(r["procedure"] == name and r["status"] == "conclusive" for r in state.reports)
+            wanted = not previously_conclusive
+        else:
+            wanted = bool(questions) or bool(triggered)
         if wanted:
             desired.append({"procedure": name, "questions": questions,
                             "trigger_rules": triggered, "cost": procedure_cost(name, ops)})
@@ -274,9 +392,6 @@ def procedure_candidates(case: CaseSnapshot, state: InvestigationState, ops: dic
         if record["procedure"] == "SEM":
             if state.review_flags:
                 reasons.append("manual_review_before_destruction")
-            missing = [m for m in INTACT_MECHANISMS if state.states[m] not in RESOLVED]
-            if missing:
-                reasons.append("unresolved_intact_sample_evidence:" + ",".join(missing))
             if nondestructive_pending:
                 reasons.append("required_nondestructive_procedures_pending:" + ",".join(nondestructive_pending))
         if record["procedure"] == "IR" and "ELECTRICAL" not in state.attempted:
@@ -315,9 +430,7 @@ def recommend(case: CaseSnapshot | dict, state: InvestigationState, probabilitie
         # Audit selection and fixed battery order are independent of model scores.
         pool = sorted(ranked, key=lambda r: order[r["procedure"]])
     elif effective_policy == "mock":
-        triggered = [r for r in ranked if r["trigger_rules"]]
-        pool = triggered or ranked
-        pool.sort(key=lambda r: order[r["procedure"]])
+        pool = sorted(ranked, key=lambda r: order[r["procedure"]])
     elif effective_policy == "ct_first":
         pool = sorted(ranked, key=lambda r: order[r["procedure"]])
     else:
@@ -329,20 +442,21 @@ def recommend(case: CaseSnapshot | dict, state: InvestigationState, probabilitie
         "reason": ("independent_audit_fixed_order" if state.audit and choice
                    else "triggered_branch" if effective_policy == "mock" and choice and choice["trigger_rules"]
                    else "coverage_cost_heuristic" if effective_policy == "heuristic" and choice
-                   else "completeness_fixed_order" if choice else "no_eligible_procedure"),
+                   else "concern_priority_order" if choice else "no_eligible_procedure"),
         "selected": choice, "eligible": ranked, "blocked": blocked,
-        "unresolved_mechanisms": state.unresolved, "rules": rules,
+        "unresolved_mechanisms": rules["open_mechanisms"] if not state.audit else state.unresolved, "rules": rules,
         "score_interpretation": "positive_unresolved_coverage_per_resource_dollar_not_completion_probability",
     }
 
 
-def potential_report(stack_id: str, truths: dict, procedure: str, ops: dict, seed: int, replication: int) -> dict:
+def potential_report(stack_id: str, truths: dict, procedure: str, ops: dict, seed: int, replication: int,
+                     attempt_number: int = 1) -> dict:
     """Draw the same potential report for this sample/procedure in every arm."""
     for mechanism in MECHANISMS:
         if _value(truths, mechanism) not in (0, 1, False, True):
             raise ValueError(f"Unknown or nonbinary simulator truth: {mechanism}")
     proc = catalogue(ops)[procedure]
-    inconclusive = uniform_draw(seed, replication, str(stack_id), procedure, "conclusiveness") < proc["inconclusive_probability"]
+    inconclusive = uniform_draw(seed, replication, str(stack_id), procedure, attempt_number, "conclusiveness") < proc["inconclusive_probability"]
     report = {"procedure": procedure, "status": "inconclusive" if inconclusive else "conclusive", "findings": []}
     if procedure == "IR":
         report["localisation"] = not inconclusive
@@ -355,7 +469,7 @@ def potential_report(stack_id: str, truths: dict, procedure: str, ops: dict, see
         else:
             truth = gross if outcome["scope"] == "gross_subtype_only" else bool(_value(truths, mechanism))
             p_positive = outcome["sensitivity_if_conclusive"] if truth else 1 - outcome["specificity_if_conclusive"]
-            positive = uniform_draw(seed, replication, str(stack_id), procedure, mechanism, outcome["scope"]) < p_positive
+            positive = uniform_draw(seed, replication, str(stack_id), procedure, attempt_number, mechanism, outcome["scope"]) < p_positive
             result = "present" if positive else "absent"
         report["findings"].append({
             "mechanism": mechanism, "result": result, "scope": outcome["scope"],
@@ -364,7 +478,7 @@ def potential_report(stack_id: str, truths: dict, procedure: str, ops: dict, see
     return report
 
 
-def evaluate_state(state: InvestigationState, truths: dict) -> dict:
+def evaluate_state(state: InvestigationState, truths: dict, case: CaseSnapshot | dict | None = None) -> dict:
     """Evaluator-only truth comparison; an evidence-complete record can be wrong."""
     if any(_value(truths, m) not in (0, 1, False, True) for m in MECHANISMS):
         raise ValueError("Evaluation requires explicitly observed binary synthetic targets")
@@ -373,25 +487,46 @@ def evaluate_state(state: InvestigationState, truths: dict) -> dict:
     missed = sum(bool(_value(truths, m)) and state.states[m] != "confirmed_present" for m in MECHANISMS)
     fault_count = sum(bool(_value(truths, m)) for m in MECHANISMS)
     mechanism_evidence_complete = not state.unresolved and not state.contradictions
-    supported = mechanism_evidence_complete and not state.review_flags
-    audit_complete = bool(state.audit and set(state.attempted) == set(PROCEDURE_ORDER) and all(r["status"] == "conclusive" for r in state.reports) and supported)
-    complete = bool(supported and (not state.audit or audit_complete))
+    all_procedures_conclusive = all(any(r["procedure"] == p and r["status"] == "conclusive" for r in state.reports)
+                                     for p in PROCEDURE_ORDER)
+    audit_complete = bool(state.audit and set(state.attempted) == set(PROCEDURE_ORDER)
+                          and all_procedures_conclusive and mechanism_evidence_complete and not state.review_flags)
+    if state.audit:
+        concern_complete = mechanism_evidence_complete
+        open_mechanisms = state.unresolved
+        unexplained_branches = []
+    elif case is None:
+        # Backward-compatible evidence-only evaluation for unit-level callers.
+        concern_complete = mechanism_evidence_complete
+        open_mechanisms = state.unresolved
+        unexplained_branches = []
+    else:
+        snapshot = CaseSnapshot.from_dict(case) if isinstance(case, dict) else case
+        plan = _routine_plan(snapshot, state)
+        open_mechanisms = plan["open_mechanisms"]
+        unexplained_branches = plan["unexplained_branches"]
+        concern_complete = not open_mechanisms and not unexplained_branches and not state.contradictions
+    complete = bool(audit_complete if state.audit else concern_complete and not state.review_flags)
+    correctly_complete = complete and missed == 0 and false_absences == 0 and false_positives == 0
     return {
-        "complete": complete, "evidence_complete": complete,
+        "complete": complete, "evidence_complete": complete, "concern_complete": bool(concern_complete),
         "mechanism_evidence_complete": bool(mechanism_evidence_complete),
-        "correctly_complete": complete and false_absences == 0 and false_positives == 0,
+        "correctly_complete": correctly_complete,
         "audit_complete": audit_complete, "false_absences": int(false_absences),
         "false_positives": int(false_positives), "missed_faults": int(missed),
         "missed_coexisting_faults": int(missed if fault_count > 1 else 0),
         "coexisting_fault_case": fault_count > 1, "truth_fault_count": fault_count,
-        "incorrectly_complete": int(complete and (false_absences > 0 or false_positives > 0)),
-        "unresolved_count": len(state.unresolved), "unresolved_mechanisms": state.unresolved,
+        "incorrectly_complete": int(complete and not correctly_complete),
+        "unresolved_count": len(open_mechanisms) + len(unexplained_branches),
+        "unresolved_mechanisms": list(open_mechanisms),
+        "unexplained_branches": list(unexplained_branches),
+        "untested_mechanisms": [m for m in MECHANISMS if state.states[m] == "untested"],
     }
 
 
 def replay_case(case: dict, truths: dict, probabilities: dict, policy: str, ops: dict,
                 seed: int, replication: int, audit: bool, *, scripted_reports: dict | None = None,
-                max_steps: int = 5) -> tuple[dict, list[dict]]:
+                max_steps: int = 8) -> tuple[dict, list[dict]]:
     """Replay one nominal investigation, returning all-case summary and events.
 
     ``scripted_reports`` maps procedure IDs to qualified report dictionaries.
@@ -424,8 +559,14 @@ def replay_case(case: dict, truths: dict, probabilities: dict, policy: str, ops:
         procedure = recommendation["procedure"]
         if procedure is None:
             break
-        report = (scripted_reports[procedure] if scripted_reports and procedure in scripted_reports
-                  else potential_report(snapshot.stack_id, truths, procedure, ops, seed, replication))
+        attempt_number = state.attempts_for(procedure) + 1
+        scripted = scripted_reports.get(procedure) if scripted_reports else None
+        if isinstance(scripted, list):
+            report = scripted[min(attempt_number - 1, len(scripted) - 1)]
+        elif scripted is not None:
+            report = scripted
+        else:
+            report = potential_report(snapshot.stack_id, truths, procedure, ops, seed, replication, attempt_number)
         if report["procedure"] != procedure:
             raise ValueError("Scripted report does not match the selected procedure")
         before = dict(state.states)
@@ -436,12 +577,14 @@ def replay_case(case: dict, truths: dict, probabilities: dict, policy: str, ops:
             "step": step + 1, "procedure": procedure, "recommendation": recommendation,
             "report": report, "resources": resources, "cumulative_cost": totals["spent_cost"],
             "states_before": before, "states_after": dict(state.states),
-            "unresolved_mechanisms": state.unresolved, "review_flags": list(state.review_flags),
+            "unresolved_mechanisms": recommendation["rules"]["open_mechanisms"] if not audit else state.unresolved,
+            "open_concerns_before": recommendation["rules"]["open_mechanisms"],
+            "review_flags": list(state.review_flags),
         })
     terminal = recommend(snapshot, state, probabilities, policy, ops)
     pending_records = terminal["eligible"] + terminal["blocked"]
     pending = [p for p in PROCEDURE_ORDER if any(r["procedure"] == p for r in pending_records)]
-    quality = evaluate_state(state, truths)
+    quality = evaluate_state(state, truths, snapshot)
     inconclusive = sum(r["status"] == "inconclusive" for r in state.reports)
     review_pending = bool(state.review_flags or (not quality["complete"] and terminal["procedure"] is None))
     summary = {
@@ -454,9 +597,12 @@ def replay_case(case: dict, truths: dict, probabilities: dict, policy: str, ops:
         "pending_procedures": pending, "blocked_procedures": terminal["blocked"],
         "review_pending": review_pending, "review_flags": list(state.review_flags),
         "contradictions": list(state.contradictions), "attempts": len(state.attempted),
-        "inconclusive_attempts": int(inconclusive), "repeated_attempts": 0,
+        "inconclusive_attempts": int(inconclusive),
+        "repeated_attempts": int(len(state.attempted) - len(set(state.attempted))),
         "engineer_overrides": None, "override_status": "not_observed_in_synthetic_replay",
         "attempted_procedures": list(state.attempted), "final_states": dict(state.states),
+        "open_concerns": terminal["rules"]["open_mechanisms"],
+        "retired_rules": terminal["rules"]["retired_rules"],
         "supporting_evidence": state.evidence, "initial_recommendation": events[0]["procedure"] if events else None,
         "terminal_recommendation": terminal, "not_evaluable_rules": terminal["rules"]["not_evaluable"],
         "ending": "evidence_complete_pending_engineer_review" if quality["complete"] else

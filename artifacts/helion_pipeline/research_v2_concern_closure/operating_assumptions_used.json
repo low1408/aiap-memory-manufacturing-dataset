@@ -1,0 +1,573 @@
+{
+  "version": "SYN-OPS-001",
+  "status": "synthetic_teaching_assumptions_not_observations",
+  "currency": "USD",
+  "origin": "2026-09-21T08:00:00+08:00",
+  "availability_horizon_hours": 24,
+  "interval_convention": "hours_from_origin_start_inclusive_end_exclusive",
+  "sources": {
+    "brief": "../../project/brief/helion_semiconductor_client_brief.md",
+    "mock_comparator": "../../project/design/mock_engineering_inspection_rules.md",
+    "explanation": "synthetic_operating_assumptions.md",
+    "brief_fields": [
+      "procedure names",
+      "brief_duration",
+      "inconclusive_probability",
+      "yield_system_owner_headcount",
+      "independent_audit_fraction"
+    ],
+    "all_other_inputs": "invented, not estimated from supplied data or market benchmarks"
+  },
+  "yield_system_owner_headcount": 4,
+  "independent_audit_fraction": 0.05,
+  "staff_pools": [
+    {
+      "role": "technician",
+      "headcount": 8,
+      "sem_qualified_subset": 2,
+      "annual_employment_cost_per_person": 112000,
+      "practical_hours_per_person": 1600,
+      "rate_per_hour": 70,
+      "coverage_hours_per_day": 32
+    },
+    {
+      "role": "quality_engineer",
+      "headcount": 8,
+      "sem_qualified_subset": 2,
+      "annual_employment_cost_per_person": 176000,
+      "practical_hours_per_person": 1600,
+      "rate_per_hour": 110,
+      "coverage_hours_per_day": 24
+    }
+  ],
+  "equipment": [
+    {
+      "id": "CT",
+      "units": 1,
+      "annual_allocated_cost": 120000,
+      "practical_annual_hours": 1500,
+      "rate_per_hour": 80,
+      "unavailable_intervals": [
+        [
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "ACOUSTIC",
+      "units": 1,
+      "annual_allocated_cost": 90000,
+      "practical_annual_hours": 1500,
+      "rate_per_hour": 60,
+      "unavailable_intervals": []
+    },
+    {
+      "id": "ELECTRICAL",
+      "units": 1,
+      "annual_allocated_cost": 130000,
+      "practical_annual_hours": 2000,
+      "rate_per_hour": 65,
+      "unavailable_intervals": [
+        [
+          0,
+          4
+        ]
+      ]
+    },
+    {
+      "id": "IR",
+      "units": 1,
+      "annual_allocated_cost": 67500,
+      "practical_annual_hours": 1000,
+      "rate_per_hour": 67.5,
+      "unavailable_intervals": []
+    },
+    {
+      "id": "PREP",
+      "units": 1,
+      "annual_allocated_cost": 60000,
+      "practical_annual_hours": 1200,
+      "rate_per_hour": 50,
+      "unavailable_intervals": [
+        [
+          0,
+          2
+        ],
+        [
+          8,
+          24
+        ]
+      ]
+    },
+    {
+      "id": "SEM",
+      "units": 1,
+      "annual_allocated_cost": 225000,
+      "practical_annual_hours": 1500,
+      "rate_per_hour": 150,
+      "unavailable_intervals": [
+        [
+          0,
+          4
+        ],
+        [
+          8,
+          24
+        ]
+      ]
+    }
+  ],
+  "roster_snapshot": [
+    {
+      "id": "TECH-01",
+      "role": "technician",
+      "skills": [
+        "XRAY",
+        "ACOUSTIC",
+        "ELECTRICAL",
+        "IR"
+      ],
+      "on_shift": [
+        [
+          0,
+          8
+        ]
+      ],
+      "busy": [
+        [
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "TECH-02",
+      "role": "technician",
+      "skills": [
+        "XRAY",
+        "ACOUSTIC",
+        "ELECTRICAL",
+        "IR",
+        "SEM_PREP"
+      ],
+      "on_shift": [
+        [
+          0,
+          8
+        ]
+      ],
+      "busy": [
+        [
+          0,
+          2
+        ]
+      ]
+    },
+    {
+      "id": "QE-01",
+      "role": "quality_engineer",
+      "skills": [
+        "XRAY",
+        "ACOUSTIC",
+        "ELECTRICAL",
+        "IR",
+        "SEM_ANALYSIS"
+      ],
+      "on_shift": [
+        [
+          0,
+          8
+        ]
+      ],
+      "busy": [
+        [
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "TECH-03",
+      "role": "technician",
+      "skills": [
+        "XRAY",
+        "ACOUSTIC",
+        "ELECTRICAL",
+        "IR"
+      ],
+      "on_shift": [
+        [
+          8,
+          16
+        ]
+      ],
+      "busy": []
+    },
+    {
+      "id": "QE-02",
+      "role": "quality_engineer",
+      "skills": [
+        "XRAY",
+        "ACOUSTIC",
+        "ELECTRICAL",
+        "IR"
+      ],
+      "on_shift": [
+        [
+          8,
+          16
+        ]
+      ],
+      "busy": []
+    },
+    {
+      "id": "TECH-04",
+      "role": "technician",
+      "skills": [
+        "XRAY",
+        "ACOUSTIC",
+        "ELECTRICAL",
+        "IR"
+      ],
+      "on_shift": [
+        [
+          16,
+          24
+        ]
+      ],
+      "busy": []
+    },
+    {
+      "id": "QE-03",
+      "role": "quality_engineer",
+      "skills": [
+        "XRAY",
+        "ACOUSTIC",
+        "ELECTRICAL",
+        "IR"
+      ],
+      "on_shift": [
+        [
+          16,
+          24
+        ]
+      ],
+      "busy": []
+    }
+  ],
+  "procedures": [
+    {
+      "id": "XRAY",
+      "name": "Package X-ray / CT",
+      "brief_duration": "45 min",
+      "nominal_envelope_hours": 0.75,
+      "technician_hours": 0.25,
+      "engineer_hours": 0.25,
+      "equipment_hours": {
+        "CT": 0.75
+      },
+      "consumables": 15,
+      "derived_cost_per_attempt": 120,
+      "staff_phases": [
+        {
+          "role": "technician",
+          "skill": "XRAY",
+          "start_offset": 0,
+          "hours": 0.25
+        },
+        {
+          "role": "quality_engineer",
+          "skill": "XRAY",
+          "start_offset": 0.5,
+          "hours": 0.25
+        }
+      ],
+      "destructive": false,
+      "inconclusive_probability": 0.1,
+      "binary_outcomes": [
+        {
+          "mechanism": "warpage",
+          "scope": "whole_sample_assumption",
+          "sensitivity_if_conclusive": 0.96,
+          "specificity_if_conclusive": 0.98,
+          "negative_can_support_absence": true
+        },
+        {
+          "mechanism": "underfill_void",
+          "scope": "whole_sample_assumption",
+          "sensitivity_if_conclusive": 0.92,
+          "specificity_if_conclusive": 0.98,
+          "negative_can_support_absence": true
+        },
+        {
+          "mechanism": "delamination",
+          "scope": "gross_subtype_only",
+          "sensitivity_if_conclusive": 0.9,
+          "specificity_if_conclusive": 0.98,
+          "negative_can_support_absence": false
+        }
+      ]
+    },
+    {
+      "id": "ACOUSTIC",
+      "name": "Scanning acoustic microscopy",
+      "brief_duration": "1.5 h",
+      "nominal_envelope_hours": 1.5,
+      "technician_hours": 0.5,
+      "engineer_hours": 0.5,
+      "equipment_hours": {
+        "ACOUSTIC": 1.5
+      },
+      "consumables": 20,
+      "derived_cost_per_attempt": 200,
+      "staff_phases": [
+        {
+          "role": "technician",
+          "skill": "ACOUSTIC",
+          "start_offset": 0,
+          "hours": 0.5
+        },
+        {
+          "role": "quality_engineer",
+          "skill": "ACOUSTIC",
+          "start_offset": 1,
+          "hours": 0.5
+        }
+      ],
+      "destructive": false,
+      "inconclusive_probability": 0.15,
+      "binary_outcomes": [
+        {
+          "mechanism": "delamination",
+          "scope": "whole_sample_assumption",
+          "sensitivity_if_conclusive": 0.97,
+          "specificity_if_conclusive": 0.98,
+          "negative_can_support_absence": true
+        },
+        {
+          "mechanism": "underfill_void",
+          "scope": "whole_sample_assumption",
+          "sensitivity_if_conclusive": 0.95,
+          "specificity_if_conclusive": 0.98,
+          "negative_can_support_absence": true
+        }
+      ]
+    },
+    {
+      "id": "ELECTRICAL",
+      "name": "Electrical fault isolation",
+      "brief_duration": "4 h",
+      "nominal_envelope_hours": 4,
+      "technician_hours": 0.5,
+      "engineer_hours": 2.5,
+      "equipment_hours": {
+        "ELECTRICAL": 4
+      },
+      "consumables": 30,
+      "derived_cost_per_attempt": 600,
+      "staff_phases": [
+        {
+          "role": "technician",
+          "skill": "ELECTRICAL",
+          "start_offset": 0,
+          "hours": 0.5
+        },
+        {
+          "role": "quality_engineer",
+          "skill": "ELECTRICAL",
+          "start_offset": 1.5,
+          "hours": 2.5
+        }
+      ],
+      "destructive": false,
+      "inconclusive_probability": 0.2,
+      "binary_outcomes": [
+        {
+          "mechanism": "dram_electrical",
+          "scope": "whole_sample_assumption",
+          "sensitivity_if_conclusive": 0.95,
+          "specificity_if_conclusive": 0.99,
+          "negative_can_support_absence": true
+        },
+        {
+          "mechanism": "tsv_open_short",
+          "scope": "whole_sample_assumption",
+          "sensitivity_if_conclusive": 0.93,
+          "specificity_if_conclusive": 0.99,
+          "negative_can_support_absence": true
+        }
+      ]
+    },
+    {
+      "id": "IR",
+      "name": "Thermal / IR imaging",
+      "brief_duration": "1 h",
+      "nominal_envelope_hours": 1,
+      "technician_hours": 0.25,
+      "engineer_hours": 0.5,
+      "equipment_hours": {
+        "IR": 1
+      },
+      "consumables": 10,
+      "derived_cost_per_attempt": 150,
+      "staff_phases": [
+        {
+          "role": "technician",
+          "skill": "IR",
+          "start_offset": 0,
+          "hours": 0.25
+        },
+        {
+          "role": "quality_engineer",
+          "skill": "IR",
+          "start_offset": 0.5,
+          "hours": 0.5
+        }
+      ],
+      "destructive": false,
+      "inconclusive_probability": 0.3,
+      "binary_outcomes": [],
+      "conclusive_report": "useful_localisation_only_no_mechanism_state_resolution",
+      "assumed_downstream_time_reduction_hours": 0
+    },
+    {
+      "id": "SEM",
+      "name": "Cross-section and SEM",
+      "brief_duration": "2 days",
+      "minimum_start_to_report_hours": 48,
+      "technician_hours": 6,
+      "engineer_hours": 3,
+      "equipment_hours": {
+        "PREP": 6,
+        "SEM": 3
+      },
+      "consumables": 300,
+      "derived_cost_per_attempt": 1800,
+      "sequential_phases": [
+        {
+          "phase": "preparation",
+          "hours": 6,
+          "staff_role": "technician",
+          "skill": "SEM_PREP",
+          "equipment": "PREP"
+        },
+        {
+          "phase": "passive_hold",
+          "hours": 18,
+          "staff_role": null,
+          "equipment": null
+        },
+        {
+          "phase": "SEM_analysis",
+          "hours": 3,
+          "staff_role": "quality_engineer",
+          "skill": "SEM_ANALYSIS",
+          "equipment": "SEM"
+        }
+      ],
+      "additional_constraint": "report_no_earlier_than_48_hours_after_start_and_after_all_phases; future_calendar_required",
+      "destructive": true,
+      "requires": "all_required_intact_sample_evidence_preserved",
+      "inconclusive_probability": 0.05,
+      "binary_outcomes": [
+        {
+          "mechanism": "microbump_open_bridge",
+          "scope": "whole_sample_assumption_requires_qualification",
+          "sensitivity_if_conclusive": 0.98,
+          "specificity_if_conclusive": 0.99,
+          "negative_can_support_absence": true
+        },
+        {
+          "mechanism": "die_crack",
+          "scope": "whole_sample_assumption_requires_qualification",
+          "sensitivity_if_conclusive": 0.96,
+          "specificity_if_conclusive": 0.99,
+          "negative_can_support_absence": true
+        },
+        {
+          "mechanism": "tsv_open_short",
+          "scope": "whole_sample_assumption_requires_qualification",
+          "sensitivity_if_conclusive": 0.96,
+          "specificity_if_conclusive": 0.99,
+          "negative_can_support_absence": true
+        }
+      ]
+    }
+  ],
+  "outcome_generation_contract": {
+    "inconclusive_event": "one_shared_Bernoulli_per_procedure_attempt_independent_of_truth_in_base_case",
+    "conditional_reports": "independent_given_hidden_truth_scope_and_conclusive_event_in_base_case",
+    "gross_fraction_given_delamination": 0.6,
+    "gross_subtype": "fixed_per_sample_gross_truth_implies_delamination_truth",
+    "repeat_test_outcomes": "one_independent_conditional_redraw_after_an_inconclusive_nondestructive_attempt_only",
+    "unexamined_mechanisms": "unchanged",
+    "coexisting_faults": "allowed_no_single_label_normalisation",
+    "hidden_truth_access": "evaluator_only",
+    "report_is_not_ground_truth": true,
+    "no_automatic_first_positive_closure": true
+  },
+  "repeat_policy": {
+    "status": "candidate_bounded_replay_assumption_not_client_observation",
+    "max_attempts_by_procedure": {
+      "XRAY": 2,
+      "ACOUSTIC": 2,
+      "ELECTRICAL": 2,
+      "IR": 1,
+      "SEM": 1
+    },
+    "eligibility": "repeat_only_after_the_previous_attempt_was_inconclusive",
+    "destructive_repeat": "not_simulated"
+  },
+  "worked_probability_example": {
+    "procedure": "ACOUSTIC",
+    "mechanism": "delamination",
+    "illustrative_prior": 0.7,
+    "derived_positive_report_probability": 0.58225,
+    "derived_negative_report_probability": 0.26775,
+    "derived_inconclusive_probability": 0.15
+  },
+  "cost_contract": {
+    "basis": "standard_resource_cost_not_cash_savings",
+    "queue_delay_monetised": false,
+    "overtime_or_external_charges": 0,
+    "batch_size": 1,
+    "consumables_fully_consumed_per_attempt": true,
+    "additional_scrapped_stack_charge": 0,
+    "derived_full_battery_once_cost": 2870,
+    "derived_four_procedure_cost_excluding_IR": 2720
+  },
+  "stress_tests_not_confidence_intervals": {
+    "staff_and_equipment_rate_multipliers": [
+      0.75,
+      1,
+      1.25
+    ],
+    "extra_equipment_unavailability_hours": [
+      0,
+      2,
+      4
+    ],
+    "inconclusive_probability_offsets": [
+      -0.05,
+      0,
+      0.05
+    ],
+    "sensitivity_offsets": [
+      -0.05,
+      0
+    ],
+    "specificity_offsets": [
+      -0.02,
+      0
+    ],
+    "probability_bounds": [
+      0,
+      1
+    ],
+    "qualitative_tests": [
+      "correlated_errors",
+      "reduced_examination_scope"
+    ]
+  }
+}

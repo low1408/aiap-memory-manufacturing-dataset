@@ -17,7 +17,7 @@ import pandas as pd
 from .common import MECHANISMS, write_json
 from .replay import summarise_replay
 
-NAMES = {"mock": "Mock incumbent", "ct_first": "CT-first rules", "prevalence": "Prevalence heuristic",
+NAMES = {"mock": "Candidate rules", "ct_first": "CT-first compatibility", "prevalence": "Prevalence heuristic",
          "inspection": "Inspection model", "full": "Full-context model", "manufacturing": "Manufacturing only"}
 COLORS = {"mock": "#475569", "ct_first": "#111827", "prevalence": "#a16207", "inspection": "#0f766e", "full": "#2563eb", "manufacturing": "#9333ea"}
 
@@ -183,7 +183,7 @@ print(manifest["version"], "| synthetic research | not production qualified")'''
         nbformat.v4.new_code_cell('metrics = pd.read_csv(RUN / "predictive_metrics.csv")\ndisplay(metrics[(metrics.split == "test") & (metrics.mechanism == "macro")])\ndisplay(Image(filename=str(RUN / "figures/prediction_comparison.png")))'),
         nbformat.v4.new_markdown_cell("## 2. Calibration and limited evidence\n\nThe test partition has six die-crack cases and two cases with coexisting faults. Binned curves and bootstrap intervals describe this synthetic sample; they do not qualify future fab use."),
         nbformat.v4.new_code_cell('display(Image(filename=str(RUN / "figures/calibration.png")))\ndisplay(pd.read_csv(RUN / "predictive_paired_comparisons.csv"))'),
-        nbformat.v4.new_markdown_cell("## 3. From predictions to eligible procedures\n\nThe evidence engine applies shared scope and destruction rules before selection. The mock rules choose triggered work first; CT-first rules and the model heuristic can advance completeness work. The heuristic values positive unresolved coverage per dollar, including the assumed gross-delamination fraction. It is not an optimal planner; negative evidence still matters for closure."),
+        nbformat.v4.new_markdown_cell("## 3. From predictions to eligible procedures\n\nThe evidence engine applies shared scope, concern-opening, co-fault and destruction rules before selection. The candidate rules and CT-first compatibility arm use the same concern-priority order; the model heuristic can reorder eligible concern work. The heuristic values positive unresolved coverage per dollar, including the assumed gross-delamination fraction. It is not an optimal planner; negative evidence and bounded repeats after inconclusive nondestructive attempts still matter for closure."),
         nbformat.v4.new_code_cell('walkthroughs = json.loads((RUN / "walkthroughs.json").read_text())\nrows = [{"case": name, **{k: item["summary"][k] for k in ["spent_cost", "pending_cost", "complete", "unresolved_count"]}} for name, item in walkthroughs.items() if "summary" in item]\ndisplay(pd.DataFrame(rows))\nfor name in ["B", "C", "C_inconclusive"]:\n    print(name, walkthroughs[name]["boundary"])\n    display(pd.DataFrame([{ "procedure": e["procedure"], "cumulative_cost": e["cumulative_cost"], "unresolved": ", ".join(e["unresolved_mechanisms"])} for e in walkthroughs[name]["events"]]))'),
         nbformat.v4.new_markdown_cell("## 4. Compare entire bounded investigations\n\nEvery started case stays in the denominator. A cheaper partial record is not cost-to-completion savings. The columns separate consumed and pending costs, diagnostic errors and unresolved mechanisms; manual-review continuation costs are unknown."),
         nbformat.v4.new_code_cell('decisions = pd.read_csv(RUN / "decision_metrics.csv")\ndisplay(decisions[(decisions.scenario == "base") & (decisions.split == "test")])\ndisplay(Image(filename=str(RUN / "figures/diagnostic_tradeoffs.png")))'),
@@ -219,23 +219,24 @@ def build_report(root: Path, out: Path, config: dict):
     full, mock, rules = test.loc["full"], test.loc["mock"], test.loc["ct_first"]
     comparison_fields = ["cost", "complete", "correctly_complete", "unresolved_count", "false_absences", "false_positives", "missed_faults", "nominal_hours"]
     same_as_simple = np.allclose(full[comparison_fields].to_numpy(dtype=float), rules[comparison_fields].to_numpy(dtype=float), rtol=0, atol=1e-10)
-    selection_interpretation = ("The full-model and CT-first rules arms have identical aggregate cost, completion, error and nominal-duration outcomes in the base test replay. This benchmark therefore demonstrates no incremental diagnostic value from the model over that simple rules comparator."
-                                if same_as_simple else "The full-model and CT-first rules arms differ; evaluate their paired cost and quality differences together before attributing value to ML.")
+    selection_interpretation = ("The full-model and candidate-rules arms have identical aggregate cost, completion, error and nominal-duration outcomes in the base test replay. This benchmark therefore demonstrates no incremental diagnostic value from the model over that candidate comparator."
+                                if same_as_simple else "The full-model and candidate-rules arms differ; evaluate their paired cost and quality differences together before attributing value to ML.")
     audits = json.loads((out / "synthetic_audits.json").read_text())
     training = json.loads((out / "training.json").read_text())
     uncertainty = pd.read_csv(out / "decision_uncertainty.csv")
     differences = uncertainty[(uncertainty.split == "test") & (uncertainty.reference == "mock") & uncertainty.metric.isin(["cost", "complete", "missed_faults", "incorrectly_complete"])]
     columns = ["cost", "pending_cost", "complete", "correctly_complete", "unresolved_count", "missed_faults", "false_absences", "false_positives", "attempts"]
     table = test[columns].reset_index()
+    mock_rules_version = config.get("mock_rules_version", "unspecified mock-rules version")
     narrative = f"""# Helion model pipeline and diagnostic benchmark
 
 **Executed offline research · synthetic data and operating assumptions · retrospective test partition**
 
 ## Result and interpretation
 
-The full-context policy consumed **${full.cost:,.2f} per test case**, compared with **${mock.cost:,.2f} for the mock incumbent** and **${rules.cost:,.2f} for the CT-first rules comparator**. Its evidence-complete fraction was **{full.complete:.1%}**, compared with **{mock.complete:.1%}** and **{rules.complete:.1%}**, respectively. These are bounded-replay outcomes, including unfinished investigations—not measured fab savings or the cost of completing every investigation.
+The full-context policy consumed **${full.cost:,.2f} per test case**, compared with **${mock.cost:,.2f} for the candidate rules** and **${rules.cost:,.2f} for the CT-first compatibility comparator**. Its evidence-complete fraction was **{full.complete:.1%}**, compared with **{mock.complete:.1%}** and **{rules.complete:.1%}**, respectively. These are bounded-replay outcomes, including unfinished investigations—not measured fab savings or the cost of completing every investigation.
 
-The full-context policy changes consumed cost by **{full.cost - mock.cost:+.2f} USD** and the complete fraction by **{100 * (full.complete - mock.complete):+.2f} percentage points** against the mock baseline. Judge these jointly with diagnostic errors and uncertainty below. No operating winner or production release is selected.
+The full-context policy changes consumed cost by **{full.cost - mock.cost:+.2f} USD** and the complete fraction by **{100 * (full.complete - mock.complete):+.2f} percentage points** against the candidate-rules baseline. Judge these jointly with diagnostic errors and uncertainty below. No operating winner or production release is selected.
 
 **{selection_interpretation}**
 
@@ -244,7 +245,7 @@ The full-context policy changes consumed cost by **{full.cost - mock.cost:+.2f} 
 - Supplied cohort: 916 synthetic rejected stacks; 653 train, 126 validation, 137 test. The seven simulator indicators are synthetic reference labels, not procedure findings.
 - Test evidence includes six die-crack cases and two cases with coexisting faults. Test data had previously been inspected; this is retrospective evaluation.
 - The original acceptance-failure benchmark targets a different decision and remains unchanged. It is not compared numerically with seven-fault prediction.
-- MOCK-ENG-001 supplies the invented SOP comparator; SYN-OPS-001 supplies invented staff, dollar rates and report-error assumptions. Neither is validated Helion practice.
+- {mock_rules_version} supplies the candidate SOP comparator; SYN-OPS-001 supplies invented staff, dollar rates and report-error assumptions. Neither is validated Helion practice.
 - Procedure histories, diagnostic effort, real audit membership and live calendars were not supplied. Newly generated records are explicitly simulated. {sum(audits['assignments'].values())} of 916 cases were independently assigned to the synthetic audit group, fixed across policies and report replications.
 - Existing lot/time partitions are retained. Internal tuning uses the frozen expanding-lot folds with at least 21 days between fitting and scoring lot releases. Source chronology details in `validation.json` distinguish lot-release spacing from observed timestamp gaps; no genuine diagnostic-label availability timestamp exists.
 
@@ -268,7 +269,7 @@ Acceptance-derived inputs have substantial synthetic shortcuts: interconnect fai
 
 Cost is USD per started case. Complete/correctly-complete columns are fractions; fault and unresolved columns are counts per case. Every case remains in the denominator. Pending cost values currently identifiable unattempted procedures; it is not an estimate of unknown manual review or eventual completion.
 
-The mock baseline performs triggered branches first. CT-first rules use the same safe procedure catalogue but may advance completeness work. The four heuristic arms use prevalence, inspection-only, full-context or manufacturing-only fault probabilities. They share the same evidence requirements, scope restrictions, report draws, audit assignment and one-attempt limit. This separates a simple rule improvement from predictive value.
+The candidate rules and CT-first compatibility arms use the same concern-priority order under MOCK-ENG-002. The four heuristic arms use prevalence, inspection-only, full-context or manufacturing-only fault probabilities to reorder eligible concern work. All arms share the same concern-opening rules, evidence requirements, scope restrictions, co-fault safeguards, report draws, audit assignment and bounded repeat policy. This separates a probability-driven ordering change from the candidate rules.
 
 The heuristic uses (1 − inconclusive probability) × predicted unresolved positive coverage / resource cost, with equal importance weights and 60% gross-delamination coverage for CT. It does not fully value negative findings, model expected continuation cost or establish an optimal sequence. Findings update evidence and eligibility; initial fault probabilities do not become automatically updated posteriors.
 
@@ -278,7 +279,7 @@ The base assumptions explain why changing probabilities may not change the proce
 
 The empirical nondominance table also considers unresolved questions, false absences, false positives, incorrect completion and nominal duration. Point-estimate nondominance is not evidence of statistical superiority. Identical procedure sets cost the same in any eligible order. A true delamination finding is useful; omitting required delamination investigation merely to reduce spending is not an equal-completeness comparator.
 
-### Paired uncertainty against the mock baseline
+### Paired uncertainty against the candidate-rules baseline
 
 {markdown_table(differences, ['arm', 'metric', 'paired_mean_difference', 'lot_bootstrap_low', 'lot_bootstrap_high', 'mc_standard_error'])}
 
@@ -286,7 +287,7 @@ The 95% percentile intervals use {config['bootstrap_samples']:,} paired lot-clus
 
 ### Unresolved paths and truth errors
 
-An inconclusive CT can leave warpage unresolved; electrical isolation can leave DRAM/base questions unresolved; SEM can leave microbump/crack questions unresolved. IR localisation does not resolve a mechanism. Contradictions remain pending review. Independent nondestructive branches may continue, but destructive preparation is not authorised while intact-sample evidence/review remains open. No independent repeat-success draws or free manual resolutions are invented.
+An inconclusive CT can leave warpage unresolved; electrical isolation can leave DRAM/base questions unresolved; SEM can leave microbump/crack questions unresolved. IR localisation does not resolve a mechanism. Contradictions remain pending review. Independent nondestructive branches may continue, but destructive preparation is not authorised while intact-sample evidence/review remains open. One independent conditional repeat is simulated after an inconclusive CT, acoustic or electrical attempt; IR and destructive SEM are not repeated, and no free manual resolutions are invented.
 
 An evidence-complete record may still be wrong because reports have synthetic false-positive and false-negative rates. Evaluation therefore uses hidden truth separately. The recommender never receives truth. Audit battery attempts, supported mechanism evidence and review requirements are distinct; an inconclusive audit is not a complete operational reference.
 

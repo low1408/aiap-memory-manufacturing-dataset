@@ -18,9 +18,9 @@ PREREQUISITES = {"validate": [], "train": ["validate"], "score": ["train"],
 
 def source_checksums(root):
     files = []
-    for directory in ("data", "metadata", "problem-statement", "synthetic-data-assumptions", "helion-design"):
+    for directory in ("data", "metadata", "project/brief", "project/design", "project/evidence", "synthetic-data-assumptions"):
         files.extend(p for p in (root / directory).rglob("*") if p.is_file())
-    files.extend(p for p in (root / "docs").glob("*") if p.is_file())
+    files.extend(p for p in (root / "project/presentation").glob("*.md"))
     return {str(p.relative_to(root)): digest(p) for p in sorted(files)}
 
 
@@ -40,7 +40,7 @@ def initialise_manifest(root, out, config):
             packages[name] = importlib.metadata.version(name)
         except importlib.metadata.PackageNotFoundError:
             packages[name] = "unavailable"
-    manifest = {"version": "HELION-PIPELINE-001", "created_utc": datetime.now(timezone.utc).isoformat(),
+    manifest = {"version": "HELION-PIPELINE-002", "created_utc": datetime.now(timezone.utc).isoformat(),
                 "config": config, "source_checksums": checksums, "python": sys.version,
                 "dependencies": packages, "stages": {}, "source_kind": "synthetic",
                 "production_qualified": False, "test_interpretation": "retrospective_not_pristine_holdout"}
@@ -78,7 +78,11 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description="Helion offline synthetic model and diagnostic-selection research")
     parser.add_argument("stage", choices=["run", *STAGES])
     parser.add_argument("--root", type=Path, default=ROOT)
-    parser.add_argument("--out", type=Path, default=ROOT / "artifacts/helion_pipeline/research_v1")
+    parser.add_argument(
+        "--out",
+        type=Path,
+        default=ROOT / "artifacts/helion_pipeline/research_v2_concern_closure",
+    )
     parser.add_argument("--config", type=Path)
     parser.add_argument("--replications", type=int, help="Override for a smoke run in a separate output directory")
     parser.add_argument("--bootstrap-samples", type=int, help="Override for a smoke run in a separate output directory")
@@ -92,7 +96,7 @@ def main(argv=None):
             config[key] = value
     root, out = args.root.resolve(), args.out.resolve()
     # Never permit a derived-output destination inside authoritative input folders.
-    protected = [root / p for p in ("data", "metadata", "problem-statement", "synthetic-data-assumptions", "helion-design", "docs")]
+    protected = [root / p for p in ("data", "metadata", "project", "synthetic-data-assumptions")]
     if out == root or any(out == p or p in out.parents for p in protected):
         parser.error("Output must be an isolated derived-artifact directory")
     out.mkdir(parents=True, exist_ok=True)

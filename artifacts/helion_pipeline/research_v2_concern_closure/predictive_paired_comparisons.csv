@@ -1,0 +1,7 @@
+split,comparison,metric,low,high,valid_bootstrap_samples
+validation,full_minus_inspection,average_precision,-0.12405694089528282,-0.006617444367552498,994
+validation,full_minus_inspection,binary_log_loss,0.026527743998013414,0.04857881854227542,1000
+validation,full_minus_inspection,brier_score,0.004876556964384721,0.01457980668219512,1000
+test,full_minus_inspection,average_precision,-0.05827496259119984,0.04713409996505586,999
+test,full_minus_inspection,binary_log_loss,0.010043944466046426,0.03081319614898863,1000
+test,full_minus_inspection,brier_score,0.0003116190616386256,0.00926384059563023,1000

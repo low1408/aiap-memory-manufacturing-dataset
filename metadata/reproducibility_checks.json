@@ -1,5 +1,5 @@
 {
-  "scope": "Archived result from a small 12-lot fixture using the original code and assumptions; full-cohort saved-file checks are in docs/VALIDATION_REPORT.md",
+  "scope": "Archived result from a small 12-lot fixture using the original code and assumptions; full-cohort saved-file checks are in project/evidence/VALIDATION_REPORT.md",
   "seed": 20260914,
   "checks": [
     {

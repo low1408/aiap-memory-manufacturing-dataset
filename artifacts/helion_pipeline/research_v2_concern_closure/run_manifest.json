@@ -1,0 +1,245 @@
+{
+  "version": "HELION-PIPELINE-002",
+  "created_utc": "2026-09-23T04:01:54.905781+00:00",
+  "config": {
+    "version": "HELION-PIPELINE-002",
+    "seed": 20260921,
+    "replications": 100,
+    "bootstrap_samples": 1000,
+    "c_values": [
+      0.1,
+      1.0,
+      10.0
+    ],
+    "operating_assumptions": "synthetic-data-assumptions/operation-assumptions/synthetic_operating_assumptions.json",
+    "mock_rules": "project/design/mock_engineering_inspection_rules.md",
+    "mock_rules_version": "MOCK-ENG-002",
+    "replay_splits": [
+      "train",
+      "validation",
+      "test"
+    ],
+    "stress_splits": [
+      "test"
+    ],
+    "arms": {
+      "mock": {
+        "policy": "mock",
+        "variant": "prevalence"
+      },
+      "ct_first": {
+        "policy": "ct_first",
+        "variant": "prevalence"
+      },
+      "prevalence": {
+        "policy": "heuristic",
+        "variant": "prevalence"
+      },
+      "inspection": {
+        "policy": "heuristic",
+        "variant": "inspection"
+      },
+      "full": {
+        "policy": "heuristic",
+        "variant": "full"
+      },
+      "manufacturing": {
+        "policy": "heuristic",
+        "variant": "manufacturing"
+      }
+    },
+    "stress_scenarios": [
+      "rate_0.75",
+      "rate_1.25",
+      "q_minus_0.05",
+      "q_plus_0.05",
+      "sensitivity_minus_0.05",
+      "specificity_minus_0.02"
+    ],
+    "interpretation": "Retrospective synthetic concern-closure research; no production qualification or observed client cost estimate."
+  },
+  "source_checksums": {
+    "data/assembly/die_disposition.csv": "ddae7b0d6683d071d5f7ebbbde8193348595d4ab0d6702fb743cce2168ce7827",
+    "data/assembly/electrical_test.csv": "35b5a8d5f350cfc4851b0fd87306f1d0dc73f59bbe5d9d4d17fd21a2c88888e0",
+    "data/assembly/reliability_test.csv": "c94de9738d3b7d2c3694f5cddc54f721cc187129539e5620c91fd4be85ef3f3b",
+    "data/assembly/stack_assembly.csv": "827eec23774ce512c4bac7e83d888f0e0244b7da2f41ebf69046e2414c7b7fd0",
+    "data/assembly/stack_membership.csv": "f15a41c6dbf60d8e2f5f0db7b359f31ded7a5f30798e83011be68ce123429958",
+    "data/data_dictionary.csv": "cc8b632516c5b3fe446fa418ed09bd8ac531dc651e75472006995f844a0a90b1",
+    "data/manufacturing/base_die.csv": "e824c3355459edb6f08822a5242e964de2c53226fc16abf83e66a8294a8cabde",
+    "data/manufacturing/die_metrology.csv": "c6a3c8d58926308701ff4210391aa6375dbc16aa709045f470e5885eafb6b6dc",
+    "data/manufacturing/lots.csv": "5a0cc99bc11297d2eb1630df2c2e78adbf11ade277a5343bf1c93f0f7001264f",
+    "data/manufacturing/recipes.csv": "e66097476db3bc7ef99e941d28e60504a75dea38e6a5de7eabef3305dc46c9d0",
+    "data/manufacturing/sensor_trace.csv": "9f1ce11bdc11123965b0a8e5c3a9e0d343ee6e9982bb077f33bff469afee6cdc",
+    "data/manufacturing/tsv_inspection.csv": "8421971f1936317e9741bdac7971ab2d5dafd888406797352bdbf07535762e87",
+    "data/manufacturing/wafer_process.csv": "4e288f17866d75a635e65e10789d87f833d7621b6791861a62e0743e1524d18f",
+    "data/manufacturing/wafers.csv": "da13f630375c640bd0e32fdf0091f45eb867285a719e4afe65d3d69db156d9e2",
+    "data/ml/ml_stack_features.csv": "fef2de93d158a657f15a519c5cfaf904ff6dcb31eaa414558d8086bc22cfbead",
+    "data/ml/ml_stack_labels.csv": "20a80810b2c48b13f9b164d95a562c96cde0081189f43eaa0d5b88d7403e36e5",
+    "data/ml/stack_training.csv": "ff7fdb7dfcf74f5d9a5c25d0188ad864addd21ca72b5a6bb34fd0ef07256cf75",
+    "data/simulation_truth/simulation_truth_die.csv": "36dd5958b20b9b5a93a98b5a78481e3da2ba9f8d45f951b5afb93ca22760b6b7",
+    "data/simulation_truth/simulation_truth_stack.csv": "989184a92e3a05a7da921982dc488405553fbdd769293df7180b3012ad10343c",
+    "metadata/baseline_metrics.json": "311762f32edb85a7b481d90856da68dec7be192b00df1583688dcc6e92bdfe46",
+    "metadata/config.json": "350a857e0ba7427259dc52c7532c211e87daafae282952847a2a0b8201fee3d6",
+    "metadata/generation_config.json": "afcd45da4dc3065f8eb41a6ce7295592a5bcf7c7b3966f63c2c997a1a3660a03",
+    "metadata/manifest.json": "8896e7ed35cb96f6008d1e429227aa1a7f53dceca9fe9ea580bbe3b018f2aa25",
+    "metadata/ml_task.json": "71318212d024a712a9ba91385b1cb68b1130f4bd8fbd5d8f7b97464c23628f4c",
+    "metadata/package_inventory.json": "44eeeae31792259f010b388dc26d28b03e7a03a07f784a6913ef960661ff396b",
+    "metadata/reproducibility_checks.json": "e7c86863f1c21ec296754011a6711a08209f22ca01d5e1fc5852869789260ef0",
+    "metadata/review_rule_audit.json": "6e3c1a7633bdbe937c4c803008d8082280849a7c7f1ba15fb8759ab34714e179",
+    "metadata/validation.json": "b82f1a8c80dffbc663c4b9819c43647b4866fa6d8bc7434d4ab37dd461af9c3c",
+    "project/brief/PRESENTATION_RUBRIC_APPRENTICE.md": "87de79379a6d102ac79e712d9648608d533f6b17dd10970a513cd8ce8d03f25d",
+    "project/brief/helion_semiconductor_client_brief.md": "babe9a6ed4bc5a6db1d0d4516b28c474b2b7418f57aba521f784966511fb7733",
+    "project/design/P1_ml_systems_helion.ipynb": "c624f12de89d946b7d95e91aab55c82f66ea29b7531a93bb4d0d69b09d08d9e6",
+    "project/design/architecture.md": "b16c34c057b78d263de20708eafcd2ce06398f8abc666f9f7cb5a1a7c1723fa2",
+    "project/design/images/AIAP-Banner.png": "1b54af7efa8df781661bcacb202a10ec3c31d807783415e67ee3599d7c46ffa1",
+    "project/design/images/docker-vs-vm.png": "f9c5ba7dd19b522bc7ba7162420125d77c4aa9eda1e64bda3046cf34ea854dd8",
+    "project/design/images/helion-architecture.mmd": "e1a04c6a7af6b4e9b536636829ebdafe674b0992e27fa03c26c19b794d959b09",
+    "project/design/images/helion-architecture.png": "9998de88805d2a7abb328ecb2546a9e1d85de4f5f85d6192ad5fea9669eedf8a",
+    "project/design/images/helion-architecture.svg": "ecb6ac2af73576521c3da6fd9125a9106fbc24564c07908e2b6e2213a49fcf3e",
+    "project/design/images/helion-feedback.mmd": "728164fbbaa0ceea77349167929c93b4993287321ed9576c8cec6401e4c73c13",
+    "project/design/images/helion-feedback.png": "ec2d58c94e944551267c6767be30626faf2a63bf728cce74fd641a5d0e5e3f16",
+    "project/design/images/helion-feedback.svg": "0562217dea42da1351fee50306ae04d0c8cce99554e303c67b4ddd062b041fbe",
+    "project/design/images/helion-scoring.mmd": "1d4bbcecf65712464aa023997307282c66cd383b0b9617fa4fb6f9b178b6421d",
+    "project/design/images/helion-scoring.png": "af9ec550ef4eed8511359bb544bda2e1f7391642512bf1b904918c9d25628331",
+    "project/design/images/helion-scoring.svg": "9a159b8364315bef19b60a151ff616d3b2515017cd0e806482c2281e56ceeaef",
+    "project/design/images/helion-selection.mmd": "ad033067d044b7fbc4494d19779b69865a1a0cf82dc490058476cb14015875c5",
+    "project/design/images/helion-selection.png": "5b0a3b0987d4f56bfe26bc3197e53f7e86f11eebf6dc059f7da5590e342a9d7a",
+    "project/design/images/helion-selection.svg": "7da6d49e04653479d67ce6890e4d3b12eda4c49eb4b4cb46c81c2f7ce4e587d3",
+    "project/design/images/ml_lifecycle.png": "07e2ecaa89357c236ab65d12d16b6dc67ae86866c0de6faeb7dc3be50a8ecd09",
+    "project/design/images/mlflow-register-model.png": "1bee30cf8ec37fe7472d3880c4ae852b6415691796130207885640450479eccf",
+    "project/design/images/pipeline-batch.png": "1f9e3d4df8e4f4425f7e70ba818d2b902019fe16fed7eb41277afce1816ef170",
+    "project/design/images/pipeline-realtime.png": "05be39e9078a0f3847b94559de5e2b192d3c71a52106f8e6908d6e970c816cd1",
+    "project/design/images/pipeline-spine.png": "d4f0f57c85d0299771b93d123e6c5a216ff99661e2074a51068ba5e19ad5d377",
+    "project/design/mock_engineering_inspection_rules.md": "9b9398163d87e52ffc4b11ee802a0eb330b83b40e1870439850b8790bbc2b7a2",
+    "project/design/workflow_walkthrough.md": "f56dc974733977a60cd611eb77362529337cdc0dedd11d282ce739637abbbebf",
+    "project/evidence/BASELINE_REPORT.md": "e08838ebe74b3ec63c3e466c077cf7886be3a46f3f92a483a2ce1513ba2743f5",
+    "project/evidence/GENERATING_MODEL.md": "c5b7650907e7c1ee094650454ae59faedd84574b54d028161b5d06ca1f32acc1",
+    "project/evidence/REVIEW_DECISION_AUDIT.md": "7805d6fc0c9fd25cbf4542008f5184c8ec45a16b16adea5d3c6b5115f619ea6a",
+    "project/evidence/SOURCES.md": "feb0019c8e8cebcc87264827d903ce48ccffc29dc7fa77d6caddad5f3597bc08",
+    "project/evidence/VALIDATION_REPORT.md": "dcfc2a2c3fdcfc6dd2c9384a81f4f1519b590d87a955637cdf78f7a6923ffb7c",
+    "project/presentation/PRE_READ_team_8.md": "ff9da0988c4db17058ef475f55668214057b7bcc4cd61d86ae554ec625fcc4bc",
+    "project/presentation/presentation_outline.md": "bb1ee31aa9807eda21be7d8e11086a4b9ec0b72b308c673b42221666220b00a9",
+    "project/presentation/viva_preparation.md": "76d85d810c22b3872c76c6229ec13359ee33298a737d8c8c10834f1e430c8196",
+    "synthetic-data-assumptions/operation-assumptions/synthetic_operating_assumptions.json": "80126efa24093ebbd51a58ee0b082efb009dd94aad0daa4a59b4a1c557390712",
+    "synthetic-data-assumptions/operation-assumptions/synthetic_operating_assumptions.md": "80ec4f6689e2e5216b3b13a9faf2e3af9263675581e473f1db329eb25e56f58c"
+  },
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "dependencies": {
+    "numpy": "2.3.5",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.9.0",
+    "scipy": "1.16.3",
+    "joblib": "1.5.3",
+    "pyarrow": "20.0.0",
+    "matplotlib": "3.10.0",
+    "nbformat": "5.10.4",
+    "pytest": "9.1.1"
+  },
+  "stages": {
+    "validate": {
+      "status": "complete",
+      "code_checksums": {
+        "helion_pipeline/__init__.py": "3bc6c2e8900e58519c24ba8275f87e909b9c818c189aa84178b2f34f87bc1e84",
+        "helion_pipeline/__main__.py": "a289e621d5f3ad531d73da6f7b39dfa9eadb3262e6bc487d0190c8bb7a3db171",
+        "helion_pipeline/common.py": "833175afacaee5576886e7b42f2ee7d04f7287d4c00b1ec46ac59eefb70f0157",
+        "helion_pipeline/data.py": "9809e85102aed5b5328e7ef749573799923d21b61d151d7f5896dc765bc453c1",
+        "helion_pipeline/engine.py": "6abb2873b141505fbea34315960e350288ba8af8dc8be9f737270546a0c5c073",
+        "helion_pipeline/fixtures.py": "8aab07ab69030f14174d6f165609c942ff1e6e42f21d6f3090dc354660a5e8b7",
+        "helion_pipeline/model.py": "a1f86158dee70b4e3ddc1d8d52d6c79d70e87e2105d18a6482bb37f57114d453",
+        "helion_pipeline/replay.py": "1d531db75e6314b19ba77277ef36bb02da99ce968d2f4757539f7c87d5a44815",
+        "helion_pipeline/reporting.py": "08c128c0fc5415f09af7d9df4f7a33ad4dcf795b5ed52e5c73a19f05ab2f89d5",
+        "helion_pipeline/scheduling.py": "5573d4621853153b0f2c192a3b8d389024a33d64424a2c2278f919df2aac31bf"
+      }
+    },
+    "train": {
+      "status": "complete",
+      "code_checksums": {
+        "helion_pipeline/__init__.py": "3bc6c2e8900e58519c24ba8275f87e909b9c818c189aa84178b2f34f87bc1e84",
+        "helion_pipeline/__main__.py": "a289e621d5f3ad531d73da6f7b39dfa9eadb3262e6bc487d0190c8bb7a3db171",
+        "helion_pipeline/common.py": "833175afacaee5576886e7b42f2ee7d04f7287d4c00b1ec46ac59eefb70f0157",
+        "helion_pipeline/data.py": "9809e85102aed5b5328e7ef749573799923d21b61d151d7f5896dc765bc453c1",
+        "helion_pipeline/engine.py": "6abb2873b141505fbea34315960e350288ba8af8dc8be9f737270546a0c5c073",
+        "helion_pipeline/fixtures.py": "8aab07ab69030f14174d6f165609c942ff1e6e42f21d6f3090dc354660a5e8b7",
+        "helion_pipeline/model.py": "a1f86158dee70b4e3ddc1d8d52d6c79d70e87e2105d18a6482bb37f57114d453",
+        "helion_pipeline/replay.py": "1d531db75e6314b19ba77277ef36bb02da99ce968d2f4757539f7c87d5a44815",
+        "helion_pipeline/reporting.py": "08c128c0fc5415f09af7d9df4f7a33ad4dcf795b5ed52e5c73a19f05ab2f89d5",
+        "helion_pipeline/scheduling.py": "5573d4621853153b0f2c192a3b8d389024a33d64424a2c2278f919df2aac31bf"
+      }
+    },
+    "score": {
+      "status": "complete",
+      "code_checksums": {
+        "helion_pipeline/__init__.py": "3bc6c2e8900e58519c24ba8275f87e909b9c818c189aa84178b2f34f87bc1e84",
+        "helion_pipeline/__main__.py": "a289e621d5f3ad531d73da6f7b39dfa9eadb3262e6bc487d0190c8bb7a3db171",
+        "helion_pipeline/common.py": "833175afacaee5576886e7b42f2ee7d04f7287d4c00b1ec46ac59eefb70f0157",
+        "helion_pipeline/data.py": "9809e85102aed5b5328e7ef749573799923d21b61d151d7f5896dc765bc453c1",
+        "helion_pipeline/engine.py": "6abb2873b141505fbea34315960e350288ba8af8dc8be9f737270546a0c5c073",
+        "helion_pipeline/fixtures.py": "8aab07ab69030f14174d6f165609c942ff1e6e42f21d6f3090dc354660a5e8b7",
+        "helion_pipeline/model.py": "a1f86158dee70b4e3ddc1d8d52d6c79d70e87e2105d18a6482bb37f57114d453",
+        "helion_pipeline/replay.py": "1d531db75e6314b19ba77277ef36bb02da99ce968d2f4757539f7c87d5a44815",
+        "helion_pipeline/reporting.py": "08c128c0fc5415f09af7d9df4f7a33ad4dcf795b5ed52e5c73a19f05ab2f89d5",
+        "helion_pipeline/scheduling.py": "5573d4621853153b0f2c192a3b8d389024a33d64424a2c2278f919df2aac31bf"
+      }
+    },
+    "replay": {
+      "status": "complete",
+      "code_checksums": {
+        "helion_pipeline/__init__.py": "3bc6c2e8900e58519c24ba8275f87e909b9c818c189aa84178b2f34f87bc1e84",
+        "helion_pipeline/__main__.py": "a289e621d5f3ad531d73da6f7b39dfa9eadb3262e6bc487d0190c8bb7a3db171",
+        "helion_pipeline/common.py": "833175afacaee5576886e7b42f2ee7d04f7287d4c00b1ec46ac59eefb70f0157",
+        "helion_pipeline/data.py": "9809e85102aed5b5328e7ef749573799923d21b61d151d7f5896dc765bc453c1",
+        "helion_pipeline/engine.py": "6abb2873b141505fbea34315960e350288ba8af8dc8be9f737270546a0c5c073",
+        "helion_pipeline/fixtures.py": "8aab07ab69030f14174d6f165609c942ff1e6e42f21d6f3090dc354660a5e8b7",
+        "helion_pipeline/model.py": "a1f86158dee70b4e3ddc1d8d52d6c79d70e87e2105d18a6482bb37f57114d453",
+        "helion_pipeline/replay.py": "1d531db75e6314b19ba77277ef36bb02da99ce968d2f4757539f7c87d5a44815",
+        "helion_pipeline/reporting.py": "08c128c0fc5415f09af7d9df4f7a33ad4dcf795b5ed52e5c73a19f05ab2f89d5",
+        "helion_pipeline/scheduling.py": "5573d4621853153b0f2c192a3b8d389024a33d64424a2c2278f919df2aac31bf"
+      }
+    },
+    "schedule": {
+      "status": "complete",
+      "code_checksums": {
+        "helion_pipeline/__init__.py": "3bc6c2e8900e58519c24ba8275f87e909b9c818c189aa84178b2f34f87bc1e84",
+        "helion_pipeline/__main__.py": "a289e621d5f3ad531d73da6f7b39dfa9eadb3262e6bc487d0190c8bb7a3db171",
+        "helion_pipeline/common.py": "833175afacaee5576886e7b42f2ee7d04f7287d4c00b1ec46ac59eefb70f0157",
+        "helion_pipeline/data.py": "9809e85102aed5b5328e7ef749573799923d21b61d151d7f5896dc765bc453c1",
+        "helion_pipeline/engine.py": "6abb2873b141505fbea34315960e350288ba8af8dc8be9f737270546a0c5c073",
+        "helion_pipeline/fixtures.py": "8aab07ab69030f14174d6f165609c942ff1e6e42f21d6f3090dc354660a5e8b7",
+        "helion_pipeline/model.py": "a1f86158dee70b4e3ddc1d8d52d6c79d70e87e2105d18a6482bb37f57114d453",
+        "helion_pipeline/replay.py": "1d531db75e6314b19ba77277ef36bb02da99ce968d2f4757539f7c87d5a44815",
+        "helion_pipeline/reporting.py": "08c128c0fc5415f09af7d9df4f7a33ad4dcf795b5ed52e5c73a19f05ab2f89d5",
+        "helion_pipeline/scheduling.py": "5573d4621853153b0f2c192a3b8d389024a33d64424a2c2278f919df2aac31bf"
+      }
+    },
+    "report": {
+      "status": "complete",
+      "code_checksums": {
+        "helion_pipeline/__init__.py": "3bc6c2e8900e58519c24ba8275f87e909b9c818c189aa84178b2f34f87bc1e84",
+        "helion_pipeline/__main__.py": "a289e621d5f3ad531d73da6f7b39dfa9eadb3262e6bc487d0190c8bb7a3db171",
+        "helion_pipeline/common.py": "833175afacaee5576886e7b42f2ee7d04f7287d4c00b1ec46ac59eefb70f0157",
+        "helion_pipeline/data.py": "9809e85102aed5b5328e7ef749573799923d21b61d151d7f5896dc765bc453c1",
+        "helion_pipeline/engine.py": "6abb2873b141505fbea34315960e350288ba8af8dc8be9f737270546a0c5c073",
+        "helion_pipeline/fixtures.py": "8aab07ab69030f14174d6f165609c942ff1e6e42f21d6f3090dc354660a5e8b7",
+        "helion_pipeline/model.py": "a1f86158dee70b4e3ddc1d8d52d6c79d70e87e2105d18a6482bb37f57114d453",
+        "helion_pipeline/replay.py": "1d531db75e6314b19ba77277ef36bb02da99ce968d2f4757539f7c87d5a44815",
+        "helion_pipeline/reporting.py": "08c128c0fc5415f09af7d9df4f7a33ad4dcf795b5ed52e5c73a19f05ab2f89d5",
+        "helion_pipeline/scheduling.py": "5573d4621853153b0f2c192a3b8d389024a33d64424a2c2278f919df2aac31bf"
+      }
+    }
+  },
+  "source_kind": "synthetic",
+  "production_qualified": false,
+  "test_interpretation": "retrospective_not_pristine_holdout",
+  "code_checksums": {
+    "helion_pipeline/__init__.py": "3bc6c2e8900e58519c24ba8275f87e909b9c818c189aa84178b2f34f87bc1e84",
+    "helion_pipeline/__main__.py": "a289e621d5f3ad531d73da6f7b39dfa9eadb3262e6bc487d0190c8bb7a3db171",
+    "helion_pipeline/common.py": "833175afacaee5576886e7b42f2ee7d04f7287d4c00b1ec46ac59eefb70f0157",
+    "helion_pipeline/data.py": "9809e85102aed5b5328e7ef749573799923d21b61d151d7f5896dc765bc453c1",
+    "helion_pipeline/engine.py": "6abb2873b141505fbea34315960e350288ba8af8dc8be9f737270546a0c5c073",
+    "helion_pipeline/fixtures.py": "8aab07ab69030f14174d6f165609c942ff1e6e42f21d6f3090dc354660a5e8b7",
+    "helion_pipeline/model.py": "a1f86158dee70b4e3ddc1d8d52d6c79d70e87e2105d18a6482bb37f57114d453",
+    "helion_pipeline/replay.py": "1d531db75e6314b19ba77277ef36bb02da99ce968d2f4757539f7c87d5a44815",
+    "helion_pipeline/reporting.py": "08c128c0fc5415f09af7d9df4f7a33ad4dcf795b5ed52e5c73a19f05ab2f89d5",
+    "helion_pipeline/scheduling.py": "5573d4621853153b0f2c192a3b8d389024a33d64424a2c2278f919df2aac31bf"
+  }
+}

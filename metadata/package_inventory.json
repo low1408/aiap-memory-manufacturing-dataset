@@ -100,27 +100,27 @@
     "sha256": "989184a92e3a05a7da921982dc488405553fbdd769293df7180b3012ad10343c"
   },
   {
-    "file": "docs/BASELINE_REPORT.md",
+    "file": "project/evidence/BASELINE_REPORT.md",
     "bytes": 5755,
     "sha256": "e08838ebe74b3ec63c3e466c077cf7886be3a46f3f92a483a2ce1513ba2743f5"
   },
   {
-    "file": "docs/GENERATING_MODEL.md",
+    "file": "project/evidence/GENERATING_MODEL.md",
     "bytes": 11111,
     "sha256": "c5b7650907e7c1ee094650454ae59faedd84574b54d028161b5d06ca1f32acc1"
   },
   {
-    "file": "docs/REVIEW_DECISION_AUDIT.md",
+    "file": "project/evidence/REVIEW_DECISION_AUDIT.md",
     "bytes": 9524,
     "sha256": "7805d6fc0c9fd25cbf4542008f5184c8ec45a16b16adea5d3c6b5115f619ea6a"
   },
   {
-    "file": "docs/SOURCES.md",
+    "file": "project/evidence/SOURCES.md",
     "bytes": 6624,
     "sha256": "feb0019c8e8cebcc87264827d903ce48ccffc29dc7fa77d6caddad5f3597bc08"
   },
   {
-    "file": "docs/VALIDATION_REPORT.md",
+    "file": "project/evidence/VALIDATION_REPORT.md",
     "bytes": 7865,
     "sha256": "eb56286c8e0e4bbfb757dc7f2b87050b29e125b9cb04386c8ca79c6c0737f579"
   },

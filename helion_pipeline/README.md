@@ -1,8 +1,8 @@
 # Helion offline diagnostic research
 
-This package implements the approved model/policy benchmark using the supplied synthetic rejected stacks, `MOCK-ENG-001` and `SYN-OPS-001`. It is an offline research exercise, not qualified fab software. Existing data, documents, operating assumptions and archived binary results are preserved.
+This package implements the current model/policy benchmark using the supplied synthetic rejected stacks, candidate comparator `MOCK-ENG-002` and `SYN-OPS-001`. It is an offline research exercise, not qualified fab software. The earlier `research_v1` run remains archived with its original `MOCK-ENG-001` provenance.
 
-Start with the [executed benchmark report](../artifacts/helion_pipeline/research_v1/benchmark_report.md) or the [walkthrough notebook](../artifacts/helion_pipeline/research_v1/pipeline_walkthrough.ipynb). The [HTML report](../artifacts/helion_pipeline/research_v1/benchmark_report.html) includes the same figures and tables.
+Start with the [executed benchmark report](../artifacts/helion_pipeline/research_v2_concern_closure/benchmark_report.md) or the [walkthrough notebook](../artifacts/helion_pipeline/research_v2_concern_closure/pipeline_walkthrough.ipynb). The [HTML report](../artifacts/helion_pipeline/research_v2_concern_closure/benchmark_report.html) includes the same figures and tables. The [artifact index](../artifacts/helion_pipeline/README.md) records the current/archive boundary.
 
 ## Run
 
@@ -22,7 +22,7 @@ MPLCONFIGDIR=/tmp/helion-mpl OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 \
   -m helion_pipeline run
 ```
 
-Default output: `artifacts/helion_pipeline/research_v1/`. A quick integration exercise belongs in a different directory:
+Default output: `artifacts/helion_pipeline/research_v2_concern_closure/`. A quick integration exercise belongs in a different directory:
 
 ```bash
 python -m helion_pipeline run --out /tmp/helion-smoke --replications 2 --bootstrap-samples 50
@@ -54,7 +54,7 @@ The acceptance inputs are legitimate *synthetic post-acceptance* inputs but incl
 
 `engine.py` separates `CaseSnapshot`, `InvestigationState`, recommendation, report generation and truth-based evaluation. The policy sees initial observations, probabilities and reports, never hidden truth. Initial probabilities stay fixed; scoped findings update evidence and eligibility. IR does not assign a mechanism label; a negative gross-delamination CT result cannot exclude all delamination; contradictory findings require review.
 
-`replay.py` pairs reports by sample, procedure, question and replication. The gross-delamination subtype and independent synthetic audit assignment are fixed per sample. Unexamined or inconclusive questions never become negative labels. One attempt per procedure is permitted; unresolved continuations remain unpriced and pending. Every started case remains in the metrics denominator.
+`replay.py` pairs reports by sample, procedure, question, attempt and replication. The gross-delamination subtype and independent synthetic audit assignment are fixed per sample. Unexamined or inconclusive questions never become negative labels. An inconclusive CT, acoustic or electrical attempt may receive one independent conditional repeat; IR and destructive SEM are not repeated. Unresolved continuations remain unpriced and pending. Every started case remains in the metrics denominator.
 
 `scheduling.py` uses the existing 24-hour calendar and staff-phase definitions. It never extends a roster, invents arrivals or provides an unsupported SEM appointment. Existing examples are separate except the explicit two-case D fixture. Confirmed bookings are preserved. Deadlines refer to scoped evidence conditional on conclusive reports, not whole-investigation closure.
 
@@ -62,14 +62,14 @@ The acceptance inputs are legitimate *synthetic post-acceptance* inputs but incl
 
 | Arm | What changes |
 |---|---|
-| `mock` | Triggered branches first, then completeness, using the documented fixed order |
-| `ct_first` | Same safe catalogue; completeness work may be advanced using the fixed CT-first order |
+| `mock` | Candidate MOCK-ENG-002 concern work in documented priority order |
+| `ct_first` | Compatibility comparator; equivalent priority order under concern closure |
 | `prevalence` | Coverage/cost heuristic with seven training-prevalence probabilities |
 | `inspection` | Same heuristic with inspection/acceptance probabilities |
 | `full` | Same heuristic with the full permitted manufacturing context |
 | `manufacturing` | Same heuristic excluding the nine acceptance predictors |
 
-All arms share costs, scope, report-error assumptions, stopping requirements, audit obligations and destructive-work restrictions. Audits use the same fixed all-five order across arms. Model scores cannot waive required questions.
+All arms share costs, concern-opening rules, co-fault safeguards, scope, repeat/report-error assumptions, stopping requirements, audit obligations and destructive-work restrictions. Audits use the same fixed all-five order across arms. Model scores cannot waive required questions.
 
 Dollar values are standard resource costs: attended technician/engineer time, instrument occupancy and consumables. They are not wholly avoidable cash. Pending costs include known unattempted procedures, not unknown manual review or guaranteed completion. Nominal procedure-hour totals are not actual turnaround. A lower cost accompanied by less complete diagnosis is not savings at unchanged quality.
 
@@ -79,7 +79,7 @@ The report separates lot-cluster uncertainty, Monte Carlo report variation and a
 
 | Output | Purpose |
 |---|---|
-| `run_manifest.json`, `config_used.json`, `operating_assumptions_used.json`, `requirements.lock.txt` | Reproduction, source/code versions and stage status |
+| `run_manifest.json`, `config_used.json`, `operating_assumptions_used.json`, `requirements.lock.txt`, `verification.json` | Reproduction, source/code versions, stage status and post-run checks |
 | `validation.json`, `prepared/*.parquet` | Verified feature/label views, counts, missingness and actual chronology gaps |
 | `model.joblib`, `training.json` | Single trusted local model artifact, C selection and fitting provenance |
 | `predictions.parquet`, `scoring.json` | Per-case seven probabilities, model version and scoring/fallback status |

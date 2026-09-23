@@ -1,0 +1,57 @@
+{
+  "calibration_figures": [
+    "figures/calibration_validation.png",
+    "figures/calibration_test.png"
+  ],
+  "coexisting_fault_cases": {
+    "test": 2,
+    "train": 17,
+    "validation": 2
+  },
+  "evidence": "Already inspected test cohort; retrospective synthetic evidence, not fresh prospective or production qualification evidence.",
+  "fresh_scores_available": true,
+  "model_version": "helion-logistic-research-v1-ae89327214dc",
+  "no_refit_during_scoring": true,
+  "passed": true,
+  "prediction_rows": 3664,
+  "prediction_sha256": "6121e7e0be6e275bd054218191b3e1e442e23ab918fb6c9977a662774bb3033f",
+  "status_counts": {
+    "scored_retrospective": 3664
+  },
+  "target_support": {
+    "test": {
+      "delamination": 14,
+      "die_crack": 6,
+      "dram_electrical": 18,
+      "microbump_open_bridge": 24,
+      "tsv_open_short": 18,
+      "underfill_void": 24,
+      "warpage": 35
+    },
+    "train": {
+      "delamination": 68,
+      "die_crack": 36,
+      "dram_electrical": 57,
+      "microbump_open_bridge": 94,
+      "tsv_open_short": 76,
+      "underfill_void": 156,
+      "warpage": 184
+    },
+    "validation": {
+      "delamination": 14,
+      "die_crack": 5,
+      "dram_electrical": 22,
+      "microbump_open_bridge": 19,
+      "tsv_open_short": 14,
+      "underfill_void": 26,
+      "warpage": 28
+    }
+  },
+  "unique_cases": 916,
+  "variants": [
+    "prevalence",
+    "inspection",
+    "full",
+    "manufacturing"
+  ]
+}

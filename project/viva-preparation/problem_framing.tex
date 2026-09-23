@@ -1,0 +1,188 @@
+\documentclass[aspectratio=169,10pt]{beamer}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+\definecolor{Navy}{HTML}{172D45}
+\definecolor{Teal}{HTML}{087F8C}
+\definecolor{Muted}{HTML}{506175}
+\definecolor{Amber}{HTML}{A65420}
+\definecolor{RuleGrey}{HTML}{D8E0E7}
+
+\setbeamercolor{normal text}{fg=Navy,bg=white}
+\setbeamercolor{structure}{fg=Teal}
+\setbeamercolor{frametitle}{fg=Navy,bg=white}
+\setbeamercolor{alerted text}{fg=Amber}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{frametitle}{%
+  \vspace{2mm}\insertframetitle\par\vspace{1mm}%
+  {\color{Teal}\rule{\textwidth}{0.65pt}}\vspace{-1mm}}
+\setbeamersize{text margin left=9mm,text margin right=9mm}
+\setbeamertemplate{footline}{%
+  \hfill\scriptsize
+  \insertframenumber\,/\,\inserttotalframenumber\hspace{9mm}\vspace{2mm}}
+
+\newcommand{\source}[1]{\vfill{\fontsize{6.2}{7.5}\selectfont\color{Muted}Source: #1\par}}
+\newcommand{\seqitem}[3]{%
+  {\normalsize\bfseries\color{Teal}#1\quad\textcolor{Navy}{#2}}\par
+  \vspace{0.6mm}
+  {\small #3}\par}
+\newcommand{\seqrule}{%
+  \vspace{1mm}{\color{RuleGrey}\rule{\textwidth}{0.45pt}}\vspace{1mm}}
+
+\begin{document}
+
+\begin{frame}[t]{The decision after acceptance rejection}
+  \vspace{1mm}
+  {\Large\bfseries Every stack in scope has failed required acceptance testing.}\par
+  \vspace{4mm}
+
+  \seqitem{01}{Acceptance result}
+    {The HBM3E stack is rejected. The diagnostic path does not change its disposition.}
+
+  \seqrule
+
+  \seqitem{02}{Diagnostic decision}
+    {The on-duty quality engineer chooses which of five diagnostic procedures to run next.}
+
+  \seqrule
+
+  \seqitem{03}{Process value}
+    {The findings identify fault mechanisms for process engineering. The stack will be scrapped either way.}
+
+  \vspace{3mm}
+  {\small\bfseries\color{Amber}Helion supports the investigation. The engineer owns the decision.}
+
+  \source{Client brief, Business Context and Objective.}
+\end{frame}
+
+\begin{frame}[t]{The investigation before a procedure}
+  \vspace{2mm}
+
+  \seqitem{01}{Load available records}
+    {Use manufacturing, package-inspection and acceptance observations available at the decision time.}
+
+  \seqrule
+
+  \seqitem{02}{Establish required work}
+    {Open diagnostic concerns, then apply procedure eligibility and evidence-preservation rules.}
+
+  \seqrule
+
+  \seqitem{03}{Choose the next procedure}
+    {The candidate baseline uses a fixed rule priority. Helion ranks the same eligible procedures using seven initial fault probabilities.}
+
+  \vspace{3mm}
+  {\small\bfseries\color{Amber}The ML proposal changes the ranking step only.}
+
+  \source{MOCK-ENG-002, decision boundary and evidence record. Design notebook, policy section.}
+\end{frame}
+
+\begin{frame}[t]{Evidence update and closure}
+  \vspace{2mm}
+  {\Large\bfseries Each procedure changes the investigation state.}\par
+  \vspace{4mm}
+
+  \seqitem{01}{Run the procedure}
+    {The engineer approves the recommendation before the lab begins work.}
+
+  \seqrule
+
+  \seqitem{02}{Record the finding}
+    {Record each scoped result as confirmed present, confirmed absent or inconclusive.}
+
+  \seqrule
+
+  \seqitem{03}{Update and repeat}
+    {Refresh unresolved obligations and procedure eligibility, then recommend the next action.}
+
+  \seqrule
+
+  \seqitem{04}{Approve closure}
+    {The engineer closes the case only after the required diagnostic concerns have been resolved.}
+
+  \source{MOCK-ENG-002, evidence record and stopping logic.}
+\end{frame}
+
+\begin{frame}[t]{Business objective and diagnostic guardrail}
+  \vspace{1mm}
+  {\Large\bfseries Lower cost only counts at the same diagnostic standard.}\par
+  \vspace{1mm}
+
+  \seqitem{01}{Objective}
+    {Reduce the standard resources consumed per started investigation relative to the rule baseline.}
+
+  \seqrule
+
+  \seqitem{02}{Cost scope}
+    {Count engineer and technician time, equipment occupancy and procedure supplies.}
+
+  \seqrule
+
+  \seqitem{03}{Quality guardrail}
+    {Match the rule baseline on diagnostic completeness and false-negative performance.}
+
+  \seqrule
+
+  \seqitem{04}{Reporting meaning}
+    {Track turnaround separately. Resource dollars measure consumed capacity, not demonstrated avoidable cash.}
+
+
+  \source{Client brief, Constraints and scope. SYN-OPS-001 cost-accounting assumptions.}
+\end{frame}
+
+\begin{frame}[t]{From observations to one recommendation}
+  \vspace{2mm}
+
+  \seqitem{01}{Inputs}
+    {Use initial manufacturing, package-inspection and acceptance observations.}
+
+  \seqrule
+
+  \seqitem{02}{Model output}
+    {Produce seven independent fault probabilities so that mechanisms may coexist.}
+
+  \seqrule
+
+  \seqitem{03}{Decision policy}
+    {Combine probabilities with procedure coverage, inconclusive rates and standard resource costs.}
+
+  \seqrule
+
+  \seqitem{04}{Recommendation}
+    {Rank only the currently eligible procedures and present the next one for engineer review.}
+
+  \vspace{3mm}
+  {\small\bfseries\color{Amber}One model supports one next-test decision.}
+
+  \source{Client brief, The Ask and Constraints and scope. Design notebook, policy definition.}
+\end{frame}
+
+\begin{frame}[t]{Safety boundary and human control}
+  \vspace{2mm}
+
+  \seqitem{01}{Engineer authority}
+    {The engineer approves each procedure and the eventual closure decision.}
+
+  \seqrule
+
+  \seqitem{02}{No automatic absence}
+    {Low probability, an unexamined mechanism and an inconclusive result never confirm absence.}
+
+  \seqrule
+
+  \seqitem{03}{Coexisting faults}
+    {A first confirmed mechanism does not cancel other open diagnostic concerns.}
+
+  \seqrule
+
+  \seqitem{04}{Evidence updates}
+    {New findings change mechanism states and procedure eligibility. Initial model probabilities remain fixed.}
+
+  \vspace{3mm}
+  {\small\bfseries\color{Amber}The baseline and ML route retain the same diagnostic obligations.}
+
+  \source{MOCK-ENG-002. Design notebook, policy and operating sections.}
+\end{frame}
+
+\end{document}

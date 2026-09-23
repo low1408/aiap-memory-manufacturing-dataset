@@ -1,0 +1,57 @@
+{
+  "version": "HELION-PIPELINE-002",
+  "seed": 20260921,
+  "replications": 100,
+  "bootstrap_samples": 1000,
+  "c_values": [
+    0.1,
+    1.0,
+    10.0
+  ],
+  "operating_assumptions": "synthetic-data-assumptions/operation-assumptions/synthetic_operating_assumptions.json",
+  "mock_rules": "project/design/mock_engineering_inspection_rules.md",
+  "mock_rules_version": "MOCK-ENG-002",
+  "replay_splits": [
+    "train",
+    "validation",
+    "test"
+  ],
+  "stress_splits": [
+    "test"
+  ],
+  "arms": {
+    "mock": {
+      "policy": "mock",
+      "variant": "prevalence"
+    },
+    "ct_first": {
+      "policy": "ct_first",
+      "variant": "prevalence"
+    },
+    "prevalence": {
+      "policy": "heuristic",
+      "variant": "prevalence"
+    },
+    "inspection": {
+      "policy": "heuristic",
+      "variant": "inspection"
+    },
+    "full": {
+      "policy": "heuristic",
+      "variant": "full"
+    },
+    "manufacturing": {
+      "policy": "heuristic",
+      "variant": "manufacturing"
+    }
+  },
+  "stress_scenarios": [
+    "rate_0.75",
+    "rate_1.25",
+    "q_minus_0.05",
+    "q_plus_0.05",
+    "sensitivity_minus_0.05",
+    "specificity_minus_0.02"
+  ],
+  "interpretation": "Retrospective synthetic concern-closure research; no production qualification or observed client cost estimate."
+}

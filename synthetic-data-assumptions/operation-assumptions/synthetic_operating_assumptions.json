@@ -6,8 +6,8 @@
   "availability_horizon_hours": 24,
   "interval_convention": "hours_from_origin_start_inclusive_end_exclusive",
   "sources": {
-    "brief": "../../problem-statement/helion_semiconductor_client_brief.md",
-    "mock_comparator": "../../helion-design/mock_engineering_inspection_rules.md",
+    "brief": "../../project/brief/helion_semiconductor_client_brief.md",
+    "mock_comparator": "../../project/design/mock_engineering_inspection_rules.md",
     "explanation": "synthetic_operating_assumptions.md",
     "brief_fields": ["procedure names", "brief_duration", "inconclusive_probability", "yield_system_owner_headcount", "independent_audit_fraction"],
     "all_other_inputs": "invented, not estimated from supplied data or market benchmarks"
@@ -102,12 +102,18 @@
     "conditional_reports": "independent_given_hidden_truth_scope_and_conclusive_event_in_base_case",
     "gross_fraction_given_delamination": 0.60,
     "gross_subtype": "fixed_per_sample_gross_truth_implies_delamination_truth",
-    "repeat_test_outcomes": "not_independent_fresh_draws_default_manual_review",
+    "repeat_test_outcomes": "one_independent_conditional_redraw_after_an_inconclusive_nondestructive_attempt_only",
     "unexamined_mechanisms": "unchanged",
     "coexisting_faults": "allowed_no_single_label_normalisation",
     "hidden_truth_access": "evaluator_only",
     "report_is_not_ground_truth": true,
     "no_automatic_first_positive_closure": true
+  },
+  "repeat_policy": {
+    "status": "candidate_bounded_replay_assumption_not_client_observation",
+    "max_attempts_by_procedure": {"XRAY": 2, "ACOUSTIC": 2, "ELECTRICAL": 2, "IR": 1, "SEM": 1},
+    "eligibility": "repeat_only_after_the_previous_attempt_was_inconclusive",
+    "destructive_repeat": "not_simulated"
   },
   "worked_probability_example": {
     "procedure": "ACOUSTIC", "mechanism": "delamination", "illustrative_prior": 0.70,

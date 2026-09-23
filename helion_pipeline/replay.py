@@ -50,11 +50,15 @@ def _normalise_summary(summary, case, arm, scenario, replication, audit):
         "technician_hours": summary["technician_hours"], "engineer_hours": summary["engineer_hours"],
         "equipment_hours": summary["equipment_hours"], "nominal_hours": summary["nominal_hours"],
         "complete": bool(summary["complete"]), "correctly_complete": bool(summary["correctly_complete"]),
+        "concern_complete": bool(summary.get("concern_complete", summary["complete"])),
         "unresolved_count": summary["unresolved_count"], "false_absences": summary["false_absences"],
         "false_positives": summary["false_positives"], "missed_faults": summary["missed_faults"],
         "missed_coexisting_faults": summary["missed_coexisting_faults"],
         "incorrectly_complete": bool(summary["incorrectly_complete"]), "review_pending": bool(summary["review_pending"]),
         "attempts": summary["attempts"], "initial_recommendation": summary.get("initial_recommendation") or "none",
+        "repeated_attempts": summary.get("repeated_attempts", 0),
+        "unexplained_count": len(summary.get("unexplained_branches", [])),
+        "untested_count": len(summary.get("untested_mechanisms", [])),
         "audit_complete": bool(summary["audit_complete"]),
         "mechanism_evidence_complete": bool(summary["mechanism_evidence_complete"]),
         "battery_attempted": set(procedures) == {"XRAY", "ACOUSTIC", "ELECTRICAL", "IR", "SEM"},
@@ -148,9 +152,10 @@ def run_replay(root: Path, out: Path, config: dict):
 
 
 METRICS = ["cost", "pending_cost", "technician_hours", "engineer_hours", "equipment_hours", "nominal_hours",
-           "complete", "correctly_complete", "unresolved_count", "false_absences", "false_positives", "missed_faults",
+           "complete", "concern_complete", "correctly_complete", "unresolved_count", "unexplained_count", "untested_count",
+           "false_absences", "false_positives", "missed_faults",
            "missed_coexisting_faults", "incorrectly_complete", "review_pending", "attempts", "inconclusive_attempts",
-           "mechanism_evidence_complete", "battery_attempted", "audit_complete"]
+           "repeated_attempts", "mechanism_evidence_complete", "battery_attempted", "audit_complete"]
 
 
 def summarise_replay(out: Path, config: dict):
@@ -159,6 +164,11 @@ def summarise_replay(out: Path, config: dict):
     counts = frame.groupby(["scenario", "split", "arm"])["stack_id"].nunique().rename("cases").reset_index()
     means = means.merge(counts, on=["scenario", "split", "arm"])
     means.to_csv(out / "decision_metrics.csv", index=False)
+    routine_frame = frame[~frame.synthetic_audit]
+    routine_means = routine_frame.groupby(["scenario", "split", "arm"], sort=True)[METRICS].mean().reset_index()
+    routine_counts = routine_frame.groupby(["scenario", "split", "arm"])["stack_id"].nunique().rename("cases").reset_index()
+    routine_means = routine_means.merge(routine_counts, on=["scenario", "split", "arm"])
+    routine_means.to_csv(out / "routine_decision_metrics.csv", index=False)
     baseline = frame[frame.arm == "mock"].set_index(["scenario", "split", "replication", "stack_id"])
     # One paired baseline exists for each arm, seed and case; no independent resampling.
     joined = frame.join(baseline[["initial_recommendation", "attempted_procedures"]],

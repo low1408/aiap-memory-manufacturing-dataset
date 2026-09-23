@@ -63,21 +63,25 @@ class EvidenceTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             apply_report(InvestigationState(), {"procedure": "IR", "status": "conclusive", "findings": [{"mechanism": "dram_electrical", "result": "present"}]})
 
-    def test_one_attempt_no_independent_repeat(self):
+    def test_one_bounded_nondestructive_repeat_after_inconclusive(self):
         state = InvestigationState()
         report = scripted_report(OPS, "XRAY", inconclusive=True)
         apply_report(state, report)
-        with self.assertRaises(ValueError):
-            apply_report(state, report)
-        choice = recommend(base_case(), state, PROBS, "mock", OPS)
-        self.assertNotEqual(choice["procedure"], "XRAY")
+        case = {**base_case(), "package_warpage_um": 17}
+        choice = recommend(case, state, PROBS, "mock", OPS)
+        self.assertEqual(choice["procedure"], "XRAY")
+        apply_report(state, report)
+        choice = recommend(case, state, PROBS, "mock", OPS)
+        self.assertIsNone(choice["procedure"])
 
-    def test_no_first_positive_closure_or_low_probability_absence(self):
+    def test_tsv_first_positive_opens_microbump_safeguard(self):
+        case = {**base_case(), "stack_assembly_pass": 1, "electrical_test_pass": 0,
+                "detected_interconnect_failures": 1}
         state = InvestigationState()
-        apply_report(state, scripted_report(OPS, "XRAY", ("warpage",)))
-        recommendation = recommend(base_case(), state, {m: 0.0 for m in MECHANISMS}, "heuristic", OPS)
-        self.assertFalse(evaluate_state(state, {**TRUTH, "warpage": 1})["complete"])
-        self.assertEqual(recommendation["procedure"], "ACOUSTIC")
+        apply_report(state, scripted_report(OPS, "ELECTRICAL", ("tsv_open_short",)))
+        recommendation = recommend(case, state, {m: 0.0 for m in MECHANISMS}, "heuristic", OPS)
+        self.assertFalse(evaluate_state(state, {**TRUTH, "tsv_open_short": 1}, case)["complete"])
+        self.assertEqual(recommendation["procedure"], "SEM")
         self.assertEqual(state.states["die_crack"], "untested")
 
     def test_hidden_truth_never_enters_case_snapshot(self):
@@ -108,10 +112,11 @@ class EvidenceTests(unittest.TestCase):
 
 
 class SelectionTests(unittest.TestCase):
-    def test_mock_trigger_first_differs_from_ct_first(self):
-        case = {**base_case(), "electrical_test_pass": 0}
+    def test_specific_interconnect_branch_does_not_add_unindicated_ct(self):
+        case = {**base_case(), "stack_assembly_pass": 1, "electrical_test_pass": 0,
+                "detected_interconnect_failures": 1}
         self.assertEqual(recommend(case, InvestigationState(), PROBS, "mock", OPS)["procedure"], "ELECTRICAL")
-        self.assertEqual(recommend(case, InvestigationState(), PROBS, "ct_first", OPS)["procedure"], "XRAY")
+        self.assertEqual(recommend(case, InvestigationState(), PROBS, "ct_first", OPS)["procedure"], "ELECTRICAL")
 
     def test_mock_acoustic_before_electrical_competing_triggers(self):
         case = {**base_case(), "electrical_test_pass": 0, "delamination_area_pct": 0.4}
@@ -137,13 +142,15 @@ class SelectionTests(unittest.TestCase):
             self.assertIn("R01", rules["fired"])
 
     def test_heuristic_uses_gross_fraction_not_completion_probability(self):
-        result = recommend(base_case(), InvestigationState(), {m: 1.0 for m in MECHANISMS}, "heuristic", OPS)
+        case = {**base_case(), "package_warpage_um": 15, "delamination_area_pct": .30}
+        result = recommend(case, InvestigationState(), {m: 1.0 for m in MECHANISMS}, "heuristic", OPS)
         scores = {r["procedure"]: r["score"] for r in result["eligible"]}
-        self.assertAlmostEqual(scores["XRAY"], 0.9 * (1 + 1 + 0.6) / 120)
-        self.assertAlmostEqual(scores["ACOUSTIC"], 0.85 * 2 / 200)
+        self.assertAlmostEqual(scores["XRAY"], 0.9 / 120)
+        self.assertAlmostEqual(scores["ACOUSTIC"], 0.85 / 200)
 
     def test_failed_import_falls_back_to_existing_rules(self):
-        case = {**base_case(), "electrical_test_pass": 0, "availability": {"import_valid": False}}
+        case = {**base_case(), "stack_assembly_pass": 1, "electrical_test_pass": 0,
+                "availability": {"import_valid": False}}
         choice = recommend(case, InvestigationState(), PROBS, "heuristic", OPS)
         self.assertEqual(choice["procedure"], "ELECTRICAL")
         self.assertEqual(choice["effective_policy"], "mock")
@@ -211,6 +218,7 @@ class ReplayAndCostTests(unittest.TestCase):
     def test_scripted_walkthrough_costs_and_coexisting_faults(self):
         examples = walkthroughs(OPS)
         self.assertEqual(examples["A"]["summary"]["spent_cost"], 120)
+        self.assertTrue(examples["A"]["summary"]["complete"])
         self.assertEqual(examples["B"]["summary"]["spent_cost"], 920)
         self.assertEqual(examples["B"]["summary"]["pending_cost"], 1800)
         self.assertEqual(examples["B"]["summary"]["pending_procedures"], ["SEM"])
@@ -228,22 +236,24 @@ class ReplayAndCostTests(unittest.TestCase):
         result = walkthroughs(OPS)["C_inconclusive"]["summary"]
         self.assertEqual(result["spent_cost"], 2720)
         self.assertFalse(result["complete"])
-        self.assertEqual(result["unresolved_count"], 2)
+        self.assertEqual(result["unresolved_count"], 1)
         self.assertTrue(result["review_pending"])
         self.assertIsNone(result["manual_review_cost"])
 
-    def test_ct_inconclusive_preserves_independent_work_but_blocks_sem(self):
+    def test_ct_inconclusive_repeats_then_escalates_without_all_seven_work(self):
         reports = {p: scripted_report(OPS, p) for p in PROCEDURE_ORDER}
         reports["XRAY"] = scripted_report(OPS, "XRAY", inconclusive=True)
         result, events = replay_case(base_case(), TRUTH, PROBS, "mock", OPS, 42, 0, False, scripted_reports=reports)
-        self.assertEqual(result["attempted_procedures"], ["XRAY", "ACOUSTIC", "ELECTRICAL"])
-        self.assertEqual(result["unresolved_mechanisms"], ["microbump_open_bridge", "die_crack", "warpage"])
-        self.assertIn("SEM", result["pending_procedures"])
+        self.assertEqual(result["attempted_procedures"], ["XRAY", "ACOUSTIC", "SEM"])
+        self.assertNotIn("ELECTRICAL", result["attempted_procedures"])
+        self.assertFalse(result["complete"])
 
     def test_electrical_inconclusive_runs_ir_but_cannot_claim_absence(self):
         reports = {p: scripted_report(OPS, p) for p in PROCEDURE_ORDER}
         reports["ELECTRICAL"] = scripted_report(OPS, "ELECTRICAL", inconclusive=True)
-        result, events = replay_case(base_case(), TRUTH, PROBS, "mock", OPS, 42, 0, False, scripted_reports=reports)
+        case = {**base_case(), "stack_assembly_pass": 1, "electrical_test_pass": 0}
+        result, events = replay_case(case, TRUTH, PROBS, "mock", OPS, 42, 0, False, scripted_reports=reports)
+        self.assertEqual(result["attempted_procedures"][:2], ["ELECTRICAL", "ELECTRICAL"])
         self.assertIn("IR", result["attempted_procedures"])
         self.assertNotIn("SEM", result["attempted_procedures"])
         self.assertEqual(result["final_states"]["dram_electrical"], "inconclusive")
@@ -278,21 +288,20 @@ class ReplayAndCostTests(unittest.TestCase):
             result, _ = replay_case(case, TRUTH, probabilities, policy, OPS, 42, 0, True, scripted_reports=reports)
             self.assertEqual(result["attempted_procedures"], list(PROCEDURE_ORDER))
 
-    def test_identical_sets_have_identical_cost_regardless_of_order(self):
+    def test_package_first_can_retire_generic_electrical_branch(self):
         reports = {p: scripted_report(OPS, p) for p in PROCEDURE_ORDER}
-        case = {**base_case(), "electrical_test_pass": 0}
-        a, _ = replay_case(case, TRUTH, PROBS, "mock", OPS, 42, 0, False, scripted_reports=reports)
-        b, _ = replay_case(case, TRUTH, PROBS, "ct_first", OPS, 42, 0, False, scripted_reports=reports)
-        self.assertNotEqual(a["attempted_procedures"], b["attempted_procedures"])
-        self.assertEqual(set(a["attempted_procedures"]), set(b["attempted_procedures"]))
-        self.assertEqual(a["spent_cost"], b["spent_cost"])
-        self.assertEqual(a["nominal_hours"], b["nominal_hours"])
+        reports["XRAY"] = scripted_report(OPS, "XRAY", ("warpage",))
+        case = {**base_case(), "package_warpage_um": 17, "electrical_test_pass": 0}
+        result, _ = replay_case(case, {**TRUTH, "warpage": 1}, PROBS, "mock", OPS, 42, 0, False, scripted_reports=reports)
+        self.assertEqual(result["attempted_procedures"], ["XRAY"])
+        self.assertEqual(result["spent_cost"], 120)
+        self.assertIn("R05_package_explanation", result["retired_rules"])
 
-    def test_ct_gross_positive_allows_valid_acoustic_omission_for_baseline(self):
+    def test_ct_positive_can_close_unexplained_assembly_branch(self):
         reports = {p: scripted_report(OPS, p) for p in PROCEDURE_ORDER}
         reports["XRAY"] = scripted_report(OPS, "XRAY", ("delamination",))
         result, _ = replay_case(base_case(), {**TRUTH, "delamination": 1}, PROBS, "mock", OPS, 42, 0, False, scripted_reports=reports)
-        self.assertEqual(result["spent_cost"], 2520)
+        self.assertEqual(result["spent_cost"], 120)
         self.assertNotIn("ACOUSTIC", result["attempted_procedures"])
         self.assertTrue(result["complete"])
 

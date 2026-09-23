@@ -33,5 +33,5 @@
   "trace_runs_per_stage": 60,
   "trace_samples_per_run": 121,
   "trace_ar_coefficient": 0.88,
-  "noise_note": "All absolute process setpoints, dimensions, variances, failure rates and coefficients are illustrative engineering assumptions, not SK hynix fab measurements. Publicly documented product facts and relative thinning context are in docs/SOURCES.md. fault_logit_shift changes all stack mode log-odds for sensitivity studies."
+  "noise_note": "All absolute process setpoints, dimensions, variances, failure rates and coefficients are illustrative engineering assumptions, not SK hynix fab measurements. Publicly documented product facts and relative thinning context are in project/evidence/SOURCES.md. fault_logit_shift changes all stack mode log-odds for sensitivity studies."
 }
